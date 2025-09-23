@@ -5,30 +5,46 @@
 #include <QFileDialog>
 #include <QDir>
 
-Widget::Widget(QWidget *parent)
-    : QWidget(parent), ui(new Ui::Widget), player(new MusicPlayer){
+Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget), player(new MusicPlayer){
     ui->setupUi(this);
     playlist_form = new PlaylistForm(this);
     m_playListModel = new QStandardItemModel(this);
-    ui->playlistView->setModel(m_playListModel);    // Устанавливаем модель данных в TableView
-        // Устанавливаем заголовки таблицы
+
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    ui->playlistView->setModel(m_playListModel);
     m_playListModel->setHorizontalHeaderLabels(QStringList()  << tr("Audio Track") << tr("File Path"));
-    ui->playlistView->hideColumn(1);    // Скрываем колонку, в которой хранится путь к файлу
-    ui->playlistView->verticalHeader()->setVisible(false);                  // Скрываем нумерацию строк
-    ui->playlistView->setSelectionBehavior(QAbstractItemView::SelectRows);  // Включаем выделение строк
-    ui->playlistView->setSelectionMode(QAbstractItemView::SingleSelection); // Разрешаем выделять только одну строку
-    ui->playlistView->setEditTriggers(QAbstractItemView::NoEditTriggers);   // Отключаем редактирование
-        // Включаем подгонку размера последней видимой колонки к ширине TableView
+    ui->playlistView->hideColumn(1);
+    ui->playlistView->verticalHeader()->setVisible(false);
+    ui->playlistView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->playlistView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->playlistView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->playlistView->horizontalHeader()->setStretchLastSection(true);
     ui->stackedWidget->insertWidget(1, playlist_form);
+
+    QStringList saved_pathes = settings.value("List_of_pathes").value<QStringList>();
+    foreach (QString filePath, saved_pathes)
+    {
+        QList<QStandardItem *> items;
+        items.append(new QStandardItem(QDir(filePath).dirName()));
+        items.append(new QStandardItem(filePath));
+        m_playListModel->appendRow(items);
+        player->getQPlaylist()->addMedia(QUrl(filePath));
+        player->getPlaylist()->setListOfItems(new SongData(filePath));
+    }
+
     connect(player->getPlayer(), &QMediaPlayer::positionChanged, this, &Widget::position_changed);
     connect(player->getPlayer(), &QMediaPlayer::durationChanged, this, &Widget::duration_changed);
     connect(static_cast<PlaylistForm*>(playlist_form), &PlaylistForm::HomeClicked, this, &Widget::move_home);
-    //ui->horizontalSlider->setRange(0, player->m_player->duration()/1000);
 }
 
 Widget::~Widget()
 {
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+    QStringList pathes_of_tracks;
+    foreach (MediaData* item , *(player->getPlaylist()->getListOfItems()))
+        pathes_of_tracks.push_back(item->getPath());
+    settings.setValue("List_of_pathes", pathes_of_tracks);
     delete ui;
 }
 
@@ -36,13 +52,7 @@ Widget::~Widget()
 
 void Widget::on_btn__clicked()
 {
-    QStringList files = QFileDialog::getOpenFileNames(this,
-                                                      tr("Open files"),
-                                                      QString(),
-                                                      tr("Audio Files (*.mp3)"));
-
-    // Далее устанавливаем данные по именам и пути к файлам
-    // в плейлист и таблицу отображающую плейлист
+    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp3)"));
     foreach (QString filePath, files) {
         QList<QStandardItem *> items;
         items.append(new QStandardItem(QDir(filePath).dirName()));
@@ -50,7 +60,6 @@ void Widget::on_btn__clicked()
         m_playListModel->appendRow(items);
         player->getQPlaylist()->addMedia(QUrl(filePath));
         player->getPlaylist()->setListOfItems(new SongData(filePath));
-        //player->list_of_items.push_back(new SongData(filePath));
     }
 }
 

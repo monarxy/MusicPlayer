@@ -6,6 +6,7 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QOpenGLWidget>
+#include <QSettings>
 #include <gl/glu.h>
 #include <gl/gl.h>
 #include "multimedia.h"
@@ -13,6 +14,10 @@
 #include "media_data.h"
 #include "songs_data.h"
 #include "playlistform.h"
+
+#define ORGANIZATION_NAME "Xfork"
+#define ORGANIZATION_DOMAIN "22"
+#define APPLICATION_NAME "Autoplayer"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
