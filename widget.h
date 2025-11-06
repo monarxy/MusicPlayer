@@ -14,6 +14,7 @@
 #include "media_data.h"
 #include "songs_data.h"
 #include "playlistform.h"
+#include "editorform.h"
 
 #define ORGANIZATION_NAME "Xfork"
 #define ORGANIZATION_DOMAIN "22"
@@ -62,12 +63,17 @@ private slots:
 
     void move_home();
 
+    void on_pushButton_2_clicked();
+
+    void on_editorButton_clicked();
+
 private:
     Ui::Widget *ui;
     MediaPlayer *player;
     MediaPlayer *video_player;
     QStandardItemModel  *m_playListModel;
     QWidget *playlist_form;
+    QWidget *editor_form;
 
 };
 

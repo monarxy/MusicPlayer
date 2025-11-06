@@ -4,10 +4,13 @@
 #include "ui_widget.h"
 #include <QFileDialog>
 #include <QDir>
+#include "bass.h"
+#include <iostream>
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget), player(new MusicPlayer){
     ui->setupUi(this);
     playlist_form = new PlaylistForm(this);
+    editor_form = new EditorForm(this);
     m_playListModel = new QStandardItemModel(this);
 
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
@@ -21,6 +24,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget), player(ne
     ui->playlistView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->playlistView->horizontalHeader()->setStretchLastSection(true);
     ui->stackedWidget->insertWidget(1, playlist_form);
+    ui->stackedWidget->insertWidget(2, editor_form);
 
     QStringList saved_pathes = settings.value("List_of_pathes").value<QStringList>();
     foreach (QString filePath, saved_pathes)
@@ -47,8 +51,6 @@ Widget::~Widget()
     settings.setValue("List_of_pathes", pathes_of_tracks);
     delete ui;
 }
-
-
 
 void Widget::on_btn__clicked()
 {
@@ -153,3 +155,43 @@ void Widget::setPlaylist(Playlist* new_playlist){
          player->getQPlaylist()->addMedia(QUrl(item->getPath()));
     }
 }
+
+class SimpleAudioTrimmer {
+public:
+    static bool quickTrim(const std::string& input_file,
+                          const std::string& output_file,
+                          double start_time, double end_time) {
+
+        std::string command = "ffmpeg -i \"" + input_file +
+                              "\" -ss " + std::to_string(start_time) +
+                              " -to " + std::to_string(end_time) +
+                              " -c copy \"" + output_file + "\" -y";
+
+        std::cout << "Executing: " << command << std::endl;
+        system("dir");
+        int result = system(command.c_str());
+
+        return result == 0;
+    }
+};
+
+void Widget::on_pushButton_2_clicked()
+{
+    // BASS_Init(-1, 44100, BASS_DEVICE_3D, 0, NULL);
+    // HSTREAM str = BASS_StreamCreateURL("http://dorognoe.hostingradio.ru:8000/radio", 0, 0, NULL, 0);
+    // BASS_ChannelPlay(str, false);
+    // BASS_ChannelStop(str);
+    SimpleAudioTrimmer *trimmer = new SimpleAudioTrimmer();
+    trimmer->quickTrim("C:/Users/Rom/Documents/untitled1/huun_huurtu.mp3", "C:/Users/Rom/Documents/untitled1/huun_huurt.mp3", 0.0, 10.0);
+}
+
+
+
+
+
+
+void Widget::on_editorButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
