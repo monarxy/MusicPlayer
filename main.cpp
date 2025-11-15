@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(APPLICATION_NAME);
     QApplication a(argc, argv);
-    Widget w;
-    w.show();
+    NavigationController* navigation_controller = new NavigationController();
+    navigation_controller->openMainForm();
     return a.exec();
 }

@@ -2,6 +2,8 @@
 #define EDITORFORM_H
 
 #include <QWidget>
+#include "playlist.h"
+#include "songs_data.h"
 
 namespace Ui {
 class EditorForm;
@@ -14,9 +16,12 @@ class EditorForm : public QWidget
 public:
     explicit EditorForm(QWidget *parent);
     ~EditorForm();
+    void setTracks(Playlist*);
 
 private:
     Ui::EditorForm *ui;
+    Playlist* playlist;
+
 };
 
 #endif // EDITORFORM_H

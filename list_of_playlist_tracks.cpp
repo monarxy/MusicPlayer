@@ -64,7 +64,6 @@ void ListOfPlaylistTracks::on_pushButton_2_clicked()
 
 void ListOfPlaylistTracks::on_songsView_clicked(const QModelIndex &index)
 {
-    (static_cast<Widget*>(static_cast<PlaylistForm*>(parent_form)->getParent()))->setPlaylist(playlist);
-    (static_cast<Widget*>(static_cast<PlaylistForm*>(parent_form)->getParent()))->getPlayer()->setCurrent(index.row());
+
 }
 

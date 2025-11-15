@@ -18,8 +18,7 @@ class PlaylistForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit PlaylistForm(QWidget *parent);
-    QWidget* getParent();
+    PlaylistForm();
     ~PlaylistForm();
 
 private:
@@ -27,7 +26,6 @@ private:
     QStandardItemModel *playlists_model;
     std::vector<Playlist*> list_of_playlists;
     QWidget *list_of_playlists_tracks_form;
-    QWidget *parent_form;
 
 signals:
     void HomeClicked();

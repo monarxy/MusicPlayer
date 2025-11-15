@@ -2,10 +2,8 @@
 #include "ui_playlistform.h"
 
 
-PlaylistForm::PlaylistForm(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::PlaylistForm),
-    parent_form(parent)
+PlaylistForm::PlaylistForm() :
+    ui(new Ui::PlaylistForm)
 {
     ui->setupUi(this);
     list_of_playlists_tracks_form = new ListOfPlaylistTracks(this);
@@ -61,7 +59,4 @@ void PlaylistForm::on_playlistsView_clicked(const QModelIndex &index)
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-QWidget* PlaylistForm::getParent(){
-    return parent_form;
-}
 

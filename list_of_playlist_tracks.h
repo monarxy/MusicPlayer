@@ -22,7 +22,6 @@ public:
     explicit ListOfPlaylistTracks(QWidget *parent);
     ~ListOfPlaylistTracks();
     void setTracks(Playlist*);
-    void setTracks();
     QWidget* getParent();
 
 private slots:
