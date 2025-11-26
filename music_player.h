@@ -5,7 +5,6 @@
 #include "multimedia.h"
 
 class MusicPlayer : public MediaPlayer{
-    //friend class Widget;
 public:
     MusicPlayer();
     QMediaPlayer* getPlayer();

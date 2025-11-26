@@ -1,11 +1,13 @@
 #include "list_of_playlist_tracks.h"
 #include "ui_list_of_playlist_tracks.h"
 
-ListOfPlaylistTracks::ListOfPlaylistTracks(QWidget *parent) :
+ListOfPlaylistTracks::ListOfPlaylistTracks(QWidget *parent, NavigationController *_navigation_controller, DataController *_data_controller) :
     QWidget(parent),
-    ui(new Ui::ListOfPlaylistTracks), parent_form(parent)
+    ui(new Ui::ListOfPlaylistTracks)
 {
     ui->setupUi(this);
+    navigation_controller = _navigation_controller;
+    data_controller = _data_controller;
     current_playlist_model = new QStandardItemModel(this);
     ui->songsView->setModel(current_playlist_model);    // Устанавливаем модель данных в TableView
         // Устанавливаем заголовки таблицы
@@ -15,23 +17,19 @@ ListOfPlaylistTracks::ListOfPlaylistTracks(QWidget *parent) :
     ui->songsView->setSelectionMode(QAbstractItemView::SingleSelection); // Разрешаем выделять только одну строку
     ui->songsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->songsView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+
+    ui->label->setText(data_controller->getPlayer()->getPlaylist()->getName());
+    current_playlist_model->clear();
+    foreach (MediaData* song, *(data_controller->getPlayer()->getPlaylist()->getListOfItems())){
+        QList<QStandardItem *> items;
+        items.append(new QStandardItem(QDir(song->getPath()).dirName()));
+        current_playlist_model->appendRow(items);
+    }
 }
 
 ListOfPlaylistTracks::~ListOfPlaylistTracks()
 {
     delete ui;
-}
-
-void ListOfPlaylistTracks::setTracks(Playlist *_playlist){
-     playlist = _playlist;
-     ui->label->setText(playlist->getName());
-     current_playlist_model->clear();
-     foreach (MediaData* song, *(playlist->getListOfItems())){
-         QList<QStandardItem *> items;
-         items.append(new QStandardItem(QDir(song->getPath()).dirName()));
-         current_playlist_model->appendRow(items);
-     }
-
 }
 
 void ListOfPlaylistTracks::on_pushButton_clicked()
@@ -48,7 +46,7 @@ void ListOfPlaylistTracks::on_pushButton_clicked()
         items.append(new QStandardItem(QDir(filePath).dirName()));
         items.append(new QStandardItem(filePath));
         current_playlist_model->appendRow(items);
-        playlist->getListOfItems()->push_back(new SongData(filePath));
+        data_controller->getPlayer()->getPlaylist()->getListOfItems()->push_back(new SongData(filePath));
     }
     //auto tmp = static_cast<PlaylistForm*>(parent_form)->getParent();
     //auto t = static_cast<Widget*>(tmp);
@@ -58,7 +56,7 @@ void ListOfPlaylistTracks::on_pushButton_clicked()
 
 void ListOfPlaylistTracks::on_pushButton_2_clicked()
 {
-    emit PlaylistsFormClicked();
+    navigation_controller->openPlaylistForm();
 }
 
 

@@ -2,25 +2,20 @@
 #include "ui_playlistform.h"
 
 
-PlaylistForm::PlaylistForm() :
+PlaylistForm::PlaylistForm(NavigationController *_navigation_controller, DataController *_data_controller) :
     ui(new Ui::PlaylistForm)
 {
     ui->setupUi(this);
-    list_of_playlists_tracks_form = new ListOfPlaylistTracks(this);
+    navigation_controller = _navigation_controller;
+    data_controller = _data_controller;
     playlists_model = new QStandardItemModel(this);
-    ui->playlistsView->setModel(playlists_model);    // Устанавливаем модель данных в TableView
-        // Устанавливаем заголовки таблицы
+    ui->playlistsView->setModel(playlists_model);
     playlists_model->setHorizontalHeaderLabels(QStringList()  << tr("Album name"));
     ui->playlistsView->verticalHeader()->setVisible(false);                  // Скрываем нумерацию строк
     ui->playlistsView->setSelectionBehavior(QAbstractItemView::SelectRows);  // Включаем выделение строк
     ui->playlistsView->setSelectionMode(QAbstractItemView::SingleSelection); // Разрешаем выделять только одну строку
     ui->playlistsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->playlistsView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-
-    //ui->stackedWidget->insertWidget(0, this);
-    ui->stackedWidget->insertWidget(1, list_of_playlists_tracks_form);
-
-    connect(static_cast<ListOfPlaylistTracks*>(list_of_playlists_tracks_form), &ListOfPlaylistTracks::PlaylistsFormClicked, this, &PlaylistForm::move_to_playlists_form);
 }
 
 PlaylistForm::~PlaylistForm()
@@ -55,8 +50,7 @@ void PlaylistForm::on_pushButton_2_clicked()
 
 void PlaylistForm::on_playlistsView_clicked(const QModelIndex &index)
 {
-    static_cast<ListOfPlaylistTracks*>(list_of_playlists_tracks_form)->setTracks(list_of_playlists[index.row()]);
-    ui->stackedWidget->setCurrentIndex(1);
+    navigation_controller->openListOfPlaylistsForm();
 }
 
 

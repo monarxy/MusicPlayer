@@ -19,10 +19,8 @@ class ListOfPlaylistTracks : public QWidget
     Q_OBJECT
 
 public:
-    explicit ListOfPlaylistTracks(QWidget *parent);
+    explicit ListOfPlaylistTracks(QWidget *parent, NavigationController *navigation_controller, DataController *data_controller);
     ~ListOfPlaylistTracks();
-    void setTracks(Playlist*);
-    QWidget* getParent();
 
 private slots:
     void on_pushButton_clicked();
@@ -36,8 +34,8 @@ signals:
 private:
     Ui::ListOfPlaylistTracks *ui;
     QStandardItemModel *current_playlist_model;
-    Playlist *playlist;
-    QWidget *parent_form;
+    NavigationController *navigation_controller;
+    DataController *data_controller;
 };
 
 #endif // LIST_OF_PLAYLIST_TRACKS_H

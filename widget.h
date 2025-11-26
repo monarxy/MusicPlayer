@@ -15,6 +15,7 @@
 #include "songs_data.h"
 #include "editorform.h"
 #include "navigation_controller.h"
+#include "data_controller.h"
 
 #define ORGANIZATION_NAME "Xfork"
 #define ORGANIZATION_DOMAIN "22"
@@ -29,14 +30,14 @@ class Widget : public QWidget
     Q_OBJECT
 
 public:
-    explicit Widget(QWidget *parent = nullptr, NavigationController* _navigation_controller = nullptr);
+    explicit Widget(QWidget *parent = nullptr, NavigationController* navigation_controller = nullptr, DataController* data_controller = nullptr);
     ~Widget();
 
     void setPlaylist(Playlist*);
 
-    MediaPlayer* getPlayer();
-
     NavigationController* navigation_controller;
+
+    DataController* data_controller;
 
 private slots:
     void on_btn__clicked();
@@ -71,8 +72,6 @@ private slots:
 
 private:
     Ui::Widget *ui;
-    MediaPlayer *player;
-    MediaPlayer *video_player;
     QStandardItemModel  *m_playListModel;
     QWidget *editor_form;
 

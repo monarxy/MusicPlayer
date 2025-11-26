@@ -7,6 +7,8 @@
 #include "media_data.h"
 #include "playlist.h"
 #include "list_of_playlist_tracks.h"
+#include "navigation_controller.h"
+#include "data_controller.h"
 #include <vector>
 
 namespace Ui {
@@ -18,7 +20,7 @@ class PlaylistForm : public QWidget
     Q_OBJECT
 
 public:
-    PlaylistForm();
+    PlaylistForm(NavigationController* navigation_controller, DataController* data_controller);
     ~PlaylistForm();
 
 private:
@@ -26,6 +28,8 @@ private:
     QStandardItemModel *playlists_model;
     std::vector<Playlist*> list_of_playlists;
     QWidget *list_of_playlists_tracks_form;
+    NavigationController *navigation_controller;
+    DataController *data_controller;
 
 signals:
     void HomeClicked();

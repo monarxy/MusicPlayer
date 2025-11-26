@@ -13,10 +13,10 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 }
 
-Widget::Widget(QWidget *parent, NavigationController* _navigation_controller) : QWidget(parent), ui(new Ui::Widget), player(new MusicPlayer){
+Widget::Widget(QWidget *parent, NavigationController* _navigation_controller, DataController* _data_controller) : QWidget(parent), ui(new Ui::Widget){
     navigation_controller = _navigation_controller;
+    data_controller = _data_controller;
     ui->setupUi(this);
-    editor_form = new EditorForm(this);
     m_playListModel = new QStandardItemModel(this);
 
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
@@ -29,28 +29,27 @@ Widget::Widget(QWidget *parent, NavigationController* _navigation_controller) : 
     ui->playlistView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->playlistView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->playlistView->horizontalHeader()->setStretchLastSection(true);
-    ui->stackedWidget->insertWidget(2, editor_form);
 
     QStringList saved_pathes = settings.value("List_of_pathes").value<QStringList>();
+
+    data_controller->setMusicPlayer(saved_pathes);
     foreach (QString filePath, saved_pathes)
     {
         QList<QStandardItem *> items;
         items.append(new QStandardItem(QDir(filePath).dirName()));
         items.append(new QStandardItem(filePath));
         m_playListModel->appendRow(items);
-        player->getQPlaylist()->addMedia(QUrl(filePath));
-        player->getPlaylist()->setListOfItems(new SongData(filePath));
     }
 
-    connect(player->getPlayer(), &QMediaPlayer::positionChanged, this, &Widget::position_changed);
-    connect(player->getPlayer(), &QMediaPlayer::durationChanged, this, &Widget::duration_changed);
+    connect(data_controller->getPlayer()->getPlayer(), &QMediaPlayer::positionChanged, this, &Widget::position_changed);
+    connect(data_controller->getPlayer()->getPlayer(), &QMediaPlayer::durationChanged, this, &Widget::duration_changed);
 }
 
 Widget::~Widget()
 {
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
     QStringList pathes_of_tracks;
-    foreach (MediaData* item , *(player->getPlaylist()->getListOfItems()))
+    foreach (MediaData* item , *(data_controller->getPlayer()->getPlaylist()->getListOfItems()))
         pathes_of_tracks.push_back(item->getPath());
     settings.setValue("List_of_pathes", pathes_of_tracks);
     delete ui;
@@ -64,9 +63,9 @@ void Widget::on_btn__clicked()
         items.append(new QStandardItem(QDir(filePath).dirName()));
         items.append(new QStandardItem(filePath));
         m_playListModel->appendRow(items);
-        player->getQPlaylist()->addMedia(QUrl(filePath));
-        player->getPlaylist()->setListOfItems(new SongData(filePath));
     }
+
+    data_controller->setMusicPlayer(files);
 }
 
 void Widget::position_changed(qint64 index){
@@ -80,7 +79,7 @@ void Widget::duration_changed(qint64 duration){
 
 void Widget::on_btn_play_clicked()
 {
-    player->play();
+    data_controller->getPlayer()->play();
 }
 
 
@@ -102,8 +101,8 @@ void Widget::on_playlistView_clicked(const QModelIndex &index)
     QString s = QString::number(index.row());
     //ui->label->setText(m_playListModel->item(index.row(), 1)->data(Qt::DisplayRole).toString());
     //layer->getPlaylist()->setCurrentIndex(index.row());
-    player->setCurrent(index.row());
-    if (player->getCurrentItem()->getLikeInfo()) ui->label->setText("1");
+    data_controller->getPlayer()->setCurrent(index.row());
+    if (data_controller->getPlayer()->getCurrentItem()->getLikeInfo()) ui->label->setText("1");
     else ui->label->setText("0");
 }
 
@@ -116,30 +115,26 @@ void Widget::on_horizontalSlider_valueChanged(int value)
 
 void Widget::on_verticalSlider_actionTriggered(int action)
 {
-     player->changeVolume(action);
+     data_controller->getPlayer()->changeVolume(action);
 }
 
 
 void Widget::on_horizontalSlider_sliderMoved(int position)
 {
-    player->changeDuration(position);
+    data_controller->getPlayer()->changeDuration(position);
 }
 
 
 void Widget::on_likeButton_clicked()
 {
-    player->setLike();
-}
-
-MediaPlayer* Widget::getPlayer(){
-    return player;
+    data_controller->getPlayer()->setLike();
 }
 
 
 void Widget::on_pushButton_clicked()
 {
     //ui->stackedWidget->setCurrentIndex(1);
-    navigation_controller->openPlaylistFrom();
+    navigation_controller->openPlaylistForm();
 }
 
 void Widget::move_home()
@@ -150,37 +145,16 @@ void Widget::move_home()
 void Widget::setPlaylist(Playlist* new_playlist){
     ui->album_name_label->setText(new_playlist->getName());
     m_playListModel->clear();
-    player->setPlaylist(new_playlist);
-    player->deleteQPlaylist();
+    data_controller->getPlayer()->setPlaylist(new_playlist);
+    data_controller->getPlayer()->deleteQPlaylist();
     foreach (MediaData* item, *(new_playlist->getListOfItems())) {
          QList<QStandardItem *> items;
          items.append(new QStandardItem(QDir(item->getPath()).dirName()));
          items.append(new QStandardItem(item->getPath()));
          m_playListModel->appendRow(items);
-         player->getQPlaylist()->addMedia(QUrl(item->getPath()));
+         data_controller->getPlayer()->getQPlaylist()->addMedia(QUrl(item->getPath()));
     }
 }
-
-// class SimpleAudioTrimmer {
-// public:
-//     static bool quickTrim(const std::string& input_file,
-//                           const std::string& output_file,
-//                           double start_time, double end_time) {
-
-//         std::string command = "ffmpeg -i \"" + input_file +
-//                               "\" -ss " + std::to_string(start_time) +
-//                               " -to " + std::to_string(end_time) +
-//                               " -c copy \"" + output_file + "\" -y";
-
-//         std::cout << "Executing: " << command << std::endl;
-//         system("dir");
-//         int result = system(command.c_str());
-
-//         return result == 0;
-//     }
-// };
-
-// simple_audio_trimmer.cpp
 
 bool trimAudio(const std::string& inputFile,
                                    const std::string& outputFile,
@@ -325,6 +299,6 @@ void Widget::on_pushButton_2_clicked()
 
 void Widget::on_editorButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    navigation_controller->openEditForm();
 }
 
