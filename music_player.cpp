@@ -1,6 +1,4 @@
 #include "music_player.h"
-//#include "widget.h"
-//#include "ui_widget.h"
 
 MusicPlayer::MusicPlayer(){
     m_player = new QMediaPlayer();          // Инициализируем плеер
@@ -9,6 +7,7 @@ MusicPlayer::MusicPlayer(){
     m_player->setVolume(70);                    // Устанавливаем громкость воспроизведения треков
     q_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     playlist = new Playlist();
+    list_of_playlists[""] = playlist;
 }
 
 void MusicPlayer::play(){
@@ -50,8 +49,14 @@ QMediaPlaylist* MusicPlayer::getQPlaylist(){
     return q_playlist;
 }
 
-Playlist* MusicPlayer::getPlaylist(){
-    return playlist;
+Playlist* MusicPlayer::getPlaylist(QString name){
+   // if (list_of_playlists[name]!= nullptr)
+        return list_of_playlists[name];
+}
+
+void MusicPlayer::addPlaylist(QString name){
+    //if (list_of_playlists[name] == nullptr)
+        list_of_playlists[name] = new Playlist(name);
 }
 
 MediaData* MusicPlayer::getCurrentItem(){
@@ -59,10 +64,13 @@ MediaData* MusicPlayer::getCurrentItem(){
 }
 
 void MusicPlayer::setPlaylist(Playlist* new_playlist){
-    //delete playlist;
     playlist = new_playlist;
 }
 
 void MusicPlayer::deleteQPlaylist(){
     q_playlist->clear();
+}
+
+MusicPlayer::~MusicPlayer()
+{
 }

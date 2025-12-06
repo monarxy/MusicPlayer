@@ -7,9 +7,11 @@
 class MusicPlayer : public MediaPlayer{
 public:
     MusicPlayer();
+    ~MusicPlayer();
+
     QMediaPlayer* getPlayer();
     QMediaPlaylist* getQPlaylist();
-    Playlist* getPlaylist();
+    Playlist* getPlaylist(QString);
     MediaData* getCurrentItem();
 
     void play();
@@ -22,6 +24,7 @@ public:
     void setLike();
     void setCurrent(int);
     void setPlaylist(Playlist*);
+    void addPlaylist(QString);
 };
 
 #endif // MUSIC_PLAYER_H

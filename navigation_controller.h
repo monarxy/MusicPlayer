@@ -4,14 +4,18 @@
 #include <QWidget>
 #include "data_controller.h"
 
-class NavigationController{
+class NavigationController : public QObject{
+
+    Q_OBJECT
 private:
     QWidget* current_widget;
-    DataController *data_controller;
+    std::map<std::string, QWidget*> active_widgets;
 public:
-    NavigationController(DataController *data_controller);
+
+    NavigationController(QObject *parent = nullptr);
+    ~NavigationController();
     void openPlaylistForm();
-    void openListOfPlaylistsForm();
+    void openListOfPlaylistsForm(QString);
     void openMainForm();
     void openEditForm();
 };

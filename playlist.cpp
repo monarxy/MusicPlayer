@@ -4,7 +4,9 @@ Playlist::Playlist(QString _name){
     playlist_name = _name;
 }
 
-Playlist::Playlist(){}
+Playlist::Playlist(){
+    playlist_name = "";
+}
 
 std::vector<MediaData*>* Playlist::getListOfItems(){
     return &playlist_items;

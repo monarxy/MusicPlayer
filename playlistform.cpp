@@ -2,12 +2,10 @@
 #include "ui_playlistform.h"
 
 
-PlaylistForm::PlaylistForm(NavigationController *_navigation_controller, DataController *_data_controller) :
+PlaylistForm::PlaylistForm() :
     ui(new Ui::PlaylistForm)
 {
     ui->setupUi(this);
-    navigation_controller = _navigation_controller;
-    data_controller = _data_controller;
     playlists_model = new QStandardItemModel(this);
     ui->playlistsView->setModel(playlists_model);
     playlists_model->setHorizontalHeaderLabels(QStringList()  << tr("Album name"));
@@ -28,10 +26,6 @@ void PlaylistForm::on_pushButton_clicked()
     emit HomeClicked();
 }
 
-void PlaylistForm::move_to_playlists_form(){
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
 void PlaylistForm::on_pushButton_2_clicked()
 {
     QString album_name = QInputDialog::getText(this, "New album", "Enter album's name");
@@ -40,17 +34,13 @@ void PlaylistForm::on_pushButton_2_clicked()
         QList<QStandardItem *> items;
         items.append(new QStandardItem(album_name));
         playlists_model->appendRow(items);
-        list_of_playlists.push_back(new Playlist(album_name));
     }
 
 }
 
-
-
-
 void PlaylistForm::on_playlistsView_clicked(const QModelIndex &index)
 {
-    navigation_controller->openListOfPlaylistsForm();
+    emit ListOfPlaylistsTracksClicked(ui->playlistsView->model()->data(index).toString());
 }
 
 

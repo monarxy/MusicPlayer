@@ -13,9 +13,7 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 }
 
-Widget::Widget(QWidget *parent, NavigationController* _navigation_controller, DataController* _data_controller) : QWidget(parent), ui(new Ui::Widget){
-    navigation_controller = _navigation_controller;
-    data_controller = _data_controller;
+Widget::Widget() : ui(new Ui::Widget){
     ui->setupUi(this);
     m_playListModel = new QStandardItemModel(this);
 
@@ -31,8 +29,8 @@ Widget::Widget(QWidget *parent, NavigationController* _navigation_controller, Da
     ui->playlistView->horizontalHeader()->setStretchLastSection(true);
 
     QStringList saved_pathes = settings.value("List_of_pathes").value<QStringList>();
+    emit LoadFromMemorySignal(saved_pathes);
 
-    data_controller->setMusicPlayer(saved_pathes);
     foreach (QString filePath, saved_pathes)
     {
         QList<QStandardItem *> items;
@@ -40,18 +38,15 @@ Widget::Widget(QWidget *parent, NavigationController* _navigation_controller, Da
         items.append(new QStandardItem(filePath));
         m_playListModel->appendRow(items);
     }
-
-    connect(data_controller->getPlayer()->getPlayer(), &QMediaPlayer::positionChanged, this, &Widget::position_changed);
-    connect(data_controller->getPlayer()->getPlayer(), &QMediaPlayer::durationChanged, this, &Widget::duration_changed);
 }
 
 Widget::~Widget()
 {
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
     QStringList pathes_of_tracks;
-    foreach (MediaData* item , *(data_controller->getPlayer()->getPlaylist()->getListOfItems()))
-        pathes_of_tracks.push_back(item->getPath());
-    settings.setValue("List_of_pathes", pathes_of_tracks);
+    // foreach (MediaData* item , *(data_controller->getPlayer()->getPlaylist()->getListOfItems()))
+    //     pathes_of_tracks.push_back(item->getPath());
+    // settings.setValue("List_of_pathes", pathes_of_tracks);
     delete ui;
 }
 
@@ -64,8 +59,6 @@ void Widget::on_btn__clicked()
         items.append(new QStandardItem(filePath));
         m_playListModel->appendRow(items);
     }
-
-    data_controller->setMusicPlayer(files);
 }
 
 void Widget::position_changed(qint64 index){
@@ -79,7 +72,7 @@ void Widget::duration_changed(qint64 duration){
 
 void Widget::on_btn_play_clicked()
 {
-    data_controller->getPlayer()->play();
+
 }
 
 
@@ -101,9 +94,10 @@ void Widget::on_playlistView_clicked(const QModelIndex &index)
     QString s = QString::number(index.row());
     //ui->label->setText(m_playListModel->item(index.row(), 1)->data(Qt::DisplayRole).toString());
     //layer->getPlaylist()->setCurrentIndex(index.row());
-    data_controller->getPlayer()->setCurrent(index.row());
-    if (data_controller->getPlayer()->getCurrentItem()->getLikeInfo()) ui->label->setText("1");
-    else ui->label->setText("0");
+
+    // data_controller->getPlayer()->setCurrent(index.row());
+    // if (data_controller->getPlayer()->getCurrentItem()->getLikeInfo()) ui->label->setText("1");
+    // else ui->label->setText("0");
 }
 
 
@@ -115,44 +109,38 @@ void Widget::on_horizontalSlider_valueChanged(int value)
 
 void Widget::on_verticalSlider_actionTriggered(int action)
 {
-     data_controller->getPlayer()->changeVolume(action);
+     //data_controller->getPlayer()->changeVolume(action);
 }
 
 
 void Widget::on_horizontalSlider_sliderMoved(int position)
 {
-    data_controller->getPlayer()->changeDuration(position);
+
 }
 
 
 void Widget::on_likeButton_clicked()
 {
-    data_controller->getPlayer()->setLike();
+
 }
 
 
 void Widget::on_pushButton_clicked()
 {
-    //ui->stackedWidget->setCurrentIndex(1);
-    navigation_controller->openPlaylistForm();
-}
-
-void Widget::move_home()
-{
-    ui->stackedWidget->setCurrentIndex(0);
+    emit PlaylistFormClicked();
 }
 
 void Widget::setPlaylist(Playlist* new_playlist){
     ui->album_name_label->setText(new_playlist->getName());
     m_playListModel->clear();
-    data_controller->getPlayer()->setPlaylist(new_playlist);
-    data_controller->getPlayer()->deleteQPlaylist();
+    //data_controller->getPlayer()->setPlaylist(new_playlist);
+    //data_controller->getPlayer()->deleteQPlaylist();
     foreach (MediaData* item, *(new_playlist->getListOfItems())) {
          QList<QStandardItem *> items;
          items.append(new QStandardItem(QDir(item->getPath()).dirName()));
          items.append(new QStandardItem(item->getPath()));
          m_playListModel->appendRow(items);
-         data_controller->getPlayer()->getQPlaylist()->addMedia(QUrl(item->getPath()));
+         //data_controller->getPlayer()->getQPlaylist()->addMedia(QUrl(item->getPath()));
     }
 }
 
@@ -299,6 +287,6 @@ void Widget::on_pushButton_2_clicked()
 
 void Widget::on_editorButton_clicked()
 {
-    navigation_controller->openEditForm();
+    emit EditorFormClicked();
 }
 

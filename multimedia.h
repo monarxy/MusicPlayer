@@ -7,9 +7,10 @@
 
 class MediaPlayer{
 public:
+
     virtual QMediaPlayer* getPlayer(){}
     virtual QMediaPlaylist* getQPlaylist(){}
-    virtual Playlist* getPlaylist(){}
+    virtual Playlist* getPlaylist(QString){}
     virtual MediaData* getCurrentItem(){}
 
     virtual void play(){}
@@ -22,11 +23,14 @@ public:
     virtual void setLike(){}
     virtual void setCurrent(int){}
     virtual void setPlaylist(Playlist*){}
+    virtual void addPlaylist(QString){}
 protected:
     QMediaPlayer        *m_player;          // Проигрыватель треков
     QMediaPlaylist      *q_playlist;
+    std::map<QString, Playlist*> list_of_playlists;
     Playlist *playlist;
     MediaData* current_item;
 };
+
 
 #endif // MULTIMEDIA_H

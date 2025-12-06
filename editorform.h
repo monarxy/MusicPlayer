@@ -15,14 +15,13 @@ class EditorForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit EditorForm(QWidget *parent, NavigationController *navigation_controller);
+    EditorForm(QWidget *parent);
     ~EditorForm();
-    void setTracks(Playlist*);
+signals:
+    void HomeClicked();
 
 private:
     Ui::EditorForm *ui;
-    Playlist* playlist;
-    NavigationController* navigation_controller;
 
 };
 

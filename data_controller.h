@@ -3,10 +3,12 @@
 #include "music_player.h"
 
 
-class DataController{
+class DataController : public QObject {
+    Q_OBJECT
     MediaPlayer *music_player;
 public:
-    DataController();
+    DataController(QObject *parent = nullptr);
+    ~DataController();
     void setMusicPlayer(QStringList list_of_tracks);
     MediaPlayer* getPlayer();
 };

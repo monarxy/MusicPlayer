@@ -20,24 +20,21 @@ class PlaylistForm : public QWidget
     Q_OBJECT
 
 public:
-    PlaylistForm(NavigationController* navigation_controller, DataController* data_controller);
+    PlaylistForm();
     ~PlaylistForm();
 
 private:
     Ui::PlaylistForm *ui;
     QStandardItemModel *playlists_model;
-    std::vector<Playlist*> list_of_playlists;
     QWidget *list_of_playlists_tracks_form;
-    NavigationController *navigation_controller;
-    DataController *data_controller;
 
 signals:
     void HomeClicked();
+    void ListOfPlaylistsTracksClicked(QString album_name);
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_playlistsView_clicked(const QModelIndex &index);
-    void move_to_playlists_form();
 
 };
 

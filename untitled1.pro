@@ -12,6 +12,7 @@ SOURCES += \
     data_controller.cpp \
     editorform.cpp \
     list_of_playlist_tracks.cpp \
+    load_tracks.cpp \
     main.cpp \
     music_player.cpp \
     navigation_controller.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     editor.h \
     editorform.h \
     list_of_playlist_tracks.h \
+    load_tracks.h \
     media_data.h \
     multimedia.h \
     music_player.h \

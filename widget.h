@@ -30,14 +30,14 @@ class Widget : public QWidget
     Q_OBJECT
 
 public:
-    explicit Widget(QWidget *parent = nullptr, NavigationController* navigation_controller = nullptr, DataController* data_controller = nullptr);
+    Widget();
     ~Widget();
 
     void setPlaylist(Playlist*);
-
-    NavigationController* navigation_controller;
-
-    DataController* data_controller;
+signals:
+    void PlaylistFormClicked();
+    void EditorFormClicked();
+    void LoadFromMemorySignal(const QStringList list_of_tracks);
 
 private slots:
     void on_btn__clicked();
@@ -63,8 +63,6 @@ private slots:
     void on_likeButton_clicked();
 
     void on_pushButton_clicked();
-
-    void move_home();
 
     void on_pushButton_2_clicked();
 

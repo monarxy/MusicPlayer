@@ -1,5 +1,6 @@
 #include "widget.h"
 #include <QApplication>
+#include "iostream"
 
 int main(int argc, char *argv[])
 {
@@ -7,8 +8,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(APPLICATION_NAME);
     QApplication a(argc, argv);
-    DataController* data_controller = new DataController();
-    NavigationController* navigation_controller = new NavigationController(data_controller);
+    DataController* data_controller = new DataController(nulllptr);
+    NavigationController* navigation_controller = new NavigationController(nullptr);
     navigation_controller->openMainForm();
     return a.exec();
 }
