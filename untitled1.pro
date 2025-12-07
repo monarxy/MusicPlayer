@@ -9,26 +9,28 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    appcontroller.cpp \
     data_controller.cpp \
     editorform.cpp \
     list_of_playlist_tracks.cpp \
-    load_tracks.cpp \
     main.cpp \
     music_player.cpp \
     navigation_controller.cpp \
     playlist.cpp \
     playlistform.cpp \
     songs_data.cpp \
+    tracks_loader.cpp \
     widget.cpp
 
 HEADERS += \
+    appcontroller.h \
     chorus_effect.h \
     data_controller.h \
     editor.h \
     editorform.h \
     list_of_playlist_tracks.h \
-    load_tracks.h \
     media_data.h \
+    media_loader.h \
     multimedia.h \
     music_player.h \
     navigation_controller.h \
@@ -36,6 +38,7 @@ HEADERS += \
     playlistform.h \
     songs_data.h \
     sound_effect.h \
+    tracks_loader.h \
     video_data.h \
     video_player.h \
     widget.h

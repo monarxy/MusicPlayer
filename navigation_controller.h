@@ -18,5 +18,6 @@ public:
     void openListOfPlaylistsForm(QString);
     void openMainForm();
     void openEditForm();
+    QWidget* getMainForm();
 };
 #endif // NAVIGATION_CONTROLLER_H

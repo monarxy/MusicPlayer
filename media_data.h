@@ -1,10 +1,8 @@
 #ifndef MEDIA_DATA_H
 #define MEDIA_DATA_H
-//#include "widget.h"
 #include <QString>
 
 class MediaData{
-    friend class Widget;
 public:
     virtual bool getLikeInfo(){}
     virtual void putLike(){}

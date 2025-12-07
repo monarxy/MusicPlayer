@@ -16,9 +16,6 @@ extern "C" {
 Widget::Widget() : ui(new Ui::Widget){
     ui->setupUi(this);
     m_playListModel = new QStandardItemModel(this);
-
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-
     ui->playlistView->setModel(m_playListModel);
     m_playListModel->setHorizontalHeaderLabels(QStringList()  << tr("Audio Track") << tr("File Path"));
     ui->playlistView->hideColumn(1);
@@ -27,17 +24,6 @@ Widget::Widget() : ui(new Ui::Widget){
     ui->playlistView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->playlistView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->playlistView->horizontalHeader()->setStretchLastSection(true);
-
-    QStringList saved_pathes = settings.value("List_of_pathes").value<QStringList>();
-    emit LoadFromMemorySignal(saved_pathes);
-
-    foreach (QString filePath, saved_pathes)
-    {
-        QList<QStandardItem *> items;
-        items.append(new QStandardItem(QDir(filePath).dirName()));
-        items.append(new QStandardItem(filePath));
-        m_playListModel->appendRow(items);
-    }
 }
 
 Widget::~Widget()
@@ -130,15 +116,12 @@ void Widget::on_pushButton_clicked()
     emit PlaylistFormClicked();
 }
 
-void Widget::setPlaylist(Playlist* new_playlist){
-    ui->album_name_label->setText(new_playlist->getName());
+void Widget::setPlaylist(QStringList list_of_tracks, QString album_name){
+    ui->album_name_label->setText(album_name);
     m_playListModel->clear();
-    //data_controller->getPlayer()->setPlaylist(new_playlist);
-    //data_controller->getPlayer()->deleteQPlaylist();
-    foreach (MediaData* item, *(new_playlist->getListOfItems())) {
+    foreach (QString item, list_of_tracks){
          QList<QStandardItem *> items;
-         items.append(new QStandardItem(QDir(item->getPath()).dirName()));
-         items.append(new QStandardItem(item->getPath()));
+         items.append(new QStandardItem(item));
          m_playListModel->appendRow(items);
          //data_controller->getPlayer()->getQPlaylist()->addMedia(QUrl(item->getPath()));
     }

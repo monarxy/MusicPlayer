@@ -2,6 +2,10 @@
 #include "playlistform.h"
 
 NavigationController::NavigationController(QObject *parent) : QObject(parent){
+    current_widget = new Widget();
+    QObject::connect(static_cast<Widget*>(current_widget), &Widget::PlaylistFormClicked, this, &NavigationController::openPlaylistForm);
+    QObject::connect(static_cast<Widget*>(current_widget), &Widget::EditorFormClicked, this, &NavigationController::openEditForm);
+    active_widgets["main_form"] = current_widget;
 }
 
 void NavigationController::openPlaylistForm(){
@@ -21,19 +25,10 @@ void NavigationController::openPlaylistForm(){
 }
 
 void NavigationController::openMainForm(){
-    if (active_widgets["main_form"] == nullptr){
-        current_widget = new Widget();
-        QObject::connect(static_cast<Widget*>(current_widget), &Widget::PlaylistFormClicked, this, &NavigationController::openPlaylistForm);
-        QObject::connect(static_cast<Widget*>(current_widget), &Widget::EditorFormClicked, this, &NavigationController::openEditForm);
-        active_widgets["main_form"] = current_widget;
-        current_widget->show();
-    }
-    else{
-
+    if (active_widgets.size()!=1){
         current_widget->close();
-        current_widget = active_widgets["main_form"];
-        current_widget->show();
-    }
+        current_widget = active_widgets["main_form"];}
+    current_widget->show();
 }
 
 void NavigationController::openEditForm(){
@@ -66,6 +61,11 @@ void NavigationController::openListOfPlaylistsForm(QString album_name){
         current_widget->show();
     }
 
+}
+
+QWidget* NavigationController::getMainForm(){
+    if (active_widgets["main_form"] != nullptr)
+        return active_widgets["main_form"];
 }
 
 NavigationController::~NavigationController()

@@ -1,12 +1,17 @@
 #include "music_player.h"
 
-MusicPlayer::MusicPlayer(){
-    m_player = new QMediaPlayer();          // Инициализируем плеер
-    q_playlist = new QMediaPlaylist(m_player);  // Инициализируем плейлист
-    m_player->setPlaylist(q_playlist);          // Устанавливаем плейлист в плеер
-    m_player->setVolume(70);                    // Устанавливаем громкость воспроизведения треков
+MusicPlayer::MusicPlayer(QStringList list_of_loaded){
+    m_player = new QMediaPlayer();
+    q_playlist = new QMediaPlaylist(m_player);
+    m_player->setPlaylist(q_playlist);
+    m_player->setVolume(70);
     q_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     playlist = new Playlist();
+
+    foreach (QString filePath, list_of_loaded){
+        playlist->setListOfItems(new SongData(filePath));
+        q_playlist->addMedia(QUrl(filePath));
+    }
     list_of_playlists[""] = playlist;
 }
 
@@ -37,7 +42,7 @@ void MusicPlayer::setLike(){
 }
 
 void MusicPlayer::setCurrent(int index){
-    current_item = (*(playlist->getListOfItems()))[index];
+    current_item = (playlist->getListOfItems())[index];
     q_playlist->setCurrentIndex(index);
 }
 
@@ -50,12 +55,12 @@ QMediaPlaylist* MusicPlayer::getQPlaylist(){
 }
 
 Playlist* MusicPlayer::getPlaylist(QString name){
-   // if (list_of_playlists[name]!= nullptr)
+    if (list_of_playlists[name]!= nullptr)
         return list_of_playlists[name];
 }
 
 void MusicPlayer::addPlaylist(QString name){
-    //if (list_of_playlists[name] == nullptr)
+    if (list_of_playlists[name] == nullptr)
         list_of_playlists[name] = new Playlist(name);
 }
 

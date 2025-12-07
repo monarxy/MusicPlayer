@@ -10,7 +10,7 @@ public:
     Playlist();
     Playlist(QString);
 
-    std::vector<MediaData*>* getListOfItems();
+    std::vector<MediaData*> getListOfItems();
     QString getName();
     void setListOfItems(MediaData*);
 protected:

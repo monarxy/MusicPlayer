@@ -6,7 +6,7 @@
 
 class MusicPlayer : public MediaPlayer{
 public:
-    MusicPlayer();
+    MusicPlayer(QStringList);
     ~MusicPlayer();
 
     QMediaPlayer* getPlayer();

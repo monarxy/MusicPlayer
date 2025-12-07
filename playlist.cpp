@@ -8,8 +8,8 @@ Playlist::Playlist(){
     playlist_name = "";
 }
 
-std::vector<MediaData*>* Playlist::getListOfItems(){
-    return &playlist_items;
+std::vector<MediaData*> Playlist::getListOfItems(){
+    return playlist_items;
 }
 
 void Playlist::setListOfItems(MediaData* item){
