@@ -26,5 +26,13 @@ void DataController::loadSavedTracks(){
     emit LoadTracksFromMemory(list_of_names, "");
 }
 
+void DataController::setCurrentTrack(int index){
+    music_player->setCurrent(index);
+}
+
+void DataController::play(){
+    music_player->play();
+}
+
 DataController::~DataController(){
 }

@@ -58,7 +58,7 @@ void Widget::duration_changed(qint64 duration){
 
 void Widget::on_btn_play_clicked()
 {
-
+    emit PlayClicked();
 }
 
 
@@ -77,9 +77,10 @@ void Widget::on_toolButton_2_clicked()
 
 void Widget::on_playlistView_clicked(const QModelIndex &index)
 {
-    QString s = QString::number(index.row());
+    //QString s = QString::number(index.row());
+    emit PlaylistViewClicked(index.row());
     //ui->label->setText(m_playListModel->item(index.row(), 1)->data(Qt::DisplayRole).toString());
-    //layer->getPlaylist()->setCurrentIndex(index.row());
+    //player->getPlaylist()->setCurrentIndex(index.row());
 
     // data_controller->getPlayer()->setCurrent(index.row());
     // if (data_controller->getPlayer()->getCurrentItem()->getLikeInfo()) ui->label->setText("1");

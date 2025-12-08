@@ -13,6 +13,8 @@ public:
     void setMusicPlayer(QStringList list_of_tracks);
     MediaPlayer* getPlayer();
     void loadSavedTracks();
+    void setCurrentTrack(int);
+    void play();
 signals:
     void LoadTracksFromMemory(QStringList list_of_tracks, QString name_of_album);
 };

@@ -10,6 +10,7 @@ class AppController
     NavigationController* navigation_controller;
 public:
     AppController(DataController*, NavigationController*);
+    void setConnections();
 };
 
 #endif // APPCONTROLLER_H

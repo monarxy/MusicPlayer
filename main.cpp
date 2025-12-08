@@ -2,8 +2,8 @@
 #include "music_player.h"
 #include "widget.h"
 #include "navigation_controller.h"
+#include "appcontroller.h"
 #include <QApplication>
-#include "iostream"
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +16,8 @@ int main(int argc, char *argv[])
 
     DataController* data_controller = new DataController(nullptr, music_player);
     NavigationController* navigation_controller = new NavigationController(nullptr);
-    QObject::connect(data_controller, &DataController::LoadTracksFromMemory, static_cast<Widget*>(navigation_controller->getMainForm()), &Widget::setPlaylist);
+    AppController* app_controller = new AppController(data_controller, navigation_controller);
+    app_controller->setConnections();
     data_controller->loadSavedTracks();
     navigation_controller->openMainForm();
     return a.exec();

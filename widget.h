@@ -37,7 +37,8 @@ public:
 signals:
     void PlaylistFormClicked();
     void EditorFormClicked();
-
+    void PlaylistViewClicked(int);
+    void PlayClicked();
 private slots:
     void on_btn__clicked();
 
