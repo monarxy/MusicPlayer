@@ -1,17 +1,19 @@
 #ifndef MUSIC_PLAYER_H
 #define MUSIC_PLAYER_H
-//#include "widget.h"
-//#include "ui_widget.h"
+
+#include "tracks_loader.h"
 #include "multimedia.h"
 
 class MusicPlayer : public MediaPlayer{
 public:
-    MusicPlayer(QStringList);
+    MusicPlayer();
+    MusicPlayer(MediaLoader*);
     ~MusicPlayer();
 
     QMediaPlayer* getPlayer();
     QMediaPlaylist* getQPlaylist();
     Playlist* getPlaylist(QString);
+    Playlist* getCurrentPlaylist() const;
     MediaData* getCurrentItem();
 
     void play();
@@ -25,6 +27,11 @@ public:
     void setCurrent(int);
     void setPlaylist(Playlist*);
     void addPlaylist(QString);
+
+
+
+    void test();
 };
+
 
 #endif // MUSIC_PLAYER_H

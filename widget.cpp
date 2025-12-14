@@ -45,6 +45,7 @@ void Widget::on_btn__clicked()
         items.append(new QStandardItem(filePath));
         m_playListModel->appendRow(items);
     }
+    emit UpdateTracksInAlbum(files);
 }
 
 void Widget::position_changed(qint64 index){

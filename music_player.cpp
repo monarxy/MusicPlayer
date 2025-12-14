@@ -1,19 +1,30 @@
 #include "music_player.h"
 
-MusicPlayer::MusicPlayer(QStringList list_of_loaded){
+MusicPlayer::MusicPlayer(MediaLoader* _serializer){
     m_player = new QMediaPlayer();
     q_playlist = new QMediaPlaylist(m_player);
     m_player->setPlaylist(q_playlist);
     m_player->setVolume(70);
     q_playlist->setPlaybackMode(QMediaPlaylist::Loop);
-    playlist = new Playlist();
+    if (_serializer != nullptr)
+        serializer = _serializer;
+    for (Playlist* playlist : serializer->loadSavedTracks())
+        list_of_playlists[playlist->getName()] = playlist;
 
-    foreach (QString filePath, list_of_loaded){
-        playlist->setListOfItems(new SongData(filePath));
-        q_playlist->addMedia(QUrl(filePath));
+    if (list_of_playlists.size() == 0){
+        playlist = new Playlist();
+        list_of_playlists[""] = playlist;
     }
-    list_of_playlists[""] = playlist;
+
+
+    // foreach (QString filePath, list_of_loaded){
+    //     playlist->setListOfItems(new SongData(filePath));
+    //     q_playlist->addMedia(QUrl(filePath));
+    // }
+    // list_of_playlists[""] = playlist;
 }
+
+MusicPlayer::MusicPlayer(){}
 
 void MusicPlayer::play(){
     m_player->play();
@@ -59,6 +70,10 @@ Playlist* MusicPlayer::getPlaylist(QString name){
         return list_of_playlists[name];
 }
 
+Playlist* MusicPlayer::getCurrentPlaylist() const{
+    return playlist;
+}
+
 void MusicPlayer::addPlaylist(QString name){
     if (list_of_playlists[name] == nullptr)
         list_of_playlists[name] = new Playlist(name);
@@ -76,6 +91,12 @@ void MusicPlayer::deleteQPlaylist(){
     q_playlist->clear();
 }
 
+void MusicPlayer::test(){
+    serializer->saveTracks(list_of_playlists);
+}
+
 MusicPlayer::~MusicPlayer()
 {
+    serializer->saveTracks(list_of_playlists);
 }
+

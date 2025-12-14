@@ -39,6 +39,7 @@ signals:
     void EditorFormClicked();
     void PlaylistViewClicked(int);
     void PlayClicked();
+    void UpdateTracksInAlbum(QStringList list_of_tracks);
 private slots:
     void on_btn__clicked();
 

@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(APPLICATION_NAME);
     QApplication a(argc, argv);
-    TracksLoader* tracks_loader = new TracksLoader();
-    MusicPlayer* music_player = new MusicPlayer(tracks_loader->loadSavedTracks());
+    MediaLoader* tracks_loader = new TracksLoader();
+    MediaPlayer* music_player = new MusicPlayer(tracks_loader);
 
     DataController* data_controller = new DataController(nullptr, music_player);
     NavigationController* navigation_controller = new NavigationController(nullptr);

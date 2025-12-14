@@ -3,13 +3,14 @@
 #include "media_data.h"
 
 class VideoData: public MediaData{
-    friend class Widget;
 public:
     VideoData(QString);
+    VideoData(QString, bool);
 private:
     void putLike();
     void deletelike();
-
-}
+    bool getLikeInfo() const;
+    QString getPath() const;
+};
 
 #endif // VIDEO_DATA_H

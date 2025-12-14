@@ -9,8 +9,9 @@ DataController::DataController(QObject *parent, MediaPlayer* _music_player) :QOb
 void DataController::setMusicPlayer(QStringList list_of_tracks){
     foreach (QString filePath, list_of_tracks)
     {
-        //music_player->getPlaylist()->
+        music_player->getCurrentPlaylist()->setListOfItems(new SongData(filePath, false));
         music_player->getQPlaylist()->addMedia(QUrl(filePath));
+        music_player->test();
     }
 }
 
@@ -19,7 +20,7 @@ MediaPlayer* DataController::getPlayer(){
 }
 
 void DataController::loadSavedTracks(){
-    std::vector<MediaData*> vector_of_items = music_player->getPlaylist("")->getListOfItems();
+    QVector<MediaData*> vector_of_items = music_player->getPlaylist("")->getListOfItems();
     QStringList list_of_names;
     foreach (MediaData* item, vector_of_items)
         list_of_names.append(QDir(item->getPath()).dirName());

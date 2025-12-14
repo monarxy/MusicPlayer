@@ -20,6 +20,7 @@ SOURCES += \
     playlistform.cpp \
     songs_data.cpp \
     tracks_loader.cpp \
+    video_data.cpp \
     widget.cpp
 
 HEADERS += \

@@ -1,21 +1,42 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-
-#include "media_data.h"
 #include <vector>
+#include <QSettings>
+#include <QDataStream>
+#include <QVector>
+#include "songs_data.h"
+#include "video_data.h"
 
 class Playlist{
 public:
     Playlist();
     Playlist(QString);
 
-    std::vector<MediaData*> getListOfItems();
+    QVector<MediaData*> getListOfItems();
     QString getName();
+    void setName(QString);
     void setListOfItems(MediaData*);
 protected:
     QString playlist_name;
-    std::vector<MediaData*> playlist_items;
+    QVector<MediaData*> playlist_items;
 };
+
+Q_DECLARE_METATYPE(Playlist*)
+Q_DECLARE_METATYPE(MediaData*)
+Q_DECLARE_METATYPE(QVector<MediaData*>)
+
+QDataStream &operator<<(QDataStream &out, Playlist* const &playlist);
+
+QDataStream &operator>>(QDataStream &in, Playlist* &playlist);
+
+QDataStream &operator<<(QDataStream &out, const QVector<MediaData*> &items);
+
+QDataStream &operator>>(QDataStream &in, QVector<MediaData*> &items);
+
+QDataStream &operator<<(QDataStream &out, MediaData* const &item);
+
+QDataStream &operator>>(QDataStream &in, MediaData* &item);
+
 
 #endif // PLAYLIST_H

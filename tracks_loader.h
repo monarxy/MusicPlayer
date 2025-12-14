@@ -2,10 +2,11 @@
 #define TRACKS_LOADER_H
 #include "media_loader.h"
 
-class TracksLoader : MediaLoader{
+class TracksLoader : public MediaLoader{
 public:
     TracksLoader();
-    QStringList loadSavedTracks();
+    QVector<Playlist*> loadSavedTracks();
+    void saveTracks(std::map<QString, Playlist*>);
 };
 
 

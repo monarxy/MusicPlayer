@@ -10,5 +10,6 @@ void AppController::setConnections(){
     QObject::connect(data_controller, &DataController::LoadTracksFromMemory, static_cast<Widget*>(main_form), &Widget::setPlaylist);
     QObject::connect(static_cast<Widget*>(main_form), &Widget::PlaylistViewClicked, data_controller, &DataController::setCurrentTrack);
     QObject::connect(static_cast<Widget*>(main_form), &Widget::PlayClicked, data_controller, &DataController::play);
+    QObject::connect(static_cast<Widget*>(main_form), &Widget::UpdateTracksInAlbum, data_controller, &DataController::setMusicPlayer);
 }
 
