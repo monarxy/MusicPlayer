@@ -3,8 +3,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
 #include "songs_data.h"
 #include "playlist.h"
 #include "media_loader.h"
@@ -13,17 +11,16 @@ class MediaPlayer{
 public:
 
     virtual QMediaPlayer* getPlayer(){}
-    virtual QMediaPlaylist* getQPlaylist(){}
     virtual Playlist* getPlaylist(QString){}
     virtual MediaData* getCurrentItem(){}
     virtual Playlist* getCurrentPlaylist() const {}
+    virtual QVector<QString> getListOfPlaylists(){}
 
     virtual void play(){}
     virtual void pause(){}
     virtual void stop(){}
     virtual void changeVolume(int){}
     virtual void changeDuration(int){}
-    virtual void deleteQPlaylist(){}
 
     virtual void setLike(){}
     virtual void setCurrent(int){}
@@ -32,9 +29,9 @@ public:
 
 
     virtual void test(){}
+
 protected:
     QMediaPlayer        *m_player;          // Проигрыватель треков
-    QMediaPlaylist      *q_playlist;
     std::map<QString, Playlist*> list_of_playlists;
     Playlist *playlist;
     MediaData* current_item;

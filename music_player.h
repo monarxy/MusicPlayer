@@ -11,17 +11,16 @@ public:
     ~MusicPlayer();
 
     QMediaPlayer* getPlayer();
-    QMediaPlaylist* getQPlaylist();
     Playlist* getPlaylist(QString);
     Playlist* getCurrentPlaylist() const;
     MediaData* getCurrentItem();
+    QVector<QString> getListOfPlaylists();
 
     void play();
     void pause();
     void stop();
     void changeVolume(int);
     void changeDuration(int);
-    void deleteQPlaylist();
 
     void setLike();
     void setCurrent(int);

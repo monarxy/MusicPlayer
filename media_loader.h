@@ -5,6 +5,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "media_data.h"
 #include "songs_data.h"
 #include "video_data.h"

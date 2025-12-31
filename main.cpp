@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     AppController* app_controller = new AppController(data_controller, navigation_controller);
     app_controller->setConnections();
     data_controller->loadSavedTracks();
+    data_controller->getPlaylistNames();
     navigation_controller->openMainForm();
     return a.exec();
 }

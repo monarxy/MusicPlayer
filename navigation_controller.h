@@ -19,5 +19,6 @@ public:
     void openMainForm();
     void openEditForm();
     QWidget* getMainForm();
+    QWidget* getPlaylistForm();
 };
 #endif // NAVIGATION_CONTROLLER_H

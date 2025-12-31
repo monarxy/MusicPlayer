@@ -4,6 +4,7 @@
 #include "data_controller.h"
 #include "navigation_controller.h"
 #include "widget.h"
+#include "playlistform.h"
 class AppController
 {
     DataController* data_controller;

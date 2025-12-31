@@ -5,6 +5,8 @@
 #include <QSettings>
 #include <QDataStream>
 #include <QVector>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "songs_data.h"
 #include "video_data.h"
 
@@ -14,12 +16,16 @@ public:
     Playlist(QString);
 
     QVector<MediaData*> getListOfItems();
+    QMediaPlaylist* getQPlaylist();
     QString getName();
+
     void setName(QString);
     void setListOfItems(MediaData*);
+
 protected:
     QString playlist_name;
     QVector<MediaData*> playlist_items;
+    QMediaPlaylist* q_playlist;
 };
 
 Q_DECLARE_METATYPE(Playlist*)

@@ -9,19 +9,9 @@ NavigationController::NavigationController(QObject *parent) : QObject(parent){
 }
 
 void NavigationController::openPlaylistForm(){
-    if (active_widgets["playlist_form"] == nullptr){
-        current_widget->close();
-        current_widget = new PlaylistForm();
-        QObject::connect(static_cast<PlaylistForm*>(current_widget), &PlaylistForm::HomeClicked, this, &NavigationController::openMainForm);
-        QObject::connect(static_cast<PlaylistForm*>(current_widget), &PlaylistForm::ListOfPlaylistsTracksClicked, this, &NavigationController::openListOfPlaylistsForm);
-        active_widgets["playlist_form"] = current_widget;
-        current_widget->show();
-    }
-    else{
-        current_widget->close();
-        current_widget = active_widgets["playlist_form"];
-        current_widget->show();
-    }
+    current_widget->close();
+    current_widget = active_widgets["playlist_form"];
+    current_widget->show();
 }
 
 void NavigationController::openMainForm(){
@@ -66,6 +56,16 @@ void NavigationController::openListOfPlaylistsForm(QString album_name){
 QWidget* NavigationController::getMainForm(){
     if (active_widgets["main_form"] != nullptr)
         return active_widgets["main_form"];
+}
+
+QWidget* NavigationController::getPlaylistForm(){
+    if (active_widgets["playlist_form"] == nullptr){
+        QWidget* playlists_widget = new PlaylistForm();
+        QObject::connect(static_cast<PlaylistForm*>(playlists_widget), &PlaylistForm::HomeClicked, this, &NavigationController::openMainForm);
+        QObject::connect(static_cast<PlaylistForm*>(playlists_widget), &PlaylistForm::ListOfPlaylistsTracksClicked, this, &NavigationController::openListOfPlaylistsForm);
+        active_widgets["playlist_form"] = playlists_widget;
+    }
+    return active_widgets["playlist_form"];
 }
 
 NavigationController::~NavigationController()

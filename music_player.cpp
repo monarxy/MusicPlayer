@@ -2,20 +2,21 @@
 
 MusicPlayer::MusicPlayer(MediaLoader* _serializer){
     m_player = new QMediaPlayer();
-    q_playlist = new QMediaPlaylist(m_player);
-    m_player->setPlaylist(q_playlist);
+    //q_playlist = new QMediaPlaylist(m_player);
+    //m_player->setPlaylist(q_playlist);
     m_player->setVolume(70);
-    q_playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    //q_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     if (_serializer != nullptr)
         serializer = _serializer;
+
     for (Playlist* playlist : serializer->loadSavedTracks())
         list_of_playlists[playlist->getName()] = playlist;
 
-    if (list_of_playlists.size() == 0){
-        playlist = new Playlist();
-        list_of_playlists[""] = playlist;
-    }
+    // if (list_of_playlists.size() == 0)
+    //     list_of_playlists[""] = new Playlist();
 
+    playlist = list_of_playlists[""];
+    m_player->setPlaylist(playlist->getQPlaylist());
 
     // foreach (QString filePath, list_of_loaded){
     //     playlist->setListOfItems(new SongData(filePath));
@@ -54,15 +55,11 @@ void MusicPlayer::setLike(){
 
 void MusicPlayer::setCurrent(int index){
     current_item = (playlist->getListOfItems())[index];
-    q_playlist->setCurrentIndex(index);
+    playlist->getQPlaylist()->setCurrentIndex(index);
 }
 
 QMediaPlayer*  MusicPlayer::getPlayer(){
     return m_player;
-}
-
-QMediaPlaylist* MusicPlayer::getQPlaylist(){
-    return q_playlist;
 }
 
 Playlist* MusicPlayer::getPlaylist(QString name){
@@ -72,6 +69,14 @@ Playlist* MusicPlayer::getPlaylist(QString name){
 
 Playlist* MusicPlayer::getCurrentPlaylist() const{
     return playlist;
+}
+
+QVector<QString> MusicPlayer::getListOfPlaylists() {
+    QVector<QString> vector_of_playlists;
+    for (const auto& playlist : list_of_playlists)
+        vector_of_playlists.append(playlist.first);
+
+    return vector_of_playlists;
 }
 
 void MusicPlayer::addPlaylist(QString name){
@@ -85,10 +90,6 @@ MediaData* MusicPlayer::getCurrentItem(){
 
 void MusicPlayer::setPlaylist(Playlist* new_playlist){
     playlist = new_playlist;
-}
-
-void MusicPlayer::deleteQPlaylist(){
-    q_playlist->clear();
 }
 
 void MusicPlayer::test(){

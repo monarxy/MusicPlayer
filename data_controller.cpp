@@ -10,7 +10,6 @@ void DataController::setMusicPlayer(QStringList list_of_tracks){
     foreach (QString filePath, list_of_tracks)
     {
         music_player->getCurrentPlaylist()->setListOfItems(new SongData(filePath, false));
-        music_player->getQPlaylist()->addMedia(QUrl(filePath));
         music_player->test();
     }
 }
@@ -27,8 +26,21 @@ void DataController::loadSavedTracks(){
     emit LoadTracksFromMemory(list_of_names, "");
 }
 
+void DataController::getPlaylistNames(){
+    QVector<QString> vector_of_items = music_player->getListOfPlaylists();
+    QStringList list_of_names;
+    foreach (QString item, vector_of_items)
+        list_of_names.append(item);
+    emit LoadPlaylistsFromMemory(list_of_names);
+}
+
 void DataController::setCurrentTrack(int index){
     music_player->setCurrent(index);
+}
+
+void DataController::addNewPlaylist(QString album_name){
+    music_player->addPlaylist(album_name);
+    music_player->test();
 }
 
 void DataController::play(){

@@ -2,6 +2,7 @@
 
 Playlist::Playlist(QString _name){
     playlist_name = _name;
+    q_playlist = new QMediaPlaylist();
 }
 
 Playlist::Playlist(){
@@ -14,6 +15,7 @@ QVector<MediaData*> Playlist::getListOfItems(){
 
 void Playlist::setListOfItems(MediaData* item){
     playlist_items.push_back(item);
+    q_playlist->addMedia(QUrl(item->getPath()));
 }
 
 QString Playlist::getName(){
@@ -22,6 +24,10 @@ QString Playlist::getName(){
 
 void Playlist::setName(QString _playlist_name){
     playlist_name = _playlist_name;
+}
+
+QMediaPlaylist* Playlist::getQPlaylist(){
+    return q_playlist;
 }
 
 QDataStream &operator<<(QDataStream &out, Playlist* const &playlist){
