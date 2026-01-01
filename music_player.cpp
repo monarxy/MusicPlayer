@@ -39,11 +39,11 @@ void MusicPlayer::stop(){
     m_player->stop();
 }
 
-void MusicPlayer::changeVolume(int index){
+void MusicPlayer::changeVolume(const int& index){
     m_player->setVolume(index);
 }
 
-void MusicPlayer::changeDuration(int index){
+void MusicPlayer::changeDuration(const int& index){
     m_player->setPosition(index * 1000);
 }
 
@@ -53,25 +53,26 @@ void MusicPlayer::setLike(){
     else current_item->putLike();
 }
 
-void MusicPlayer::setCurrent(int index){
+void MusicPlayer::setCurrent(const int& index){
     current_item = (playlist->getListOfItems())[index];
     playlist->getQPlaylist()->setCurrentIndex(index);
 }
 
-QMediaPlayer*  MusicPlayer::getPlayer(){
+QMediaPlayer*  MusicPlayer::getPlayer() const{
     return m_player;
 }
 
-Playlist* MusicPlayer::getPlaylist(QString name){
-    if (list_of_playlists[name]!= nullptr)
-        return list_of_playlists[name];
+Playlist* MusicPlayer::getPlaylist(const QString& name) const{
+
+    auto it = list_of_playlists.find(name);
+    return (it != list_of_playlists.end()) ? it->second : nullptr;
 }
 
 Playlist* MusicPlayer::getCurrentPlaylist() const{
     return playlist;
 }
 
-QVector<QString> MusicPlayer::getListOfPlaylists() {
+QVector<QString> MusicPlayer::getListOfPlaylists() const {
     QVector<QString> vector_of_playlists;
     for (const auto& playlist : list_of_playlists)
         vector_of_playlists.append(playlist.first);
@@ -79,12 +80,12 @@ QVector<QString> MusicPlayer::getListOfPlaylists() {
     return vector_of_playlists;
 }
 
-void MusicPlayer::addPlaylist(QString name){
+void MusicPlayer::addPlaylist(const QString& name){
     if (list_of_playlists[name] == nullptr)
         list_of_playlists[name] = new Playlist(name);
 }
 
-MediaData* MusicPlayer::getCurrentItem(){
+MediaData* MusicPlayer::getCurrentItem() const{
     return current_item;
 }
 

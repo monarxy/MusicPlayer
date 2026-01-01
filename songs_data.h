@@ -4,14 +4,12 @@
 
 class SongData: public MediaData{
 public:
-    SongData(QString);
-    SongData(QString, bool);
+    SongData(const QString&);
+    SongData(const QString&, bool);
     bool getLikeInfo() const;
     void putLike();
     void deletelike();
     QString getPath() const;
-private:
-    bool operator==(const SongData&) const;
 };
 
 

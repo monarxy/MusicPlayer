@@ -118,7 +118,7 @@ void Widget::on_pushButton_clicked()
     emit PlaylistFormClicked();
 }
 
-void Widget::setPlaylist(QStringList list_of_tracks, QString album_name){
+void Widget::setPlaylist(const QStringList& list_of_tracks, const QString& album_name){
     ui->album_name_label->setText(album_name);
     m_playListModel->clear();
     foreach (QString item, list_of_tracks){

@@ -5,8 +5,8 @@
 class TracksLoader : public MediaLoader{
 public:
     TracksLoader();
-    QVector<Playlist*> loadSavedTracks();
-    void saveTracks(std::map<QString, Playlist*>);
+    QVector<Playlist*> loadSavedTracks() const;
+    void saveTracks(const std::map<QString, Playlist*>&) const;
 };
 
 

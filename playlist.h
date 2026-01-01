@@ -13,13 +13,13 @@
 class Playlist{
 public:
     Playlist();
-    Playlist(QString);
+    Playlist(const QString&);
 
-    QVector<MediaData*> getListOfItems();
-    QMediaPlaylist* getQPlaylist();
-    QString getName();
+    QVector<MediaData*> getListOfItems() const;
+    QMediaPlaylist* getQPlaylist() const;
+    QString getName() const;
 
-    void setName(QString);
+    void setName(const QString&);
     void setListOfItems(MediaData*);
 
 protected:
@@ -27,22 +27,5 @@ protected:
     QVector<MediaData*> playlist_items;
     QMediaPlaylist* q_playlist;
 };
-
-Q_DECLARE_METATYPE(Playlist*)
-Q_DECLARE_METATYPE(MediaData*)
-Q_DECLARE_METATYPE(QVector<MediaData*>)
-
-QDataStream &operator<<(QDataStream &out, Playlist* const &playlist);
-
-QDataStream &operator>>(QDataStream &in, Playlist* &playlist);
-
-QDataStream &operator<<(QDataStream &out, const QVector<MediaData*> &items);
-
-QDataStream &operator>>(QDataStream &in, QVector<MediaData*> &items);
-
-QDataStream &operator<<(QDataStream &out, MediaData* const &item);
-
-QDataStream &operator>>(QDataStream &in, MediaData* &item);
-
 
 #endif // PLAYLIST_H

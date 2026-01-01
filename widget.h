@@ -33,13 +33,13 @@ public:
     Widget();
     ~Widget();
 
-    void setPlaylist(QStringList, QString);
+    void setPlaylist(const QStringList&, const QString&);
 signals:
     void PlaylistFormClicked();
     void EditorFormClicked();
-    void PlaylistViewClicked(int);
+    void PlaylistViewClicked(const int&);
     void PlayClicked();
-    void UpdateTracksInAlbum(QStringList list_of_tracks);
+    void UpdateTracksInAlbum(const QStringList& list_of_tracks);
 private slots:
     void on_btn__clicked();
 

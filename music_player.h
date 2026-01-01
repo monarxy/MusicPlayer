@@ -10,22 +10,22 @@ public:
     MusicPlayer(MediaLoader*);
     ~MusicPlayer();
 
-    QMediaPlayer* getPlayer();
-    Playlist* getPlaylist(QString);
+    QMediaPlayer* getPlayer() const;
+    Playlist* getPlaylist(const QString&) const;
     Playlist* getCurrentPlaylist() const;
-    MediaData* getCurrentItem();
-    QVector<QString> getListOfPlaylists();
+    MediaData* getCurrentItem() const;
+    QVector<QString> getListOfPlaylists() const;
 
     void play();
     void pause();
     void stop();
-    void changeVolume(int);
-    void changeDuration(int);
+    void changeVolume(const int&);
+    void changeDuration(const int&);
 
     void setLike();
-    void setCurrent(int);
+    void setCurrent(const int&);
     void setPlaylist(Playlist*);
-    void addPlaylist(QString);
+    void addPlaylist(const QString&);
 
 
 

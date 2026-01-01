@@ -20,8 +20,8 @@ class MediaLoader{
 protected:
     QSettings* settings;
 public:
-    virtual QVector<Playlist*> loadSavedTracks(){}
-    virtual void saveTracks(std::map<QString, Playlist*>){}
+    virtual QVector<Playlist*> loadSavedTracks() const {}
+    virtual void saveTracks(const std::map<QString, Playlist*>&) const{}
 
 };
 #endif // MEDIA_LOADER_H

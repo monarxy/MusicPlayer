@@ -15,7 +15,7 @@ public:
     NavigationController(QObject *parent = nullptr);
     ~NavigationController();
     void openPlaylistForm();
-    void openListOfPlaylistsForm(QString);
+    void openListOfPlaylistsForm(const QString&);
     void openMainForm();
     void openEditForm();
     QWidget* getMainForm();

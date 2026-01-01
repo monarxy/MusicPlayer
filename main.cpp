@@ -18,7 +18,8 @@ int main(int argc, char *argv[])
     NavigationController* navigation_controller = new NavigationController(nullptr);
     AppController* app_controller = new AppController(data_controller, navigation_controller);
     app_controller->setConnections();
-    data_controller->loadSavedTracks();
+    QString str = "";
+    data_controller->loadSavedTracks(str);
     data_controller->getPlaylistNames();
     navigation_controller->openMainForm();
     return a.exec();

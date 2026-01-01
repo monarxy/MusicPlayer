@@ -1,11 +1,11 @@
 #include "video_data.h"
 
-VideoData::VideoData(QString _path){
+VideoData::VideoData(const QString& _path){
     isLiked = false;
     path = _path;
 }
 
-VideoData::VideoData(QString _path, bool _isLiked){
+VideoData::VideoData(const QString& _path, bool _isLiked){
     isLiked = _isLiked;
     path = _path;
 }

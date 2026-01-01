@@ -10,16 +10,20 @@ public:
     DataController(QObject *parent = nullptr, MediaPlayer* _music_player=nullptr);
     ~DataController();
 
-    void setMusicPlayer(QStringList list_of_tracks);
+    void setMusicPlayer(const QStringList&);
     MediaPlayer* getPlayer();
-    void loadSavedTracks();
-    void setCurrentTrack(int);
+    void loadSavedTracks(const QString&);
+    void setCurrentTrack(const int&);
     void getPlaylistNames();
-    void addNewPlaylist(QString);
+
+    QStringList getPlaylistItems(const QString&);
+    void addNewPlaylist(const QString&);
+    void setListOfPlaylistsItems(const QString&);
 
     void play();
 signals:
-    void LoadTracksFromMemory(QStringList list_of_tracks, QString name_of_album);
-    void LoadPlaylistsFromMemory(QStringList list_of_names);
+    void LoadTracksFromMemory(const QStringList&, const QString&);
+    void LoadPlaylistsFromMemory(const QStringList&);
+    void SetListOfPlaylistsItems(const QStringList&, const QString&);
 };
 #endif // DATA_CONTROLLER_H

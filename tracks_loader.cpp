@@ -4,7 +4,7 @@ TracksLoader::TracksLoader(){
     settings = new QSettings(ORGANIZATION_NAME, APPLICATION_NAME);
 }
 
-QVector<Playlist*> TracksLoader::loadSavedTracks(){
+QVector<Playlist*> TracksLoader::loadSavedTracks() const{
     QVector<Playlist*> vector_of_loaded_playlists;
     QByteArray json_data = settings->value("player").toByteArray();
     QJsonDocument doc = QJsonDocument::fromJson(json_data);
@@ -25,7 +25,7 @@ QVector<Playlist*> TracksLoader::loadSavedTracks(){
     return vector_of_loaded_playlists;
 }
 
-void TracksLoader::saveTracks(std::map<QString, Playlist*> list_of_playlists){
+void TracksLoader::saveTracks(const std::map<QString, Playlist*>& list_of_playlists) const{
     QJsonObject player;
     QJsonArray array_of_playlists;
     for (const auto& [key, value] : list_of_playlists ){

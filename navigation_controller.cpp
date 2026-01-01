@@ -36,7 +36,7 @@ void NavigationController::openEditForm(){
     }
 }
 
-void NavigationController::openListOfPlaylistsForm(QString album_name){
+void NavigationController::openListOfPlaylistsForm(const QString& album_name){
     if (active_widgets["list_of_playlists_form"] == nullptr){
         current_widget->close();
         current_widget = new ListOfPlaylistTracks(nullptr);

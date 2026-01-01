@@ -23,7 +23,7 @@ public:
     PlaylistForm();
     ~PlaylistForm();
 
-    void setListOfPlaylists(QStringList);
+    void setListOfPlaylists(const QStringList&);
 private:
     Ui::PlaylistForm *ui;
     QStandardItemModel *playlists_model;
@@ -31,7 +31,7 @@ private:
 
 signals:
     void HomeClicked();
-    void ListOfPlaylistsTracksClicked(QString album_name);
+    void ListOfPlaylistsTracksClicked(const QString& album_name);
     void NewAlbumAddedClicked(QString album_name);
 private slots:
     void on_pushButton_clicked();

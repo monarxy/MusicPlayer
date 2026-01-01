@@ -6,7 +6,7 @@ DataController::DataController(QObject *parent, MediaPlayer* _music_player) :QOb
 }
 
 
-void DataController::setMusicPlayer(QStringList list_of_tracks){
+void DataController::setMusicPlayer(const QStringList& list_of_tracks){
     foreach (QString filePath, list_of_tracks)
     {
         music_player->getCurrentPlaylist()->setListOfItems(new SongData(filePath, false));
@@ -18,12 +18,16 @@ MediaPlayer* DataController::getPlayer(){
     return music_player;
 }
 
-void DataController::loadSavedTracks(){
-    QVector<MediaData*> vector_of_items = music_player->getPlaylist("")->getListOfItems();
-    QStringList list_of_names;
-    foreach (MediaData* item, vector_of_items)
-        list_of_names.append(QDir(item->getPath()).dirName());
-    emit LoadTracksFromMemory(list_of_names, "");
+void DataController::loadSavedTracks(const QString& album_name){
+
+    const QStringList& list_of_tracks = getPlaylistItems(album_name);
+    emit LoadTracksFromMemory(list_of_tracks, album_name);
+}
+
+void DataController::setListOfPlaylistsItems(const QString& album_name){
+
+    const QStringList& list_of_tracks = getPlaylistItems(album_name);
+    emit SetListOfPlaylistsItems(list_of_tracks, album_name);
 }
 
 void DataController::getPlaylistNames(){
@@ -34,11 +38,19 @@ void DataController::getPlaylistNames(){
     emit LoadPlaylistsFromMemory(list_of_names);
 }
 
-void DataController::setCurrentTrack(int index){
+QStringList DataController::getPlaylistItems(const QString &playlist_name){
+    QVector<MediaData*> vector_of_items = music_player->getPlaylist(playlist_name)->getListOfItems();
+    QStringList list_of_names;
+    foreach (MediaData* item, vector_of_items)
+        list_of_names.append(QDir(item->getPath()).dirName());
+    return list_of_names;
+}
+
+void DataController::setCurrentTrack(const int& index){
     music_player->setCurrent(index);
 }
 
-void DataController::addNewPlaylist(QString album_name){
+void DataController::addNewPlaylist(const QString& album_name){
     music_player->addPlaylist(album_name);
     music_player->test();
 }

@@ -4,8 +4,8 @@
 
 class VideoData: public MediaData{
 public:
-    VideoData(QString);
-    VideoData(QString, bool);
+    VideoData(const QString&);
+    VideoData(const QString&, bool);
 private:
     void putLike();
     void deletelike();
