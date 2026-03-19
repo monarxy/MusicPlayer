@@ -1,8 +1,7 @@
 #include "list_of_playlist_tracks.h"
 #include "ui_list_of_playlist_tracks.h"
 
-ListOfPlaylistTracks::ListOfPlaylistTracks(QWidget *parent) :
-    QWidget(parent),
+ListOfPlaylistTracks::ListOfPlaylistTracks() :
     ui(new Ui::ListOfPlaylistTracks)
 {
     ui->setupUi(this);
@@ -24,8 +23,15 @@ ListOfPlaylistTracks::ListOfPlaylistTracks(QWidget *parent) :
     // }
 }
 
-void ListOfPlaylistTracks::setLabelText(QString album_name){
+void ListOfPlaylistTracks::setTracks(const QStringList& list_of_tracks, const QString& album_name){
     ui->label->setText(album_name);
+    current_playlist_model->clear();
+    for (const QString& item : list_of_tracks){
+        QList<QStandardItem *> items;
+        items.append(new QStandardItem(item));
+        current_playlist_model->appendRow(items);
+        //data_controller->getPlayer()->getQPlaylist()->addMedia(QUrl(item->getPath()));
+    }
 }
 
 ListOfPlaylistTracks::~ListOfPlaylistTracks()
@@ -45,8 +51,10 @@ void ListOfPlaylistTracks::on_pushButton_clicked()
         items.append(new QStandardItem(QDir(filePath).dirName()));
         items.append(new QStandardItem(filePath));
         current_playlist_model->appendRow(items);
-        //data_controller->getPlayer()->getPlaylist()->getListOfItems()->push_back(new SongData(filePath));
+
     }
+    emit TracksAddedToPlaylist(ui->label->text(), files);
+
 }
 
 

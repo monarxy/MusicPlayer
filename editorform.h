@@ -15,10 +15,10 @@ class EditorForm : public QWidget
     Q_OBJECT
 
 public:
-    EditorForm(QWidget *parent);
+    EditorForm();
     ~EditorForm();
 signals:
-    void HomeClicked();
+    void FormClicked(const QString&);
 
 private:
     Ui::EditorForm *ui;

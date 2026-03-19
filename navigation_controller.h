@@ -3,22 +3,19 @@
 
 #include <QWidget>
 #include "data_controller.h"
+#include <QString>
 
 class NavigationController : public QObject{
 
     Q_OBJECT
 private:
     QWidget* current_widget;
-    std::map<std::string, QWidget*> active_widgets;
+    std::map<QString, QWidget*> active_widgets;
 public:
 
-    NavigationController(QObject *parent = nullptr);
+    explicit NavigationController(QObject *parent = nullptr);
     ~NavigationController();
-    void openPlaylistForm();
-    void openListOfPlaylistsForm(const QString&);
-    void openMainForm();
-    void openEditForm();
-    QWidget* getMainForm();
-    QWidget* getPlaylistForm();
+    void openForm(const QString&);
+    QWidget* getForm(const QString&);
 };
 #endif // NAVIGATION_CONTROLLER_H

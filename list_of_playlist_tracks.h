@@ -19,9 +19,9 @@ class ListOfPlaylistTracks : public QWidget
     Q_OBJECT
 
 public:
-    ListOfPlaylistTracks(QWidget *parent);
+    ListOfPlaylistTracks();
     ~ListOfPlaylistTracks();
-    void setLabelText(QString);
+    void setTracks(const QStringList&, const QString&);
 
 private slots:
     void on_pushButton_clicked();
@@ -31,7 +31,8 @@ private slots:
     void on_songsView_clicked(const QModelIndex &index);
 
 signals:
-    void PlaylistsFormClicked();
+    void FormClicked(const QString&);
+    void TracksAddedToPlaylist(const QString&, const QStringList&);
 private:
     Ui::ListOfPlaylistTracks *ui;
     QStandardItemModel *current_playlist_model;

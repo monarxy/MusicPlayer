@@ -1,5 +1,7 @@
 #include <QDir>
 #include "data_controller.h"
+#include <iostream>
+
 
 DataController::DataController(QObject *parent, MediaPlayer* _music_player) :QObject(parent) {
     music_player =_music_player;
@@ -8,10 +10,7 @@ DataController::DataController(QObject *parent, MediaPlayer* _music_player) :QOb
 
 void DataController::setMusicPlayer(const QStringList& list_of_tracks){
     foreach (QString filePath, list_of_tracks)
-    {
         music_player->getCurrentPlaylist()->setListOfItems(new SongData(filePath, false));
-        music_player->test();
-    }
 }
 
 MediaPlayer* DataController::getPlayer(){
@@ -22,6 +21,12 @@ void DataController::loadSavedTracks(const QString& album_name){
 
     const QStringList& list_of_tracks = getPlaylistItems(album_name);
     emit LoadTracksFromMemory(list_of_tracks, album_name);
+}
+
+void DataController::addTracksToPlaylist(const QString& album_name, const QStringList& list_of_tracks){
+    for (const QString& item : list_of_tracks)
+        music_player->getPlaylist(album_name)->setListOfItems(new SongData(item, false));
+
 }
 
 void DataController::setListOfPlaylistsItems(const QString& album_name){
@@ -46,18 +51,16 @@ QStringList DataController::getPlaylistItems(const QString &playlist_name){
     return list_of_names;
 }
 
-void DataController::setCurrentTrack(const int& index){
+void DataController::setCurrentTrack(const int index){
     music_player->setCurrent(index);
 }
 
 void DataController::addNewPlaylist(const QString& album_name){
     music_player->addPlaylist(album_name);
-    music_player->test();
 }
 
 void DataController::play(){
     music_player->play();
 }
 
-DataController::~DataController(){
-}
+DataController::~DataController(){}

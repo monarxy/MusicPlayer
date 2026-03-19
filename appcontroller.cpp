@@ -6,13 +6,14 @@ AppController::AppController(DataController* _data_controller, NavigationControl
 }
 
 void AppController::setConnections(){
-    QObject::connect(data_controller, &DataController::LoadTracksFromMemory, static_cast<Widget*>(navigation_controller->getMainForm()), &Widget::setPlaylist);
-    QObject::connect(data_controller, &DataController::LoadPlaylistsFromMemory, static_cast<PlaylistForm*>(navigation_controller->getPlaylistForm()), &PlaylistForm::setListOfPlaylists);
-    QObject::connect(static_cast<Widget*>(navigation_controller->getMainForm()), &Widget::PlaylistViewClicked, data_controller, &DataController::setCurrentTrack);
-    QObject::connect(static_cast<Widget*>(navigation_controller->getMainForm()), &Widget::PlayClicked, data_controller, &DataController::play);
-    QObject::connect(static_cast<Widget*>(navigation_controller->getMainForm()), &Widget::UpdateTracksInAlbum, data_controller, &DataController::setMusicPlayer);
-    QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getPlaylistForm()), &PlaylistForm::NewAlbumAddedClicked, data_controller, &DataController::addNewPlaylist);
+    QObject::connect(data_controller, &DataController::LoadTracksFromMemory, static_cast<Widget*>(navigation_controller->getForm("main_form")), &Widget::setPlaylist);
+    QObject::connect(data_controller, &DataController::LoadPlaylistsFromMemory, static_cast<PlaylistForm*>(navigation_controller->getForm("playlist_form")), &PlaylistForm::setListOfPlaylists);
+    QObject::connect(static_cast<Widget*>(navigation_controller->getForm("main_form")), &Widget::PlaylistViewClicked, data_controller, &DataController::setCurrentTrack);
+    QObject::connect(static_cast<Widget*>(navigation_controller->getForm("main_form")), &Widget::PlayClicked, data_controller, &DataController::play);
+    QObject::connect(static_cast<Widget*>(navigation_controller->getForm("main_form")), &Widget::UpdateTracksInAlbum, data_controller, &DataController::setMusicPlayer);
+    QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getForm("playlist_form")), &PlaylistForm::NewAlbumAddedClicked, data_controller, &DataController::addNewPlaylist);
 
-    QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getPlaylistForm()), &PlaylistForm::ListOfPlaylistsTracksClicked, data_controller, &DataController::setListOfPlaylistsItems);
+    QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getForm("playlist_form")), &PlaylistForm::ListOfPlaylistsTracksClicked, data_controller, &DataController::setListOfPlaylistsItems);
+    QObject::connect(data_controller, &DataController::SetListOfPlaylistsItems, static_cast<ListOfPlaylistTracks*>(navigation_controller->getForm("list_of_playlist_tracks_form")), &ListOfPlaylistTracks::setTracks);
+    QObject::connect(static_cast<ListOfPlaylistTracks*>(navigation_controller->getForm("list_of_playlist_tracks_form")), &ListOfPlaylistTracks::TracksAddedToPlaylist, data_controller, &DataController::addTracksToPlaylist);
 }
-

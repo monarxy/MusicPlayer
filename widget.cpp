@@ -6,6 +6,7 @@
 #include <QDir>
 #include "bass.h"
 #include <iostream>
+#include <QDebug>
 
 
 extern "C" {
@@ -28,11 +29,8 @@ Widget::Widget() : ui(new Ui::Widget){
 
 Widget::~Widget()
 {
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-    QStringList pathes_of_tracks;
-    // foreach (MediaData* item , *(data_controller->getPlayer()->getPlaylist()->getListOfItems()))
-    //     pathes_of_tracks.push_back(item->getPath());
-    // settings.setValue("List_of_pathes", pathes_of_tracks);
+    // QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+    // QStringList pathes_of_tracks;
     delete ui;
 }
 
@@ -115,7 +113,7 @@ void Widget::on_likeButton_clicked()
 
 void Widget::on_pushButton_clicked()
 {
-    emit PlaylistFormClicked();
+    emit FormClicked("playlist_form");
 }
 
 void Widget::setPlaylist(const QStringList& list_of_tracks, const QString& album_name){
@@ -272,6 +270,6 @@ void Widget::on_pushButton_2_clicked()
 
 void Widget::on_editorButton_clicked()
 {
-    emit EditorFormClicked();
+    emit FormClicked("editor_form");
 }
 

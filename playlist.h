@@ -8,12 +8,12 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include "songs_data.h"
-#include "video_data.h"
 
 class Playlist{
 public:
     Playlist();
     Playlist(const QString&);
+    ~Playlist();
 
     QVector<MediaData*> getListOfItems() const;
     QMediaPlaylist* getQPlaylist() const;

@@ -5,6 +5,9 @@ SongData::SongData(const QString& _path){
     path = _path;
 }
 
+SongData::~SongData(){
+}
+
 SongData::SongData(const QString& _path, bool _isLiked){
     isLiked = _isLiked;
     path = _path;

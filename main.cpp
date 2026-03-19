@@ -4,6 +4,7 @@
 #include "navigation_controller.h"
 #include "appcontroller.h"
 #include <QApplication>
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
@@ -12,15 +13,21 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(APPLICATION_NAME);
     QApplication a(argc, argv);
     MediaLoader* tracks_loader = new TracksLoader();
-    MediaPlayer* music_player = new MusicPlayer(tracks_loader);
+    MediaPlayer* music_player = new MusicPlayer(&a, tracks_loader);
 
-    DataController* data_controller = new DataController(nullptr, music_player);
-    NavigationController* navigation_controller = new NavigationController(nullptr);
+    DataController* data_controller = new DataController(&a, music_player);
+    NavigationController* navigation_controller = new NavigationController(&a);
     AppController* app_controller = new AppController(data_controller, navigation_controller);
+
     app_controller->setConnections();
     QString str = "";
     data_controller->loadSavedTracks(str);
     data_controller->getPlaylistNames();
-    navigation_controller->openMainForm();
-    return a.exec();
+    navigation_controller->openForm("main_form");
+    int result = a.exec();
+
+    delete tracks_loader;
+    delete app_controller;
+
+    return result;
 }

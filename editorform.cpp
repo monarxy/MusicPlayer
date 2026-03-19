@@ -1,9 +1,8 @@
 #include "editorform.h"
 #include "ui_editorform.h"
 
-EditorForm::EditorForm(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::EditorForm)
+EditorForm::EditorForm()
+    : ui(new Ui::EditorForm)
 {
     ui->setupUi(this);
 }

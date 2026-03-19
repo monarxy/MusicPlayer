@@ -35,8 +35,7 @@ public:
 
     void setPlaylist(const QStringList&, const QString&);
 signals:
-    void PlaylistFormClicked();
-    void EditorFormClicked();
+    void FormClicked(const QString&);
     void PlaylistViewClicked(const int&);
     void PlayClicked();
     void UpdateTracksInAlbum(const QStringList& list_of_tracks);

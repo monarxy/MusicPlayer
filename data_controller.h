@@ -13,11 +13,12 @@ public:
     void setMusicPlayer(const QStringList&);
     MediaPlayer* getPlayer();
     void loadSavedTracks(const QString&);
-    void setCurrentTrack(const int&);
+    void setCurrentTrack(const int);
     void getPlaylistNames();
 
     QStringList getPlaylistItems(const QString&);
     void addNewPlaylist(const QString&);
+    void addTracksToPlaylist(const QString&, const QStringList&);
     void setListOfPlaylistsItems(const QString&);
 
     void play();

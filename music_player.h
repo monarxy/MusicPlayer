@@ -5,10 +5,11 @@
 #include "multimedia.h"
 
 class MusicPlayer : public MediaPlayer{
+    Q_OBJECT
 public:
-    MusicPlayer();
-    MusicPlayer(MediaLoader*);
-    ~MusicPlayer();
+
+    explicit MusicPlayer(QObject* parent = nullptr, MediaLoader* serializer = nullptr);
+    ~MusicPlayer() override;
 
     QMediaPlayer* getPlayer() const;
     Playlist* getPlaylist(const QString&) const;
@@ -19,17 +20,13 @@ public:
     void play();
     void pause();
     void stop();
-    void changeVolume(const int&);
-    void changeDuration(const int&);
+    void changeVolume(int);
+    void changeDuration(int);
 
     void setLike();
-    void setCurrent(const int&);
+    void setCurrent(int);
     void setPlaylist(Playlist*);
     void addPlaylist(const QString&);
-
-
-
-    void test();
 };
 
 

@@ -6,6 +6,7 @@ class SongData: public MediaData{
 public:
     SongData(const QString&);
     SongData(const QString&, bool);
+    ~SongData();
     bool getLikeInfo() const;
     void putLike();
     void deletelike();

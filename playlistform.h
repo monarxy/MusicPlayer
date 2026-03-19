@@ -30,7 +30,7 @@ private:
     QWidget *list_of_playlists_tracks_form;
 
 signals:
-    void HomeClicked();
+    void FormClicked(const QString& form_name);
     void ListOfPlaylistsTracksClicked(const QString& album_name);
     void NewAlbumAddedClicked(QString album_name);
 private slots:

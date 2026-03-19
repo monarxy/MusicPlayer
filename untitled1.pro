@@ -14,13 +14,13 @@ SOURCES += \
     editorform.cpp \
     list_of_playlist_tracks.cpp \
     main.cpp \
+    multimedia.cpp \
     music_player.cpp \
     navigation_controller.cpp \
     playlist.cpp \
     playlistform.cpp \
     songs_data.cpp \
     tracks_loader.cpp \
-    video_data.cpp \
     widget.cpp
 
 HEADERS += \
@@ -40,8 +40,6 @@ HEADERS += \
     songs_data.h \
     sound_effect.h \
     tracks_loader.h \
-    video_data.h \
-    video_player.h \
     widget.h
 
 FORMS += \

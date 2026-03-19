@@ -7,9 +7,12 @@
 #include "playlist.h"
 #include "media_loader.h"
 
-class MediaPlayer{
+class MediaPlayer: public QObject{
+    Q_OBJECT
 public:
 
+    explicit MediaPlayer(QObject* parent = nullptr, MediaLoader* loader = nullptr);
+    ~MediaPlayer();
     virtual QMediaPlayer* getPlayer() const{}
     virtual Playlist* getPlaylist(const QString&) const{}
     virtual MediaData* getCurrentItem() const{}
@@ -19,16 +22,14 @@ public:
     virtual void play(){}
     virtual void pause(){}
     virtual void stop(){}
-    virtual void changeVolume(const int&){}
-    virtual void changeDuration(const int&){}
+    virtual void changeVolume(int){}
+    virtual void changeDuration(int){}
 
     virtual void setLike(){}
-    virtual void setCurrent(const int&){}
+    virtual void setCurrent(int){}
     virtual void setPlaylist(Playlist*){}
     virtual void addPlaylist(const QString&){}
 
-
-    virtual void test(){}
 
 protected:
     QMediaPlayer        *m_player;          // Проигрыватель треков

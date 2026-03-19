@@ -23,7 +23,7 @@ PlaylistForm::~PlaylistForm()
 
 void PlaylistForm::on_pushButton_clicked()
 {
-    emit HomeClicked();
+    emit FormClicked("main_form");
 }
 
 void PlaylistForm::on_pushButton_2_clicked()
@@ -42,6 +42,7 @@ void PlaylistForm::on_pushButton_2_clicked()
 void PlaylistForm::on_playlistsView_clicked(const QModelIndex &index)
 {
     emit ListOfPlaylistsTracksClicked(ui->playlistsView->model()->data(index).toString());
+    emit FormClicked("list_of_playlist_tracks_form");
 }
 
 void PlaylistForm::setListOfPlaylists(const QStringList& list_of_playlists){

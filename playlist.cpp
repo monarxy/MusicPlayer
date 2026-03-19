@@ -9,6 +9,14 @@ Playlist::Playlist(){
     playlist_name = "";
 }
 
+Playlist::~Playlist(){
+    for (const auto item : playlist_items){
+        delete item;
+    }
+
+    delete q_playlist;
+}
+
 QVector<MediaData*> Playlist::getListOfItems() const{
     return playlist_items;
 }
@@ -16,6 +24,7 @@ QVector<MediaData*> Playlist::getListOfItems() const{
 void Playlist::setListOfItems(MediaData* item){
     playlist_items.push_back(item);
     q_playlist->addMedia(QUrl(item->getPath()));
+
 }
 
 QString Playlist::getName() const{
