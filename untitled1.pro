@@ -48,6 +48,7 @@ FORMS += \
     playlistform.ui \
     widget.ui
 
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -93,3 +94,5 @@ unix|win32: LIBS += -L$$PWD/../ffmpeg/lib/ -lswscale
 
 INCLUDEPATH += $$PWD/../ffmpeg/include
 DEPENDPATH += $$PWD/../ffmpeg/include
+
+RESOURCES +=

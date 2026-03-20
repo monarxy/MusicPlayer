@@ -1,9 +1,7 @@
-#include "widget.h"
-#include "multimedia.h"
-#include "music_player.h"
-#include "ui_widget.h"
 #include <QFileDialog>
 #include <QDir>
+#include "widget.h"
+#include "ui_widget.h"
 #include "bass.h"
 #include <iostream>
 #include <QDebug>
@@ -25,12 +23,12 @@ Widget::Widget() : ui(new Ui::Widget){
     ui->playlistView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->playlistView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->playlistView->horizontalHeader()->setStretchLastSection(true);
+
+    ui->verticalSlider->setValue(50);
 }
 
 Widget::~Widget()
 {
-    // QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-    // QStringList pathes_of_tracks;
     delete ui;
 }
 
@@ -74,42 +72,38 @@ void Widget::on_toolButton_2_clicked()
 
 
 
-void Widget::on_playlistView_clicked(const QModelIndex &index)
-{
-    //QString s = QString::number(index.row());
+void Widget::on_playlistView_clicked(const QModelIndex &index){
     emit PlaylistViewClicked(index.row());
-    //ui->label->setText(m_playListModel->item(index.row(), 1)->data(Qt::DisplayRole).toString());
-    //player->getPlaylist()->setCurrentIndex(index.row());
-
-    // data_controller->getPlayer()->setCurrent(index.row());
-    // if (data_controller->getPlayer()->getCurrentItem()->getLikeInfo()) ui->label->setText("1");
-    // else ui->label->setText("0");
+    ui->label->setText(m_playListModel->item(index.row(), 0)->data(Qt::DisplayRole).toString());
 }
 
 
-void Widget::on_horizontalSlider_valueChanged(int value)
-{
+void Widget::on_horizontalSlider_valueChanged(int value){
 
 }
 
 
-void Widget::on_verticalSlider_actionTriggered(int action)
-{
-     //data_controller->getPlayer()->changeVolume(action);
+void Widget::on_horizontalSlider_sliderMoved(int position){
+    emit ChangeDurationPositionClicked(position);
 }
 
 
-void Widget::on_horizontalSlider_sliderMoved(int position)
-{
-
+void Widget::on_likeButton_clicked(){
+    emit LikeButtonClicked();
+    (ui->label_2->text() == "0") ? ui->label_2->setText("1") : ui->label_2->setText("0");
 }
 
-
-void Widget::on_likeButton_clicked()
-{
-
+void Widget::updateSlider(const qint64 position) {
+    ui->horizontalSlider->setValue(position / 1000);
 }
 
+void Widget::setSliderRange(const qint64 duration) {
+    ui->horizontalSlider->setRange(0, duration / 1000);
+}
+
+void Widget::setLikeButton(const bool like_status){
+    (like_status == false) ? ui->label_2->setText("0") : ui->label_2->setText("1");
+}
 
 void Widget::on_pushButton_clicked()
 {
@@ -271,5 +265,29 @@ void Widget::on_pushButton_2_clicked()
 void Widget::on_editorButton_clicked()
 {
     emit FormClicked("editor_form");
+}
+
+
+void Widget::on_btn_play_3_clicked()
+{
+    emit PauseClicked();
+}
+
+
+void Widget::on_btn_play_4_clicked()
+{
+    emit PreviousClicked();
+}
+
+
+void Widget::on_btn_play_5_clicked()
+{
+    emit NextClicked();
+}
+
+
+void Widget::on_verticalSlider_valueChanged(int value)
+{
+    emit ChangeVolumeClicked(value);
 }
 

@@ -53,12 +53,12 @@ void ListOfPlaylistTracks::on_pushButton_clicked()
 
 void ListOfPlaylistTracks::on_pushButton_2_clicked()
 {
-    //navigation_controller->openPlaylistForm();
+    emit FormClicked("playlist_form");
 }
 
 
 void ListOfPlaylistTracks::on_songsView_clicked(const QModelIndex &index)
 {
-
+    emit SongsListClicked(index.row(), ui->label->text());
 }
 

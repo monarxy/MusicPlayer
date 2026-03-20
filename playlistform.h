@@ -4,11 +4,6 @@
 #include <QWidget>
 #include <QInputDialog>
 #include <QStandardItemModel>
-#include "media_data.h"
-#include "playlist.h"
-#include "list_of_playlist_tracks.h"
-#include "navigation_controller.h"
-#include "data_controller.h"
 #include <vector>
 
 namespace Ui {

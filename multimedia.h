@@ -22,11 +22,13 @@ public:
     virtual void play(){}
     virtual void pause(){}
     virtual void stop(){}
-    virtual void changeVolume(int){}
-    virtual void changeDuration(int){}
+    virtual void nextTrack(){}
+    virtual void previousTrack(){}
+    virtual void changeVolume(const int){}
+    virtual void changeDuration(const int){}
 
     virtual void setLike(){}
-    virtual void setCurrent(int){}
+    virtual void setCurrent(const int){}
     virtual void setPlaylist(Playlist*){}
     virtual void addPlaylist(const QString&){}
 

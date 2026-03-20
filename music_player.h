@@ -20,11 +20,14 @@ public:
     void play();
     void pause();
     void stop();
-    void changeVolume(int);
-    void changeDuration(int);
+    void nextTrack();
+    void previousTrack();
+
+    void changeVolume(const int);
+    void changeDuration(const int);
 
     void setLike();
-    void setCurrent(int);
+    void setCurrent(const int);
     void setPlaylist(Playlist*);
     void addPlaylist(const QString&);
 };

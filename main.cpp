@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(APPLICATION_NAME);
+
+
     QApplication a(argc, argv);
     MediaLoader* tracks_loader = new TracksLoader();
     MediaPlayer* music_player = new MusicPlayer(&a, tracks_loader);
@@ -22,7 +24,7 @@ int main(int argc, char *argv[])
     app_controller->setConnections();
     QString str = "";
     data_controller->loadSavedTracks(str);
-    data_controller->getPlaylistNames();
+    data_controller->getPlaylistNamesReceiver();
     navigation_controller->openForm("main_form");
     int result = a.exec();
 

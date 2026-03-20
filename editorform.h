@@ -2,9 +2,6 @@
 #define EDITORFORM_H
 
 #include <QWidget>
-#include "playlist.h"
-#include "songs_data.h"
-#include "navigation_controller.h"
 
 namespace Ui {
 class EditorForm;

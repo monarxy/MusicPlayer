@@ -1,5 +1,4 @@
 #include "playlist.h"
-#include <iostream>
 
 Playlist::Playlist(const QString& _name){
     playlist_name = _name;
