@@ -7,6 +7,7 @@
 
 class MediaData{
 public:
+    virtual ~MediaData(){}
     virtual bool getLikeInfo() const {}
     virtual void putLike(){}
     virtual void deletelike(){}

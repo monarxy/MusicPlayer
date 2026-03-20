@@ -1,5 +1,6 @@
 #include "navigation_controller.h"
 #include "playlistform.h"
+#include <iostream>
 
 NavigationController::NavigationController(QObject *parent) : QObject(parent){
     current_widget = new Widget();

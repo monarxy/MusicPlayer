@@ -8,7 +8,7 @@ class MusicPlayer : public MediaPlayer{
     Q_OBJECT
 public:
 
-    explicit MusicPlayer(QObject* parent = nullptr, MediaLoader* serializer = nullptr);
+    MusicPlayer(QObject* parent = nullptr, MediaLoader* serializer = nullptr);
     ~MusicPlayer() override;
 
     QMediaPlayer* getPlayer() const;

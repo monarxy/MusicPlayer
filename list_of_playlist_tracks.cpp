@@ -6,21 +6,15 @@ ListOfPlaylistTracks::ListOfPlaylistTracks() :
 {
     ui->setupUi(this);
     current_playlist_model = new QStandardItemModel(this);
-    ui->songsView->setModel(current_playlist_model);    // Устанавливаем модель данных в TableView
-        // Устанавливаем заголовки таблицы
+    ui->songsView->setModel(current_playlist_model);
     current_playlist_model->setHorizontalHeaderLabels(QStringList()  << tr("Track"));
-    ui->songsView->verticalHeader()->setVisible(false);                  // Скрываем нумерацию строк
-    ui->songsView->setSelectionBehavior(QAbstractItemView::SelectRows);  // Включаем выделение строк
-    ui->songsView->setSelectionMode(QAbstractItemView::SingleSelection); // Разрешаем выделять только одну строку
+    ui->songsView->verticalHeader()->setVisible(false);
+    ui->songsView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->songsView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->songsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->songsView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     current_playlist_model->clear();
-    // foreach (MediaData* song, *(data_controller->getPlayer()->getPlaylist()->getListOfItems())){
-    //     QList<QStandardItem *> items;
-    //     items.append(new QStandardItem(QDir(song->getPath()).dirName()));
-    //     current_playlist_model->appendRow(items);
-    // }
 }
 
 void ListOfPlaylistTracks::setTracks(const QStringList& list_of_tracks, const QString& album_name){
@@ -30,7 +24,6 @@ void ListOfPlaylistTracks::setTracks(const QStringList& list_of_tracks, const QS
         QList<QStandardItem *> items;
         items.append(new QStandardItem(item));
         current_playlist_model->appendRow(items);
-        //data_controller->getPlayer()->getQPlaylist()->addMedia(QUrl(item->getPath()));
     }
 }
 
@@ -46,7 +39,7 @@ void ListOfPlaylistTracks::on_pushButton_clicked()
                                                       QString(),
                                                       tr("Audio Files (*.mp3)"));
 
-    foreach (QString filePath, files) {
+    for (const QString& filePath : files) {
         QList<QStandardItem *> items;
         items.append(new QStandardItem(QDir(filePath).dirName()));
         items.append(new QStandardItem(filePath));

@@ -11,7 +11,7 @@ class MediaPlayer: public QObject{
     Q_OBJECT
 public:
 
-    explicit MediaPlayer(QObject* parent = nullptr, MediaLoader* loader = nullptr);
+    MediaPlayer(QObject* parent = nullptr, MediaLoader* loader = nullptr);
     ~MediaPlayer();
     virtual QMediaPlayer* getPlayer() const{}
     virtual Playlist* getPlaylist(const QString&) const{}

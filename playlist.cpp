@@ -1,4 +1,5 @@
 #include "playlist.h"
+#include <iostream>
 
 Playlist::Playlist(const QString& _name){
     playlist_name = _name;
@@ -10,10 +11,9 @@ Playlist::Playlist(){
 }
 
 Playlist::~Playlist(){
-    for (const auto item : playlist_items){
+    for (const auto& item : playlist_items){
         delete item;
     }
-
     delete q_playlist;
 }
 

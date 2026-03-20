@@ -13,7 +13,7 @@ private:
     std::map<QString, QWidget*> active_widgets;
 public:
 
-    explicit NavigationController(QObject *parent = nullptr);
+    NavigationController(QObject *parent = nullptr);
     ~NavigationController();
     void openForm(const QString&);
     QWidget* getForm(const QString&);
