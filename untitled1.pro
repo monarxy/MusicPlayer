@@ -21,9 +21,11 @@ SOURCES += \
     playlistform.cpp \
     songs_data.cpp \
     tracks_loader.cpp \
+    video_player.cpp \
     widget.cpp
 
 HEADERS += \
+    ISerializable.h \
     appcontroller.h \
     chorus_effect.h \
     data_controller.h \
@@ -40,6 +42,7 @@ HEADERS += \
     songs_data.h \
     sound_effect.h \
     tracks_loader.h \
+    video_player.h \
     widget.h
 
 FORMS += \

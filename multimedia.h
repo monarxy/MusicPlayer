@@ -13,17 +13,17 @@ public:
 
     MediaPlayer(QObject* parent = nullptr, MediaLoader* loader = nullptr);
     ~MediaPlayer();
-    virtual QMediaPlayer* getPlayer() const{}
-    virtual Playlist* getPlaylist(const QString&) const{}
-    virtual MediaData* getCurrentItem() const{}
-    virtual Playlist* getCurrentPlaylist() const {}
+    virtual const QMediaPlayer* getPlayer() const{}
+    virtual const Playlist* getPlaylist(const QString&) const{}
+    virtual const MediaData* getCurrentItem() const{}
+    virtual const Playlist* getCurrentPlaylist() const {}
     virtual QVector<QString> getListOfPlaylists() const{}
 
     virtual void play(){}
     virtual void pause(){}
     virtual void stop(){}
-    virtual void nextTrack(){}
-    virtual void previousTrack(){}
+    virtual void next(){}
+    virtual void previous(){}
     virtual void changeVolume(const int){}
     virtual void changeDuration(const int){}
 
@@ -31,6 +31,9 @@ public:
     virtual void setCurrent(const int){}
     virtual void setPlaylist(Playlist*){}
     virtual void addPlaylist(const QString&){}
+    virtual void setTracksToPlaylistByName(const QString&, const QStringList&){}
+    virtual void setTracksToCurrentPlaylist(const QStringList&){}
+    virtual void setCurrentPlaylistByName(const QString&){}
 
 
 protected:

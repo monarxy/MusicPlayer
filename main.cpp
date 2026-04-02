@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <iostream>
 
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
@@ -16,6 +17,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MediaLoader* tracks_loader = new TracksLoader();
     MediaPlayer* music_player = new MusicPlayer(&a, tracks_loader);
+
+    static_cast<MusicPlayer*>(music_player)->load();
 
     DataController* data_controller = new DataController(&a, music_player);
     NavigationController* navigation_controller = new NavigationController(&a);

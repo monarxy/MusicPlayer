@@ -9,8 +9,7 @@ DataController::DataController(QObject *parent, MediaPlayer* _music_player) :QOb
 
 
 void DataController::setMusicPlayer(const QStringList& list_of_tracks){
-    for (const QString& filePath : list_of_tracks)
-        music_player->getCurrentPlaylist()->setListOfItems(new SongData(filePath, false));
+    music_player->setTracksToCurrentPlaylist(list_of_tracks);
 }
 
 MediaPlayer* DataController::getPlayer() const{
@@ -18,8 +17,7 @@ MediaPlayer* DataController::getPlayer() const{
 }
 
 void DataController::addTracksToPlaylist(const QString& album_name, const QStringList& list_of_tracks){
-    for (const QString& item : list_of_tracks)
-        music_player->getPlaylist(album_name)->setListOfItems(new SongData(item, false));
+    music_player->setTracksToPlaylistByName(album_name, list_of_tracks);
 
 }
 
@@ -48,11 +46,11 @@ void DataController::pause(){
 }
 
 void DataController::next(){
-    music_player->nextTrack();
+    music_player->next();
 }
 
 void DataController::previous(){
-    music_player->previousTrack();
+    music_player->previous();
 }
 
 void DataController::changeVolume(const int index){
@@ -89,7 +87,7 @@ void DataController::getPlaylistNamesReceiver() {
 
 void DataController::setPlaylistAndCurrentTrackReceiver(const int index, const QString& album_name) {
     music_player->stop();
-    music_player->setPlaylist(music_player->getPlaylist(album_name));
+    music_player->setCurrentPlaylistByName(album_name);
     music_player->setCurrent(index);
     emit LikeStatusSignal(music_player->getCurrentItem()->getLikeInfo());
     music_player->play();

@@ -9,12 +9,8 @@ MusicPlayer::MusicPlayer(QObject *parent, MediaLoader* _serializer) : MediaPlaye
     if (_serializer != nullptr)
         serializer = _serializer;
 
-    for (Playlist* playlist : serializer->loadSavedTracks())
-        list_of_playlists[playlist->getName()] = playlist;
 
 
-    playlist = list_of_playlists[""];
-    m_player->setPlaylist(playlist->getQPlaylist());
 }
 
 
@@ -30,13 +26,13 @@ void MusicPlayer::stop(){
     m_player->stop();
 }
 
-void MusicPlayer::nextTrack(){
+void MusicPlayer::next(){
     m_player->pause();
     playlist->getQPlaylist()->next();
     m_player->play();
 }
 
-void MusicPlayer::previousTrack(){
+void MusicPlayer::previous(){
     m_player->pause();
     playlist->getQPlaylist()->previous();
     m_player->play();
@@ -61,17 +57,17 @@ void MusicPlayer::setCurrent(const int index){
     playlist->getQPlaylist()->setCurrentIndex(index);
 }
 
-QMediaPlayer*  MusicPlayer::getPlayer() const{
+const QMediaPlayer*  MusicPlayer::getPlayer() const{
     return m_player;
 }
 
-Playlist* MusicPlayer::getPlaylist(const QString& name) const{
+const Playlist* MusicPlayer::getPlaylist(const QString& name) const{
 
     auto it = list_of_playlists.find(name);
     return (it != list_of_playlists.end()) ? it->second : nullptr;
 }
 
-Playlist* MusicPlayer::getCurrentPlaylist() const{
+const Playlist* MusicPlayer::getCurrentPlaylist() const{
     return playlist;
 }
 
@@ -88,7 +84,7 @@ void MusicPlayer::addPlaylist(const QString& name){
         list_of_playlists[name] = new Playlist(name);
 }
 
-MediaData* MusicPlayer::getCurrentItem() const{
+const MediaData* MusicPlayer::getCurrentItem() const{
     return current_item;
 }
 
@@ -97,11 +93,40 @@ void MusicPlayer::setPlaylist(Playlist* new_playlist){
     m_player->setPlaylist(playlist->getQPlaylist());
 }
 
+void MusicPlayer::setCurrentPlaylistByName(const QString& album_name){
+    auto it = list_of_playlists.find(album_name);
+    playlist = (it != list_of_playlists.end()) ? it->second : nullptr;
+    m_player->setPlaylist(playlist->getQPlaylist());
+}
+
+void MusicPlayer::setTracksToPlaylistByName(const QString& album_name, const QStringList& list_of_tracks){
+    auto it = list_of_playlists.find(album_name);
+    Playlist* playlist = (it != list_of_playlists.end()) ? it->second : nullptr;
+    for (const QString& item : list_of_tracks)
+        playlist->setListOfItems(new SongData(item, false));
+
+}
+
+void MusicPlayer::setTracksToCurrentPlaylist(const QStringList& list_of_tracks){
+    for (const QString& item : list_of_tracks)
+        playlist->setListOfItems(new SongData(item, false));
+
+}
+
+void MusicPlayer::load(){
+    for (Playlist* playlist : serializer->loadSavedItems())
+        list_of_playlists[playlist->getName()] = playlist;
+    playlist = list_of_playlists[""];
+    m_player->setPlaylist(playlist->getQPlaylist());
+}
+
+void MusicPlayer::save(){
+    serializer->saveItems(list_of_playlists);
+}
+
 MusicPlayer::~MusicPlayer()
 {
-
-    serializer->saveTracks(list_of_playlists);
-
+    save();
     for (const auto& pair : list_of_playlists)
         delete pair.second;
     delete m_player;
