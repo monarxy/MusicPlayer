@@ -1,4 +1,4 @@
-QT       += core gui multimedia
+QT       += core gui multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -14,6 +14,7 @@ SOURCES += \
     editorform.cpp \
     list_of_playlist_tracks.cpp \
     main.cpp \
+    media_loader.cpp \
     multimedia.cpp \
     music_player.cpp \
     navigation_controller.cpp \
@@ -21,11 +22,27 @@ SOURCES += \
     playlistform.cpp \
     songs_data.cpp \
     tracks_loader.cpp \
+    video_data.cpp \
+    video_loader.cpp \
     video_player.cpp \
     widget.cpp
 
 HEADERS += \
+    IDurationChangeable.h \
+    IDurationController.h \
+    IFewPlayersController.h \
+    ILikeController.h \
+    ILikeable.h \
+    IMultimediaGetManagement.h \
+    IPlayer.h \
+    IPlayerController.h \
+    IPlayerSettable.h \
+    IPlaylistController.h \
+    IPlaylistManagement.h \
     ISerializable.h \
+    IVideoManagementController.h \
+    IVolumeChangeable.h \
+    IVolumeController.h \
     appcontroller.h \
     chorus_effect.h \
     data_controller.h \
@@ -39,9 +56,13 @@ HEADERS += \
     navigation_controller.h \
     playlist.h \
     playlistform.h \
+    radio.h \
+    radio_controller.h \
     songs_data.h \
     sound_effect.h \
     tracks_loader.h \
+    video_data.h \
+    video_loader.h \
     video_player.h \
     widget.h
 

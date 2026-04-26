@@ -2,6 +2,8 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QtMultimediaWidgets/QVideoWidget>
+#include <QtGui>
 #include <QStandardItemModel>
 #include <QOpenGLWidget>
 #include <gl/glu.h>
@@ -38,6 +40,10 @@ signals:
     void LikeButtonClicked();
 
     void UpdateTracksInAlbum(const QStringList& list_of_tracks);
+    void PlayerChanged(const int);
+    void UpdateListOfPlaylists();
+
+    void SetVideoOutput(QVideoWidget*);
 
 private slots:
     void on_btn__clicked();
@@ -74,11 +80,16 @@ private slots:
 
     void on_verticalSlider_valueChanged(int value);
 
+    void on_pushButton_5_clicked();
+
+    void on_playlistView_3_clicked(const QModelIndex &index);
+
 private:
     Ui::Widget *ui;
     QStandardItemModel  *m_playListModel;
-    QWidget *editor_form;
+    QVideoWidget* video_widget;
 
+    int current_player;
 };
 
 #endif // WIDGET_H

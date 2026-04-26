@@ -3,37 +3,56 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include "songs_data.h"
-#include "playlist.h"
-#include "media_loader.h"
 
-class MediaPlayer: public QObject{
+#include "media_loader.h"
+#include "ISerializable.h"
+#include "IPlayer.h"
+#include "IPlaylistManagement.h"
+#include "IMultimediaGetManagement.h"
+#include "IDurationChangeable.h"
+#include "IVolumeChangeable.h"
+#include "ILikeable.h"
+
+class MediaPlayer: public QObject, public IPlayer, public ISerializable, public IPlaylistManagement, public IMultimediaGetManagement,
+public ILikeable, public IVolumeChangeable, public IDurationChangeable{
     Q_OBJECT
 public:
 
     MediaPlayer(QObject* parent = nullptr, MediaLoader* loader = nullptr);
     ~MediaPlayer();
-    virtual const QMediaPlayer* getPlayer() const{}
-    virtual const Playlist* getPlaylist(const QString&) const{}
-    virtual const MediaData* getCurrentItem() const{}
-    virtual const Playlist* getCurrentPlaylist() const {}
-    virtual QVector<QString> getListOfPlaylists() const{}
 
-    virtual void play(){}
-    virtual void pause(){}
-    virtual void stop(){}
-    virtual void next(){}
-    virtual void previous(){}
-    virtual void changeVolume(const int){}
-    virtual void changeDuration(const int){}
 
-    virtual void setLike(){}
-    virtual void setCurrent(const int){}
-    virtual void setPlaylist(Playlist*){}
-    virtual void addPlaylist(const QString&){}
-    virtual void setTracksToPlaylistByName(const QString&, const QStringList&){}
-    virtual void setTracksToCurrentPlaylist(const QStringList&){}
-    virtual void setCurrentPlaylistByName(const QString&){}
+    const QMediaPlayer* getPlayer() const override final;
+
+    const Playlist* getPlaylist(const QString&) const override final;
+
+    const MediaData* getCurrentItem() const override final;
+
+    const Playlist* getCurrentPlaylist() const override final;
+    QVector<QString> getListOfPlaylists() const override final;
+
+    void play() override final;
+    void pause() override final;
+    void stop() override final;
+    void next() override final;
+    void previous() override final;
+
+    void changeVolume(const int) override final;
+    void changeDuration(const int) override final;
+
+    void setLike()  override final;
+    void setCurrent(const int) override final;
+
+    void setPlaylist(Playlist*) override final;
+
+    void addPlaylist(const QString&) override final;
+
+    void setTracksToPlaylistByName(const QString&, const QStringList&) override = 0;
+    void setTracksToCurrentPlaylist(const QStringList&) override = 0;
+    void setCurrentPlaylistByName(const QString&) override final;
+
+    void load() override final;
+    void save() override final;
 
 
 protected:

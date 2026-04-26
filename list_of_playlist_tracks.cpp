@@ -17,7 +17,7 @@ ListOfPlaylistTracks::ListOfPlaylistTracks() :
     current_playlist_model->clear();
 }
 
-void ListOfPlaylistTracks::setTracks(const QStringList& list_of_tracks, const QString& album_name){
+void ListOfPlaylistTracks::setItems(const QStringList& list_of_tracks, const QString& album_name){
     ui->label->setText(album_name);
     current_playlist_model->clear();
     for (const QString& item : list_of_tracks){
@@ -46,7 +46,7 @@ void ListOfPlaylistTracks::on_pushButton_clicked()
         current_playlist_model->appendRow(items);
 
     }
-    emit TracksAddedToPlaylist(ui->label->text(), files);
+    emit ItemsAddedToPlaylist(ui->label->text(), files);
 
 }
 
@@ -59,6 +59,6 @@ void ListOfPlaylistTracks::on_pushButton_2_clicked()
 
 void ListOfPlaylistTracks::on_songsView_clicked(const QModelIndex &index)
 {
-    emit SongsListClicked(index.row(), ui->label->text());
+    emit ItemsListClicked(index.row(), ui->label->text());
 }
 

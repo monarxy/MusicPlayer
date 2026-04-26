@@ -13,10 +13,14 @@ extern "C" {
 }
 
 Widget::Widget() : ui(new Ui::Widget){
+    current_player = 0;
     ui->setupUi(this);
     m_playListModel = new QStandardItemModel(this);
+
     ui->playlistView->setModel(m_playListModel);
+
     m_playListModel->setHorizontalHeaderLabels(QStringList()  << tr("Audio Track") << tr("File Path"));
+
     ui->playlistView->hideColumn(1);
     ui->playlistView->verticalHeader()->setVisible(false);
     ui->playlistView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -24,7 +28,15 @@ Widget::Widget() : ui(new Ui::Widget){
     ui->playlistView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->playlistView->horizontalHeader()->setStretchLastSection(true);
 
+    ui->tabWidget->setCurrentIndex(0);
+
     ui->verticalSlider->setValue(50);
+
+    video_widget = new QVideoWidget();
+    video_widget->setGeometry(5, 5, ui->groupBox->width(), ui->groupBox->height());
+    video_widget->setParent(ui->groupBox);
+    video_widget->setVisible(true);
+    video_widget->show();
 }
 
 Widget::~Widget()
@@ -34,7 +46,7 @@ Widget::~Widget()
 
 void Widget::on_btn__clicked()
 {
-    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp3)"));
+    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp3 *.mp4 *.avi *.mkv *.wav)"));
     foreach (QString filePath, files) {
         QList<QStandardItem *> items;
         items.append(new QStandardItem(QDir(filePath).dirName()));
@@ -61,7 +73,12 @@ void Widget::on_btn_play_clicked()
 
 void Widget::on_tabWidget_currentChanged(int index)
 {
-
+    current_player = index;
+    qDebug() << current_player;
+    emit PlayerChanged(index);
+    ui->verticalSlider->setValue(50);
+    ui->horizontalSlider->setValue(0);
+    if (index == 1) emit SetVideoOutput(video_widget);
 }
 
 
@@ -108,16 +125,16 @@ void Widget::setLikeButton(const bool like_status){
 void Widget::on_pushButton_clicked()
 {
     emit FormClicked("playlist_form");
+    emit UpdateListOfPlaylists();
 }
 
 void Widget::setPlaylist(const QStringList& list_of_tracks, const QString& album_name){
     ui->album_name_label->setText(album_name);
     m_playListModel->clear();
     foreach (QString item, list_of_tracks){
-         QList<QStandardItem *> items;
-         items.append(new QStandardItem(item));
-         m_playListModel->appendRow(items);
-         //data_controller->getPlayer()->getQPlaylist()->addMedia(QUrl(item->getPath()));
+        QList<QStandardItem *> items;
+        items.append(new QStandardItem(item));
+        m_playListModel->appendRow(items);
     }
 }
 
@@ -289,5 +306,19 @@ void Widget::on_btn_play_5_clicked()
 void Widget::on_verticalSlider_valueChanged(int value)
 {
     emit ChangeVolumeClicked(value);
+}
+
+
+void Widget::on_pushButton_5_clicked()
+{
+    emit FormClicked("playlist_form");
+    emit UpdateListOfPlaylists();
+}
+
+
+void Widget::on_playlistView_3_clicked(const QModelIndex &index)
+{
+    emit PlaylistViewClicked(index.row());
+    ui->label->setText(m_playListModel->item(index.row(), 0)->data(Qt::DisplayRole).toString());
 }
 

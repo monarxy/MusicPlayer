@@ -1,7 +1,11 @@
 #include "tracks_loader.h"
+#include "video_loader.h"
+
 #include "music_player.h"
+#include "video_player.h"
 #include "widget.h"
 #include "navigation_controller.h"
+#include "radio_controller.h"
 #include "appcontroller.h"
 #include <QApplication>
 #include <iostream>
@@ -15,23 +19,45 @@ int main(int argc, char *argv[])
 
 
     QApplication a(argc, argv);
-    MediaLoader* tracks_loader = new TracksLoader();
-    MediaPlayer* music_player = new MusicPlayer(&a, tracks_loader);
+    MediaLoader* music_loader = new TracksLoader();
+    MediaLoader* video_loader = new VideoLoader();
+    //MediaLoader* radio_loader = new RadioLoader();
+    MediaPlayer* music_player = new MusicPlayer(&a, music_loader);
+    MediaPlayer* video_player = new VideoPlayer(&a, video_loader);
+    //RadioPlayer* radio_player = new RadioPlayer(&a, radio_loader);
 
-    static_cast<MusicPlayer*>(music_player)->load();
+    QVector<ISerializable*> loading_objects;
+    loading_objects.append(music_player);
+    loading_objects.append(video_player);
 
-    DataController* data_controller = new DataController(&a, music_player);
+    for (ISerializable* object : loading_objects)
+        object->load();
+
+    qDebug() << music_player->getListOfPlaylists();
+    qDebug() << video_player->getListOfPlaylists();
+
+    //RadioController* radio_controller = new RadioController(&a, radio_player);
+    std::map<QString, MediaPlayer*> players;
+    players["music_player"] = music_player;
+    players["video_player"] = video_player;
+
+
+    DataController* data_controller = new DataController(&a);
+    for (const auto [name, object] : players) {
+        data_controller->setMapOfPlayers(name, object);
+    }
+
+    data_controller->setMainPlayerByName("music_player");
+
     NavigationController* navigation_controller = new NavigationController(&a);
     AppController* app_controller = new AppController(data_controller, navigation_controller);
 
     app_controller->setConnections();
-    QString str = "";
-    data_controller->loadSavedTracks(str);
-    data_controller->getPlaylistNamesReceiver();
     navigation_controller->openForm("main_form");
     int result = a.exec();
 
-    delete tracks_loader;
+    delete music_loader;
+    delete video_loader;
     delete app_controller;
 
     return result;

@@ -46,6 +46,7 @@ void PlaylistForm::on_playlistsView_clicked(const QModelIndex &index)
 }
 
 void PlaylistForm::setListOfPlaylists(const QStringList& list_of_playlists){
+    playlists_model->clear();
     for (const QString& playlist_name : list_of_playlists){
         QList<QStandardItem *> items;
         items.append(new QStandardItem(playlist_name));

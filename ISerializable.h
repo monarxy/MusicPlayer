@@ -1,5 +1,6 @@
 #ifndef ISERIALIZABLE_H
 #define ISERIALIZABLE_H
+#include <QString>
 
 class ISerializable{
 public:

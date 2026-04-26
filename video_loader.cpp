@@ -1,10 +1,10 @@
-#include "tracks_loader.h"
+#include "video_loader.h"
 
-TracksLoader::TracksLoader() : MediaLoader(){}
+VideoLoader::VideoLoader() : MediaLoader(){}
 
-QVector<Playlist*> TracksLoader::loadSavedItems() const{
+QVector<Playlist*> VideoLoader::loadSavedItems() const{
     QVector<Playlist*> vector_of_loaded_playlists;
-    QByteArray json_data = settings->value("player").toByteArray();
+    QByteArray json_data = settings->value("video_player").toByteArray();
     QJsonDocument doc = QJsonDocument::fromJson(json_data);
 
     QJsonArray playlists = doc["list_of_playlists"].toArray();
@@ -15,7 +15,7 @@ QVector<Playlist*> TracksLoader::loadSavedItems() const{
 
         for (const QJsonValue& t_item : tracks){
             QJsonObject track_item = t_item.toObject();
-            MediaData* track = new SongData(track_item["name"].toString(), track_item["like_info"].toBool());
+            MediaData* track = new VideoData(track_item["name"].toString(), track_item["like_info"].toBool());
             playlist->setListOfItems(track);
         }
         vector_of_loaded_playlists.append(playlist);
@@ -23,7 +23,7 @@ QVector<Playlist*> TracksLoader::loadSavedItems() const{
     return vector_of_loaded_playlists;
 }
 
-void TracksLoader::saveItems(const std::map<QString, Playlist*>& list_of_playlists) const{
+void VideoLoader::saveItems(const std::map<QString, Playlist*>& list_of_playlists) const{
     QJsonObject player;
     QJsonArray array_of_playlists;
     for (const auto& [key, value] : list_of_playlists ){
@@ -42,5 +42,5 @@ void TracksLoader::saveItems(const std::map<QString, Playlist*>& list_of_playlis
     }
     player["list_of_playlists"] = array_of_playlists;
     QJsonDocument doc(player);
-    settings->setValue("player", doc.toJson(QJsonDocument::Compact));
+    settings->setValue("video_player", doc.toJson(QJsonDocument::Compact));
 }
