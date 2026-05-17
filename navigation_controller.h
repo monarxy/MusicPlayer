@@ -6,7 +6,7 @@
 #include "data_controller.h"
 #include "playlistform.h"
 #include "widget.h"
-#include "editorform.h"
+#include "radioform.h"
 #include "list_of_playlist_tracks.h"
 
 class NavigationController : public QObject{

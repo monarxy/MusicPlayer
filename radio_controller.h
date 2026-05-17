@@ -4,10 +4,11 @@
 #include "radio.h"
 #include "IPlayerController.h"
 #include "IVolumeController.h"
+#include "IRadiostationController.h"
 
-class RadioController : public QObject, public IPlayerController, public IVolumeController {
+class RadioController : public QObject, public IPlayerController, public IVolumeController, public IRadiostationController {
     Q_OBJECT
-    //MediaPlayer *music_player;
+    RadioPlayer *radio_player;
 public:
     RadioController(QObject *parent = nullptr, RadioPlayer* player=nullptr);
     ~RadioController();
@@ -19,8 +20,12 @@ public:
     void previousReceive() override;
     const MediaPlayer* getPlayer() const override;
     void setCurrentItemByIndex(const int) override;
+
     void loadSavedItemsReceive(const QString&) override;
     void changeVolumeReceive(const int) override;
+
+    void addRadiostationReceive(const QString&) override;
+    void removeRadiostationReceive(const int) override;
 };
 
 #endif // RADIO_CONTROLLER_H

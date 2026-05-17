@@ -32,6 +32,7 @@ public:
 
     QStringList getListOfPlaylistItems(const QString&) const override;//IPlaylistController
     void getPlaylistNamesReceive() override;//IPlaylistController
+    const QVector<MediaPlayer*> getListOfPlayers() const override;
 
     void addNewPlaylist(const QString&) override;//IPlaylistController
     void addItemsToPlaylist(const QString&, const QStringList&) override;//IPlaylistController

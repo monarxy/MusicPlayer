@@ -69,7 +69,7 @@ const Playlist* MediaPlayer::getCurrentPlaylist() const{
     return playlist;
 }
 
-QVector<QString> MediaPlayer::getListOfPlaylists() const{
+const QVector<QString> MediaPlayer::getListOfPlaylists() const{
     QVector<QString> vector_of_playlists;
     for (const auto& playlist : list_of_playlists)
         vector_of_playlists.append(playlist.first);

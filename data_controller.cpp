@@ -35,6 +35,12 @@ void DataController::setCurrentPlayerByIndex(const int index){
             emit LoadItemsToMainWidget(getListOfPlaylistItems(list_of_playlists[0]), list_of_playlists[0]);}}
 }
 
+const QVector<MediaPlayer*> DataController::getListOfPlayers() const{
+    QVector<MediaPlayer*> vector_of_players;
+    for (const auto& pair: players)
+        vector_of_players.append(pair.second);
+    return vector_of_players;
+}
 void DataController::setVideoOutput(QVideoWidget* video_widget){
     (static_cast<VideoPlayer*>(player))->setVideoOutput(video_widget);
 }

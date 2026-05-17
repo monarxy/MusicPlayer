@@ -6,7 +6,7 @@ class IPlaylistManagement {
 public:
     virtual const Playlist* getPlaylist(const QString&) const = 0;
     virtual const Playlist* getCurrentPlaylist() const = 0;
-    virtual QVector<QString> getListOfPlaylists() const = 0;
+    virtual const QVector<QString> getListOfPlaylists() const = 0;
     virtual void setPlaylist(Playlist*) = 0;
     virtual void setTracksToPlaylistByName(const QString&, const QStringList&) = 0;
     virtual void setTracksToCurrentPlaylist(const QStringList&) = 0;

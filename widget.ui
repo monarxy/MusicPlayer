@@ -33,7 +33,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -399,14 +399,14 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>650</x>
      <y>620</y>
-     <width>80</width>
+     <width>171</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
-    <string notr="true"/>
+    <string notr="true">Radio</string>
    </property>
    <property name="icon">
     <iconset theme="accessories-character-map"/>

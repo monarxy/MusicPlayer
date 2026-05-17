@@ -2,14 +2,16 @@
 #define APPCONTROLLER_H
 
 #include "data_controller.h"
+#include "radio_controller.h"
 #include "navigation_controller.h"
 
 class AppController
 {
     DataController* data_controller;
+    RadioController* radio_controller;
     NavigationController* navigation_controller;
 public:
-    AppController(DataController*, NavigationController*);
+    AppController(DataController*, RadioController*, NavigationController*);
     void setConnections();
 };
 

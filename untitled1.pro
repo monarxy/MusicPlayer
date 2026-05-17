@@ -11,7 +11,6 @@ CONFIG += c++17
 SOURCES += \
     appcontroller.cpp \
     data_controller.cpp \
-    editorform.cpp \
     list_of_playlist_tracks.cpp \
     main.cpp \
     media_loader.cpp \
@@ -20,6 +19,11 @@ SOURCES += \
     navigation_controller.cpp \
     playlist.cpp \
     playlistform.cpp \
+    radio.cpp \
+    radio_controller.cpp \
+    radio_data.cpp \
+    radio_loader.cpp \
+    radioform.cpp \
     songs_data.cpp \
     tracks_loader.cpp \
     video_data.cpp \
@@ -39,6 +43,7 @@ HEADERS += \
     IPlayerSettable.h \
     IPlaylistController.h \
     IPlaylistManagement.h \
+    IRadiostationController.h \
     ISerializable.h \
     IVideoManagementController.h \
     IVolumeChangeable.h \
@@ -47,7 +52,6 @@ HEADERS += \
     chorus_effect.h \
     data_controller.h \
     editor.h \
-    editorform.h \
     list_of_playlist_tracks.h \
     media_data.h \
     media_loader.h \
@@ -58,6 +62,9 @@ HEADERS += \
     playlistform.h \
     radio.h \
     radio_controller.h \
+    radio_data.h \
+    radio_loader.h \
+    radioform.h \
     songs_data.h \
     sound_effect.h \
     tracks_loader.h \
@@ -67,9 +74,9 @@ HEADERS += \
     widget.h
 
 FORMS += \
-    editorform.ui \
     list_of_playlist_tracks.ui \
     playlistform.ui \
+    radioform.ui \
     widget.ui
 
 

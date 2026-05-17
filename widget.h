@@ -32,6 +32,7 @@ signals:
     void PlaylistViewClicked(const int);
     void PlayClicked();
     void PauseClicked();
+    void StopClicked();
     void NextClicked();
     void PreviousClicked();
     void ChangeVolumeClicked(const int);
@@ -83,6 +84,10 @@ private slots:
     void on_pushButton_5_clicked();
 
     void on_playlistView_3_clicked(const QModelIndex &index);
+
+    void on_horizontalSlider_rangeChanged(int min, int max);
+
+    void on_btn_play_7_clicked();
 
 private:
     Ui::Widget *ui;

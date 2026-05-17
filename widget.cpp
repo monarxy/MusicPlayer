@@ -111,6 +111,7 @@ void Widget::on_likeButton_clicked(){
 }
 
 void Widget::updateSlider(const qint64 position) {
+    qDebug() << position;
     ui->horizontalSlider->setValue(position / 1000);
 }
 
@@ -266,12 +267,13 @@ bool trimAudio(const std::string& inputFile,
 
 void Widget::on_pushButton_2_clicked()
 {
-    // BASS_Init(-1, 44100, BASS_DEVICE_3D, 0, NULL);
-    // HSTREAM str = BASS_StreamCreateURL("http://dorognoe.hostingradio.ru:8000/radio", 0, 0, NULL, 0);
-    // BASS_ChannelPlay(str, false);
-    // BASS_ChannelStop(str);
+
+    emit FormClicked("radio_form");
+    //HSTREAM str = BASS_StreamCreateURL("http://dorognoe.hostingradio.ru:8000/radio", 0, 0, NULL, 0);
+    //BASS_ChannelPlay(str, false);
+    //BASS_ChannelStop(str);
     // SimpleAudioTrimmer *trimmer = new SimpleAudioTrimmer();
-    trimAudio("C:/Users/Rom/Documents/untitled1/huun_huurtu.mp3", "C:/Users/Rom/Documents/untitled1/huun_huurt.mp3", 10, 40);
+    //trimAudio("C:/Users/Rom/Documents/untitled1/huun_huurtu.mp3", "C:/Users/Rom/Documents/untitled1/huun_huurt.mp3", 10, 40);
 }
 
 
@@ -281,7 +283,7 @@ void Widget::on_pushButton_2_clicked()
 
 void Widget::on_editorButton_clicked()
 {
-    emit FormClicked("editor_form");
+    //emit FormClicked("editor_form");
 }
 
 
@@ -320,5 +322,18 @@ void Widget::on_playlistView_3_clicked(const QModelIndex &index)
 {
     emit PlaylistViewClicked(index.row());
     ui->label->setText(m_playListModel->item(index.row(), 0)->data(Qt::DisplayRole).toString());
+}
+
+
+void Widget::on_horizontalSlider_rangeChanged(int min, int max)
+{
+
+}
+
+
+void Widget::on_btn_play_7_clicked()
+{
+    emit StopClicked();
+    emit FormClicked("radio_form");
 }
 

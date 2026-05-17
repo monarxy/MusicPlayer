@@ -21,14 +21,16 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MediaLoader* music_loader = new TracksLoader();
     MediaLoader* video_loader = new VideoLoader();
-    //MediaLoader* radio_loader = new RadioLoader();
+    RadioLoader* radio_loader = new RadioLoader();
+
     MediaPlayer* music_player = new MusicPlayer(&a, music_loader);
     MediaPlayer* video_player = new VideoPlayer(&a, video_loader);
-    //RadioPlayer* radio_player = new RadioPlayer(&a, radio_loader);
+    RadioPlayer* radio_player = new RadioPlayer(&a, radio_loader);
 
     QVector<ISerializable*> loading_objects;
     loading_objects.append(music_player);
     loading_objects.append(video_player);
+    loading_objects.append(radio_player);
 
     for (ISerializable* object : loading_objects)
         object->load();
@@ -36,12 +38,13 @@ int main(int argc, char *argv[])
     qDebug() << music_player->getListOfPlaylists();
     qDebug() << video_player->getListOfPlaylists();
 
-    //RadioController* radio_controller = new RadioController(&a, radio_player);
+
+
     std::map<QString, MediaPlayer*> players;
     players["music_player"] = music_player;
     players["video_player"] = video_player;
 
-
+    RadioController* radio_controller = new RadioController(&a, radio_player);
     DataController* data_controller = new DataController(&a);
     for (const auto [name, object] : players) {
         data_controller->setMapOfPlayers(name, object);
@@ -50,7 +53,7 @@ int main(int argc, char *argv[])
     data_controller->setMainPlayerByName("music_player");
 
     NavigationController* navigation_controller = new NavigationController(&a);
-    AppController* app_controller = new AppController(data_controller, navigation_controller);
+    AppController* app_controller = new AppController(data_controller, radio_controller, navigation_controller);
 
     app_controller->setConnections();
     navigation_controller->openForm("main_form");

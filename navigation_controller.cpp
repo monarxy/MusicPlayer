@@ -12,17 +12,19 @@ NavigationController::NavigationController(QObject *parent) : QObject(parent){
 
     new_form = new ListOfPlaylistTracks();
     active_widgets["list_of_playlist_tracks_form"] = new_form;
-    QObject::connect(static_cast<EditorForm*>(active_widgets["list_of_playlist_tracks_form"]), &EditorForm::FormClicked, this, &NavigationController::openForm);
+    QObject::connect(static_cast<ListOfPlaylistTracks*>(active_widgets["list_of_playlist_tracks_form"]), &ListOfPlaylistTracks::FormClicked, this, &NavigationController::openForm);
 
-    new_form = new EditorForm();
-    active_widgets["editor_form"] = new_form;
-    QObject::connect(static_cast<ListOfPlaylistTracks*>(active_widgets["editor_form"]), &ListOfPlaylistTracks::FormClicked, this, &NavigationController::openForm);
+    new_form = new RadioForm();
+    active_widgets["radio_form"] = new_form;
+    QObject::connect(static_cast<RadioForm*>(active_widgets["radio_form"]), &RadioForm::FormClicked, this, &NavigationController::openForm);
 }
 
 void NavigationController::openForm(const QString& form_name){
     current_widget->close();
-    current_widget = active_widgets[form_name];
-    current_widget->show();
+    if (active_widgets[form_name] != nullptr){
+        current_widget = active_widgets[form_name];
+        current_widget->show();
+    }
 }
 
 QWidget* NavigationController::getForm(const QString& form_name){

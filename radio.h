@@ -1,7 +1,8 @@
 #ifndef RADIO_H
 #define RADIO_H
 
-#include "media_loader.h"
+#include "bass.h"
+#include "radio_loader.h"
 #include "ISerializable.h"
 #include "IPlayer.h"
 #include "IPlayerSettable.h"
@@ -11,7 +12,7 @@ class RadioPlayer: public QObject, public IPlayer, public ISerializable, public 
     Q_OBJECT
 public:
 
-    RadioPlayer(QObject* parent = nullptr, MediaLoader* loader = nullptr);
+    RadioPlayer(QObject* parent = nullptr, RadioLoader* loader = nullptr);
     ~RadioPlayer();
 
     void play() override final;
@@ -20,13 +21,20 @@ public:
     void next() override final;
     void previous() override final;
 
+    void setCurrent(const int) override final;
+
 
     void load() override final;
     void save() override final;
 
+    void changeVolume(const int) override final;
+
 
 protected:
-    MediaLoader* serializer;
+    RadioLoader* serializer;
+    QVector<RadioData*> vector_of_radiostations;
+    HSTREAM str;
+    RadioData* current;
 };
 
 #endif // RADIO_H

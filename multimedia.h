@@ -29,7 +29,7 @@ public:
     const MediaData* getCurrentItem() const override final;
 
     const Playlist* getCurrentPlaylist() const override final;
-    QVector<QString> getListOfPlaylists() const override final;
+    const QVector<QString> getListOfPlaylists() const override final;
 
     void play() override final;
     void pause() override final;
