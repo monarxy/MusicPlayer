@@ -8,9 +8,10 @@
 #include "IDurationController.h"
 #include "ILikecontroller.h"
 #include "IVideoManagementController.h"
+#include "IGetPlayerController.h"
 
 
-class DataController : public QObject, public IPlayerController, public IFewPlayersController, public IPlaylistController,
+class DataController : public QObject, public IPlayerController, public IGetPlayerController, public IFewPlayersController, public IPlaylistController,
 public IVolumeController, public IDurationController, public ILikeController, public IVideoManagementController {
     Q_OBJECT
     MediaPlayer *player;
@@ -23,7 +24,7 @@ public:
     void setItemsToPlayer(const QStringList&) override; //IPlaylistController
     void setMapOfPlayers(const QString&, MediaPlayer*) override;//fp
     void setMainPlayerByName(const QString&) override;//fp
-    const MediaPlayer* getPlayer() const override;//IController
+    const MediaPlayer* getPlayer() const override;//IGetPlayerController
     void setCurrentItemByIndex(const int) override;//IController
     void setLikeReceive() override;//likeable
     void setListOfPlaylistsItemsReceive(const QString&) override;//IPlaylistController

@@ -34,6 +34,7 @@ signals:
     void FormClicked(const QString&);
     void ItemsAddedToPlaylist(const QString&, const QStringList&);
     void ItemsListClicked(const int, const QString&);
+    void MuteRadioPlayer();
 private:
     Ui::ListOfPlaylistTracks *ui;
     QStandardItemModel *current_playlist_model;

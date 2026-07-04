@@ -60,5 +60,6 @@ void ListOfPlaylistTracks::on_pushButton_2_clicked()
 void ListOfPlaylistTracks::on_songsView_clicked(const QModelIndex &index)
 {
     emit ItemsListClicked(index.row(), ui->label->text());
+    emit MuteRadioPlayer();
 }
 

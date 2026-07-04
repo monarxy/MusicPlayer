@@ -267,23 +267,11 @@ bool trimAudio(const std::string& inputFile,
 
 void Widget::on_pushButton_2_clicked()
 {
-
     emit FormClicked("radio_form");
-    //HSTREAM str = BASS_StreamCreateURL("http://dorognoe.hostingradio.ru:8000/radio", 0, 0, NULL, 0);
-    //BASS_ChannelPlay(str, false);
-    //BASS_ChannelStop(str);
-    // SimpleAudioTrimmer *trimmer = new SimpleAudioTrimmer();
-    //trimAudio("C:/Users/Rom/Documents/untitled1/huun_huurtu.mp3", "C:/Users/Rom/Documents/untitled1/huun_huurt.mp3", 10, 40);
 }
-
-
-
-
-
 
 void Widget::on_editorButton_clicked()
 {
-    //emit FormClicked("editor_form");
 }
 
 

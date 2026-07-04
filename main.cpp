@@ -52,10 +52,13 @@ int main(int argc, char *argv[])
 
     data_controller->setMainPlayerByName("music_player");
 
+
     NavigationController* navigation_controller = new NavigationController(&a);
     AppController* app_controller = new AppController(data_controller, radio_controller, navigation_controller);
 
     app_controller->setConnections();
+    radio_controller->getRadiostationsReceive();
+    //!
     navigation_controller->openForm("main_form");
     int result = a.exec();
 

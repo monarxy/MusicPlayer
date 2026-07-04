@@ -2,13 +2,15 @@
 #define RADIO_H
 
 #include "bass.h"
+#include <QList>
 #include "radio_loader.h"
+#include "IRadiostationsManagement.h"
 #include "ISerializable.h"
 #include "IPlayer.h"
 #include "IPlayerSettable.h"
 #include "IVolumeChangeable.h"
 
-class RadioPlayer: public QObject, public IPlayer, public ISerializable, public IVolumeChangeable{
+class RadioPlayer: public QObject, public IPlayer, public ISerializable, public IVolumeChangeable, public IRadiostationsManagement {
     Q_OBJECT
 public:
 
@@ -22,7 +24,7 @@ public:
     void previous() override final;
 
     void setCurrent(const int) override final;
-
+    QStringList getListOfRadiostations() const override final;
 
     void load() override final;
     void save() override final;
@@ -32,9 +34,10 @@ public:
 
 protected:
     RadioLoader* serializer;
-    QVector<RadioData*> vector_of_radiostations;
+    QList<RadioData*> list_of_radiostations;
     HSTREAM str;
     RadioData* current;
+    QListIterator<RadioData*> current_it;
 };
 
 #endif // RADIO_H

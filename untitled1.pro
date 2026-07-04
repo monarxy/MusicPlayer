@@ -35,6 +35,8 @@ HEADERS += \
     IDurationChangeable.h \
     IDurationController.h \
     IFewPlayersController.h \
+    IGetPlayerController.h \
+    IGetRadioPlayerController.h \
     ILikeController.h \
     ILikeable.h \
     IMultimediaGetManagement.h \
@@ -44,6 +46,7 @@ HEADERS += \
     IPlaylistController.h \
     IPlaylistManagement.h \
     IRadiostationController.h \
+    IRadiostationsManagement.h \
     ISerializable.h \
     IVideoManagementController.h \
     IVolumeChangeable.h \
