@@ -27,6 +27,7 @@ public:
     void updateSlider(const qint64);
     void setSliderRange(const qint64);
     void setLikeButton(const bool);
+    void setItemName(const QString&);
 signals:
     void FormClicked(const QString&);
     void PlaylistViewClicked(const int);
@@ -45,6 +46,7 @@ signals:
     void UpdateListOfPlaylists();
 
     void SetVideoOutput(QVideoWidget*);
+    void DeleteItemClicked();
 
 private slots:
     void on_btn__clicked();
@@ -89,12 +91,17 @@ private slots:
 
     void on_btn_play_7_clicked();
 
+    void on_toolButton_clicked();
+
+    void on_pushButton_3_clicked();
+
 private:
     Ui::Widget *ui;
     QStandardItemModel  *m_playListModel;
     QVideoWidget* video_widget;
 
     int current_player;
+    int current_item;
 };
 
 #endif // WIDGET_H

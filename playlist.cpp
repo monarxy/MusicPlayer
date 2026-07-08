@@ -10,9 +10,8 @@ Playlist::Playlist(){
 }
 
 Playlist::~Playlist(){
-    for (const auto& item : playlist_items){
+    for (const auto& item : playlist_items)
         delete item;
-    }
     delete q_playlist;
 }
 
@@ -24,6 +23,51 @@ void Playlist::setListOfItems(MediaData* item){
     playlist_items.push_back(item);
     q_playlist->addMedia(QUrl(item->getPath()));
 
+}
+
+void Playlist::deleteItem(MediaData* item){
+    int counter = 0;
+    for (auto it = playlist_items.begin(); it != playlist_items.end();){
+        if (*it == item){
+            playlist_items.erase(it);
+            qDebug() << "ww";
+            q_playlist->removeMedia(counter);
+            return;
+        }
+        ++counter;
+        ++it;
+    }
+}
+
+MediaData* Playlist::getPreviousItem(MediaData* item) const{
+    for (auto it = playlist_items.begin(); it != playlist_items.end();){
+        qDebug() << (*it)->getPath();
+        if (*it == item)
+            if (it != playlist_items.begin()){
+                --it;
+                return *it;
+            }
+            else return nullptr;
+        ++it;
+    }
+    return nullptr;
+}
+
+MediaData* Playlist::getNextItem(MediaData* item) const{
+    for (auto it = playlist_items.begin(); it != playlist_items.end();){
+        if (*it == item){
+            qDebug() << (*it)->getPath();
+            if (++it != playlist_items.end()){
+
+                //++it;
+
+                return *it;
+            }
+            else return nullptr;
+        }
+        ++it;
+    }
+    return nullptr;
 }
 
 QString Playlist::getName() const{

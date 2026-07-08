@@ -18,11 +18,5 @@ void MusicPlayer::setTracksToCurrentPlaylist(const QStringList& list_of_tracks){
 
 
 MusicPlayer::~MusicPlayer()
-{
-    // save();
-    // for (const auto& pair : list_of_playlists)
-    //     delete pair.second;
-    // delete m_player;
-
-}
+{}
 

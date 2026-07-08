@@ -13,27 +13,47 @@ MediaPlayer::MediaPlayer(QObject* parent, MediaLoader* _serializer)
 }
 
 void MediaPlayer::play(){
-    m_player->play();
+    if (list_of_playlists.size() != 0)
+        if (current_item != nullptr)
+            m_player->play();
 }
 
 void MediaPlayer::pause(){
-    m_player->pause();
+    if (list_of_playlists.size() != 0)
+        if (current_item != nullptr)
+            m_player->pause();
 }
 
 void MediaPlayer::stop(){
-    m_player->stop();
+    if (list_of_playlists.size() != 0)
+        if (current_item != nullptr)
+            m_player->stop();
 }
 
 void MediaPlayer::next(){
-    m_player->pause();
-    playlist->getQPlaylist()->next();
-    m_player->play();
+    if (list_of_playlists.size() != 0)
+        if (current_item != nullptr){
+            m_player->pause();
+            MediaData* next_current_item = playlist->getNextItem(current_item);
+            if (next_current_item != nullptr){
+                playlist->getQPlaylist()->next();
+                current_item = next_current_item;
+            }
+            m_player->play();
+        }
 }
 
 void MediaPlayer::previous(){
-    m_player->pause();
-    playlist->getQPlaylist()->previous();
-    m_player->play();
+    if (list_of_playlists.size() != 0)
+        if (current_item != nullptr){
+            m_player->pause();
+            MediaData* prev_current_item = playlist->getPreviousItem(current_item);
+            if (prev_current_item != nullptr){
+                playlist->getQPlaylist()->previous();
+                current_item = prev_current_item;
+            }
+            m_player->play();
+        }
 }
 
 void MediaPlayer::changeVolume(const int index){
@@ -45,14 +65,36 @@ void MediaPlayer::changeDuration(const int index){
 }
 
 void MediaPlayer::setLike(){
-    if (current_item->getLikeInfo())
-        current_item->deletelike();
-    else current_item->putLike();
+    if (list_of_playlists.size() != 0 || current_item != nullptr){
+        if (current_item->getLikeInfo())
+            current_item->deletelike();
+        else current_item->putLike();
+    }
 }
 
 void MediaPlayer::setCurrent(const int index){
     current_item = (playlist->getListOfItems())[index];
     playlist->getQPlaylist()->setCurrentIndex(index);
+}
+
+void MediaPlayer::deleteCurrent(){
+    m_player->stop();
+    if (playlist->getListOfItems().size() != 0)
+        if (playlist->getListOfItems().size() != 1){
+            auto current_item_copy = current_item;
+            if (playlist->getListOfItems()[0] != current_item){
+                int index = playlist->getListOfItems().indexOf(current_item);
+                current_item = playlist->getPreviousItem(current_item);
+                playlist->getQPlaylist()->setCurrentIndex(index-1);
+            }
+            else
+                current_item = playlist->getNextItem(current_item);
+            playlist->deleteItem(current_item_copy);
+        }
+        else{
+            playlist->deleteItem(current_item);
+            current_item = nullptr;
+        }
 }
 
 const QMediaPlayer*  MediaPlayer::getPlayer() const{
@@ -78,8 +120,48 @@ const QVector<QString> MediaPlayer::getListOfPlaylists() const{
 }
 
 void MediaPlayer::addPlaylist(const QString& name){
-    if (list_of_playlists[name] == nullptr)
+    if (list_of_playlists.find(name) == list_of_playlists.end())
         list_of_playlists[name] = new Playlist(name);
+    if (list_of_playlists.size() == 1){
+        playlist = list_of_playlists[name];
+        if ((playlist->getListOfItems()).size() != 0)
+            current_item = (playlist->getListOfItems())[0];
+        if (!playlist->getQPlaylist()->isEmpty())
+            m_player->setPlaylist(playlist->getQPlaylist());
+    }
+}
+
+void MediaPlayer::deletePlaylist(const QString& name){
+    if (playlist->getName() == name){
+        m_player->stop();
+        if (list_of_playlists.size() != 1){
+            if (list_of_playlists.find(name) == list_of_playlists.begin())
+                playlist = (++list_of_playlists.find(name))->second;
+            else
+                playlist = (--list_of_playlists.find(name))->second;
+
+            current_item = (playlist->getListOfItems())[0];
+            m_player->setPlaylist(playlist->getQPlaylist());
+        }
+        else{
+            m_player->setPlaylist(nullptr);
+            delete playlist;
+            playlist = nullptr;
+            current_item = nullptr;
+        }
+        list_of_playlists.erase(name);
+    }
+    else{
+        if (list_of_playlists.find(name) != list_of_playlists.end())
+            list_of_playlists.erase(name);
+        if (list_of_playlists.size() == 0){
+            playlist = nullptr;
+            delete current_item;
+            current_item = nullptr;
+            m_player->setPlaylist(nullptr);
+        }
+    }
+
 }
 
 const MediaData* MediaPlayer::getCurrentItem() const{
@@ -93,8 +175,14 @@ void MediaPlayer::setPlaylist(Playlist* new_playlist){
 
 void MediaPlayer::setCurrentPlaylistByName(const QString& album_name){
     auto it = list_of_playlists.find(album_name);
-    playlist = (it != list_of_playlists.end()) ? it->second : nullptr;
-    m_player->setPlaylist(playlist->getQPlaylist());
+
+    if (it != list_of_playlists.end()){
+        playlist = it->second;
+        m_player->setPlaylist(playlist->getQPlaylist());
+        qDebug() << playlist->getName();
+        if (!playlist->getListOfItems().isEmpty())
+            current_item = (playlist->getListOfItems())[0];
+    }
 }
 
 void MediaPlayer::load(){
@@ -119,5 +207,4 @@ MediaPlayer::~MediaPlayer()
     for (const auto& pair : list_of_playlists)
         delete pair.second;
     delete m_player;
-    qDebug() << "a";
 }

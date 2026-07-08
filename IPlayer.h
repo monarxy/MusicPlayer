@@ -9,6 +9,7 @@ public:
     virtual void next() = 0;
     virtual void previous()=0;
     virtual void setCurrent(const int) = 0;
+    virtual void deleteCurrent() = 0;
 
     virtual ~IPlayer() = default;
 };

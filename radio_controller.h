@@ -28,7 +28,9 @@ public:
     void changeVolumeReceive(const int) override;
 
     void addRadiostationReceive(const QString&) override;
-    void removeRadiostationReceive(const int) override;
+    void removeRadiostationReceive() override;
+
+    void deleteItemReceive() override;
 signals:
     void LoadItemsToRadioWidgetReceive(QStringList);
 };

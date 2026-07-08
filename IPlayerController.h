@@ -12,6 +12,7 @@ public:
     virtual void previousReceive()=0;
     virtual void setCurrentItemByIndex(const int) = 0;
     virtual void loadSavedItemsReceive(const QString&) = 0;
+    virtual void deleteItemReceive() = 0;
     virtual ~IPlayerController() = default;
 };
 

@@ -6,7 +6,7 @@
 class IRadiostationController{
 public:
     virtual void addRadiostationReceive(const QString&) = 0;
-    virtual void removeRadiostationReceive(const int) = 0;
+    virtual void removeRadiostationReceive() = 0;
     virtual void getRadiostationsReceive() = 0;
     virtual ~IRadiostationController() = default;
 };

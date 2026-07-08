@@ -19,6 +19,7 @@ ListOfPlaylistTracks::ListOfPlaylistTracks() :
 
 void ListOfPlaylistTracks::setItems(const QStringList& list_of_tracks, const QString& album_name){
     ui->label->setText(album_name);
+    current_playlist = album_name;
     current_playlist_model->clear();
     for (const QString& item : list_of_tracks){
         QList<QStandardItem *> items;
@@ -61,5 +62,13 @@ void ListOfPlaylistTracks::on_songsView_clicked(const QModelIndex &index)
 {
     emit ItemsListClicked(index.row(), ui->label->text());
     emit MuteRadioPlayer();
+}
+
+
+void ListOfPlaylistTracks::on_pushButton_3_clicked()
+{
+    emit DeletePlaylistClicked(current_playlist);
+    emit UpdateListOfPlaylists();
+    emit FormClicked("playlist_form");
 }
 

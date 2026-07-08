@@ -19,7 +19,7 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>280</x>
      <y>620</y>
      <width>80</width>
      <height>24</height>
@@ -32,7 +32,7 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>410</x>
+     <x>370</x>
      <y>620</y>
      <width>80</width>
      <height>24</height>
@@ -45,7 +45,7 @@
   <widget class="QPushButton" name="pushButton_3">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>100</x>
      <y>620</y>
      <width>80</width>
      <height>24</height>
@@ -58,20 +58,20 @@
   <widget class="QTableView" name="playlistView">
    <property name="geometry">
     <rect>
-     <x>650</x>
-     <y>160</y>
-     <width>171</width>
-     <height>421</height>
+     <x>550</x>
+     <y>70</y>
+     <width>271</width>
+     <height>531</height>
     </rect>
    </property>
   </widget>
   <widget class="QSlider" name="verticalSlider">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>30</y>
+     <x>40</x>
+     <y>40</y>
      <width>16</width>
-     <height>551</height>
+     <height>571</height>
     </rect>
    </property>
    <property name="orientation">
@@ -81,27 +81,40 @@
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>650</x>
-     <y>120</y>
-     <width>171</width>
+     <x>550</x>
+     <y>30</y>
+     <width>131</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
-    <string>Add Radiostation</string>
+    <string>Add </string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>650</x>
+     <x>550</x>
      <y>620</y>
-     <width>171</width>
+     <width>271</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
     <string>Mediaplayer</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>30</y>
+     <width>121</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Delete</string>
    </property>
   </widget>
  </widget>

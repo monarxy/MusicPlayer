@@ -11,6 +11,7 @@ public:
     virtual void getPlaylistNamesReceive() = 0;
     virtual void addNewPlaylist(const QString&) = 0;
     virtual void addItemsToPlaylist(const QString&, const QStringList&) = 0;
+    virtual void deletePlaylistReceive(const QString&) = 0;
 };
 
 #endif // IPLAYLISTCONTROLLER_H

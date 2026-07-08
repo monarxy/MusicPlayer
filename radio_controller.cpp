@@ -16,12 +16,22 @@ void RadioController::getRadiostationsReceive(){
         emit LoadItemsToRadioWidgetReceive(list_of_items);
 }
 
-void RadioController::setCurrentItemByIndex(const int) {}
+void RadioController::setCurrentItemByIndex(const int index) {
+    radio_player->setCurrent(index);
+}
 
 void RadioController::loadSavedItemsReceive(const QString&) {
 
 }
 void RadioController::changeVolumeReceive(const int) {}
 
-void RadioController::addRadiostationReceive(const QString&) {}
-void RadioController::removeRadiostationReceive(const int) {}
+void RadioController::addRadiostationReceive(const QString& name_of_radiostation) {
+    radio_player->addRadiostation(name_of_radiostation);
+}
+void RadioController::removeRadiostationReceive() {
+    radio_player->deleteRadiostation();
+}
+
+void RadioController::deleteItemReceive(){
+
+}

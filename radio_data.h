@@ -5,7 +5,7 @@
 class RadioData{
     QString adress_of_radiostation;
 public:
-    RadioData(const QString);
+    RadioData(const QString&);
     ~RadioData();
 
     const QString& getName() const;

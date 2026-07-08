@@ -12,6 +12,7 @@ public:
     virtual void setTracksToCurrentPlaylist(const QStringList&) = 0;
     virtual void setCurrentPlaylistByName(const QString&) = 0;
     virtual void addPlaylist(const QString&) = 0;
+    virtual void deletePlaylist(const QString&) = 0;
     virtual ~IPlaylistManagement() = default;
 };
 

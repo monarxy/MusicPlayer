@@ -14,6 +14,7 @@ extern "C" {
 
 Widget::Widget() : ui(new Ui::Widget){
     current_player = 0;
+    current_item = 0;
     ui->setupUi(this);
     m_playListModel = new QStandardItemModel(this);
 
@@ -74,7 +75,7 @@ void Widget::on_btn_play_clicked()
 void Widget::on_tabWidget_currentChanged(int index)
 {
     current_player = index;
-    qDebug() << current_player;
+    current_item = 0;
     emit PlayerChanged(index);
     ui->verticalSlider->setValue(50);
     ui->horizontalSlider->setValue(0);
@@ -91,6 +92,7 @@ void Widget::on_toolButton_2_clicked()
 
 void Widget::on_playlistView_clicked(const QModelIndex &index){
     emit PlaylistViewClicked(index.row());
+    current_item = index.row();
     ui->label->setText(m_playListModel->item(index.row(), 0)->data(Qt::DisplayRole).toString());
 }
 
@@ -123,6 +125,10 @@ void Widget::setLikeButton(const bool like_status){
     (like_status == false) ? ui->label_2->setText("0") : ui->label_2->setText("1");
 }
 
+void Widget::setItemName(const QString& name_of_item){
+    ui->label->setText(name_of_item);
+}
+
 void Widget::on_pushButton_clicked()
 {
     emit FormClicked("playlist_form");
@@ -130,7 +136,12 @@ void Widget::on_pushButton_clicked()
 }
 
 void Widget::setPlaylist(const QStringList& list_of_tracks, const QString& album_name){
+    current_item = 0;
     ui->album_name_label->setText(album_name);
+    if (!list_of_tracks.isEmpty())
+        ui->label->setText(list_of_tracks[0]);
+    else
+        ui->label->setText("Track name");
     m_playListModel->clear();
     foreach (QString item, list_of_tracks){
         QList<QStandardItem *> items;
@@ -284,12 +295,16 @@ void Widget::on_btn_play_3_clicked()
 void Widget::on_btn_play_4_clicked()
 {
     emit PreviousClicked();
+    if (current_item != 0)
+        --current_item;
 }
 
 
 void Widget::on_btn_play_5_clicked()
 {
     emit NextClicked();
+    if (current_item != m_playListModel->rowCount()-1)
+        ++current_item;
 }
 
 
@@ -309,6 +324,7 @@ void Widget::on_pushButton_5_clicked()
 void Widget::on_playlistView_3_clicked(const QModelIndex &index)
 {
     emit PlaylistViewClicked(index.row());
+    current_item = index.row();
     ui->label->setText(m_playListModel->item(index.row(), 0)->data(Qt::DisplayRole).toString());
 }
 
@@ -323,5 +339,20 @@ void Widget::on_btn_play_7_clicked()
 {
     emit StopClicked();
     emit FormClicked("radio_form");
+}
+
+
+void Widget::on_toolButton_clicked()
+{
+
+}
+
+
+void Widget::on_pushButton_3_clicked()
+{
+    emit DeleteItemClicked();
+    m_playListModel->removeRow(current_item);
+    if (current_item != 0)
+        --current_item;
 }
 

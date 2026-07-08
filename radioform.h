@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QStandardItemModel>
+#include <QInputDialog>
 
 namespace Ui {
 class RadioForm;
@@ -21,6 +22,9 @@ signals:
     void PlayClicked();
     void PreviousClicked();
     void NextClicked();
+    void RadioPlaylistViewClicked(const int);
+    void NewRadiostationAddedClicked(const QString&);
+    void DeleteRadiostationClicked();
 
 private slots:
     void on_pushButton_clicked();
@@ -31,9 +35,16 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+    void on_playlistView_clicked(const QModelIndex &index);
+
+    void on_pushButton_4_clicked();
+
+    void on_pushButton_6_clicked();
+
 private:
     Ui::RadioForm *ui;
     QStandardItemModel  *m_playListModel;
+    int current_row;
 };
 
 #endif // RADIOFORM_H

@@ -37,7 +37,9 @@ public:
 
     void addNewPlaylist(const QString&) override;//IPlaylistController
     void addItemsToPlaylist(const QString&, const QStringList&) override;//IPlaylistController
+    void deletePlaylistReceive(const QString&);
 
+    void deleteItemReceive() override;
 
     void playReceive() override;
     void pauseReceive() override;
@@ -57,5 +59,6 @@ signals:
     void LoadPlaylistsFromMemory(const QStringList&);
     void SetListOfPlaylistsItems(const QStringList&, const QString&);
     void LikeStatusSignal(const bool);
+    void SetNameOfCurrentItemToMainWidget(const QString&);
 };
 #endif // DATA_CONTROLLER_H

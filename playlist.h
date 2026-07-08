@@ -18,9 +18,13 @@ public:
     QVector<MediaData*> getListOfItems() const;
     QMediaPlaylist* getQPlaylist() const;
     QString getName() const;
+    MediaData* getNextItem(MediaData*) const;
+    MediaData* getPreviousItem(MediaData*) const;
 
     void setName(const QString&);
     void setListOfItems(MediaData*);
+
+    void deleteItem(MediaData*);
 
 protected:
     QString playlist_name;

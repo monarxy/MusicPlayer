@@ -42,10 +42,12 @@ public:
 
     void setLike()  override final;
     void setCurrent(const int) override final;
+    void deleteCurrent() override final;
 
     void setPlaylist(Playlist*) override final;
 
     void addPlaylist(const QString&) override final;
+    void deletePlaylist(const QString&) override final;
 
     void setTracksToPlaylistByName(const QString&, const QStringList&) override = 0;
     void setTracksToCurrentPlaylist(const QStringList&) override = 0;
@@ -56,7 +58,7 @@ public:
 
 
 protected:
-    QMediaPlayer        *m_player;          // Проигрыватель треков
+    QMediaPlayer *m_player;
     std::map<QString, Playlist*> list_of_playlists;
     Playlist *playlist;
     MediaData* current_item;

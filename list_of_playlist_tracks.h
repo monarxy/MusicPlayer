@@ -30,14 +30,20 @@ private slots:
 
     void on_songsView_clicked(const QModelIndex &index);
 
+    void on_pushButton_3_clicked();
+
 signals:
     void FormClicked(const QString&);
     void ItemsAddedToPlaylist(const QString&, const QStringList&);
     void ItemsListClicked(const int, const QString&);
     void MuteRadioPlayer();
+    void DeletePlaylistClicked(const QString&);
+    void UpdateListOfPlaylists();
+
 private:
     Ui::ListOfPlaylistTracks *ui;
     QStandardItemModel *current_playlist_model;
+    QString current_playlist;
 };
 
 #endif // LIST_OF_PLAYLIST_TRACKS_H

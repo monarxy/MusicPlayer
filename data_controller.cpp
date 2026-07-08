@@ -20,19 +20,30 @@ const MediaPlayer* DataController::getPlayer() const{
 
 void DataController::setCurrentPlayerByIndex(const int index){
     player->stop();
-
     auto it = std::next(players.begin(), index);
-    if (it != players.end()) {
+    if (it != players.end())
         player = it->second;
-    }
 
     auto list_of_playlists = player->getListOfPlaylists();
     if (list_of_playlists.size()!=0){
         player->setCurrentPlaylistByName(list_of_playlists[0]);
+
         if ((player->getCurrentPlaylist()->getListOfItems()).size() != 0){
             player->setCurrent(0);
             emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
-            emit LoadItemsToMainWidget(getListOfPlaylistItems(list_of_playlists[0]), list_of_playlists[0]);}}
+            emit LoadItemsToMainWidget(getListOfPlaylistItems(list_of_playlists[0]), list_of_playlists[0]);
+        }
+        else{
+            QStringList empty_list;
+            emit LikeStatusSignal(false);
+            emit LoadItemsToMainWidget(empty_list, list_of_playlists[0]);
+        }
+    }
+    else{
+        QStringList empty_list;
+        emit LikeStatusSignal(false);
+        emit LoadItemsToMainWidget(empty_list, "");
+    }
 }
 
 const QVector<MediaPlayer*> DataController::getListOfPlayers() const{
@@ -47,7 +58,34 @@ void DataController::setVideoOutput(QVideoWidget* video_widget){
 
 void DataController::addItemsToPlaylist(const QString& album_name, const QStringList& list_of_tracks){
     player->setTracksToPlaylistByName(album_name, list_of_tracks);
+    emit LoadItemsToMainWidget(getListOfPlaylistItems(player->getCurrentPlaylist()->getName()), album_name);
 
+}
+
+void DataController::deletePlaylistReceive(const QString& name){
+    player->deletePlaylist(name);
+    if (player->getCurrentPlaylist() != nullptr){
+        emit LoadItemsToMainWidget(getListOfPlaylistItems(player->getCurrentPlaylist()->getName()), player->getCurrentPlaylist()->getName());
+        emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
+    }
+    else{
+        QStringList empty_list;
+        emit LoadItemsToMainWidget(empty_list, "");
+        emit LikeStatusSignal(false);
+    }
+
+}
+
+void DataController::deleteItemReceive(){
+    player->deleteCurrent();
+    if (player->getCurrentItem()!= nullptr){
+        emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
+        emit SetNameOfCurrentItemToMainWidget(QDir(player->getCurrentItem()->getPath()).dirName());
+    }
+    else{
+        emit LikeStatusSignal(false);
+        emit SetNameOfCurrentItemToMainWidget("");
+    }
 }
 
 QStringList DataController::getListOfPlaylistItems(const QString &playlist_name) const{
@@ -79,11 +117,19 @@ void DataController::pauseReceive(){
 }
 
 void DataController::nextReceive(){
-    player->next();
+    if (player->getCurrentItem() !=nullptr){
+        player->next();
+        emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
+        emit SetNameOfCurrentItemToMainWidget(QDir(player->getCurrentItem()->getPath()).dirName());
+    }
 }
 
 void DataController::previousReceive(){
-    player->previous();
+    if (player->getCurrentItem() !=nullptr){
+        player->previous();
+        emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
+        emit SetNameOfCurrentItemToMainWidget(QDir(player->getCurrentItem()->getPath()).dirName());
+    }
 }
 
 void DataController::stopReceive(){
@@ -127,6 +173,7 @@ void DataController::setPlaylistAndCurrentItemReceive(const int index, const QSt
     player->setCurrentPlaylistByName(album_name);
     player->setCurrent(index);
     emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
+    emit SetNameOfCurrentItemToMainWidget(QDir(player->getCurrentItem()->getPath()).dirName());
     player->play();
     emit LoadItemsToMainWidget(getListOfPlaylistItems(album_name), album_name);
 }

@@ -24,7 +24,10 @@ public:
     void previous() override final;
 
     void setCurrent(const int) override final;
-    QStringList getListOfRadiostations() const override final;
+    const QStringList getListOfRadiostations() const override final;
+    void addRadiostation(const QString&) override final;
+    void deleteRadiostation() override final;
+    void deleteCurrent() override final;
 
     void load() override final;
     void save() override final;
@@ -34,10 +37,10 @@ public:
 
 protected:
     RadioLoader* serializer;
-    QList<RadioData*> list_of_radiostations;
+    QVector<RadioData*> vector_of_radiostations;
     HSTREAM str;
     RadioData* current;
-    QListIterator<RadioData*> current_it;
+    QVector<RadioData*>::iterator current_it;
 };
 
 #endif // RADIO_H
