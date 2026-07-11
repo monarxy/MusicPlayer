@@ -28,11 +28,13 @@ signals:
     void FormClicked(const QString& form_name);
     void ListOfPlaylistsTracksClicked(const QString& album_name);
     void NewAlbumAddedClicked(QString album_name);
+    void FavouritePlaylistClicked();
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_playlistsView_clicked(const QModelIndex &index);
 
+    void on_pushButton_3_clicked();
 };
 
 #endif // PLAYLISTFORM_H

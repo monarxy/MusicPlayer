@@ -24,7 +24,7 @@ public:
     void setName(const QString&);
     void setListOfItems(MediaData*);
 
-    void deleteItem(MediaData*);
+    virtual void deleteItem(MediaData*) = 0;
 
 protected:
     QString playlist_name;

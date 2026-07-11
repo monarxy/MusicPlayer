@@ -28,6 +28,10 @@ public:
     void setSliderRange(const qint64);
     void setLikeButton(const bool);
     void setItemName(const QString&);
+    void setCurrentItem(const int);
+    void showAddButtons();
+    void hideAddButtons();
+
 signals:
     void FormClicked(const QString&);
     void PlaylistViewClicked(const int);

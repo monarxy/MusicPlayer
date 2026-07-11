@@ -53,3 +53,10 @@ void PlaylistForm::setListOfPlaylists(const QStringList& list_of_playlists){
         playlists_model->appendRow(items);
     }
 }
+
+void PlaylistForm::on_pushButton_3_clicked()
+{
+    emit FavouritePlaylistClicked();
+    emit FormClicked("list_of_playlist_tracks_form");
+}
+

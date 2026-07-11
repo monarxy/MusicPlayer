@@ -11,6 +11,8 @@ CONFIG += c++17
 SOURCES += \
     appcontroller.cpp \
     data_controller.cpp \
+    default_playlist.cpp \
+    favourite_playlist.cpp \
     list_of_playlist_tracks.cpp \
     main.cpp \
     media_loader.cpp \
@@ -34,6 +36,7 @@ SOURCES += \
 HEADERS += \
     IDurationChangeable.h \
     IDurationController.h \
+    IFavouritePlaylist.h \
     IFewPlayersController.h \
     IGetPlayerController.h \
     IGetRadioPlayerController.h \
@@ -54,7 +57,9 @@ HEADERS += \
     appcontroller.h \
     chorus_effect.h \
     data_controller.h \
+    default_playlist.h \
     editor.h \
+    favourite_playlist.h \
     list_of_playlist_tracks.h \
     media_data.h \
     media_loader.h \

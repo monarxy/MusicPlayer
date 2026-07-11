@@ -28,10 +28,13 @@ public:
     void setCurrentItemByIndex(const int) override;//IController
     void setLikeReceive() override;//likeable
     void setListOfPlaylistsItemsReceive(const QString&) override;//IPlaylistController
-    void setPlaylistAndCurrentItemReceive(const int, const QString&) override;//IPlaylistController
+    void setListOfFavouritePlaylistItemsReceive() override;
+
+    void setPlaylistAndCurrentItemReceive(const int, const QString&, const int) override;//IPlaylistController
     void setVideoOutput(QVideoWidget*) override;
 
     QStringList getListOfPlaylistItems(const QString&) const override;//IPlaylistController
+    QStringList getListOfFavouritePlaylistItems() const override;
     void getPlaylistNamesReceive() override;//IPlaylistController
     const QVector<MediaPlayer*> getListOfPlayers() const override;
 
@@ -57,8 +60,11 @@ public:
 signals:
     void LoadItemsToMainWidget(const QStringList&, const QString&);
     void LoadPlaylistsFromMemory(const QStringList&);
-    void SetListOfPlaylistsItems(const QStringList&, const QString&);
+    void SetListOfPlaylistsItems(const QStringList&, const QString&, const int);
     void LikeStatusSignal(const bool);
     void SetNameOfCurrentItemToMainWidget(const QString&);
+    void SetIndexOfCurrentItemToMainWidget(const int);
+    void EnableAddAndDeleteButtons();
+    void DisableAddAndDeleteButtons();
 };
 #endif // DATA_CONTROLLER_H

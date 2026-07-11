@@ -1,6 +1,7 @@
 #ifndef IPLAYLISTMANAGEMENT_H
 #define IPLAYLISTMANAGEMENT_H
-#include "playlist.h"
+#include "favourite_playlist.h"
+
 
 class IPlaylistManagement {
 public:

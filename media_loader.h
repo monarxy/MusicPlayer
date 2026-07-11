@@ -10,7 +10,7 @@
 #include "media_data.h"
 #include "songs_data.h"
 #include "video_data.h"
-#include "playlist.h"
+#include "default_playlist.h"
 
 #define ORGANIZATION_NAME "Xfork"
 #define ORGANIZATION_DOMAIN "22"
@@ -22,7 +22,7 @@ protected:
 public:
     MediaLoader();
     virtual QVector<Playlist*> loadSavedItems() const {}
-    virtual void saveItems(const std::map<QString, Playlist*>&) const{}
+    virtual void saveItems(const std::map<QString, Playlist*>&){}
 
 };
 #endif // MEDIA_LOADER_H

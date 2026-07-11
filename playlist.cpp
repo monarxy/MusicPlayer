@@ -7,6 +7,7 @@ Playlist::Playlist(const QString& _name){
 
 Playlist::Playlist(){
     playlist_name = "";
+    q_playlist = new QMediaPlaylist();
 }
 
 Playlist::~Playlist(){
@@ -22,21 +23,6 @@ QVector<MediaData*> Playlist::getListOfItems() const{
 void Playlist::setListOfItems(MediaData* item){
     playlist_items.push_back(item);
     q_playlist->addMedia(QUrl(item->getPath()));
-
-}
-
-void Playlist::deleteItem(MediaData* item){
-    int counter = 0;
-    for (auto it = playlist_items.begin(); it != playlist_items.end();){
-        if (*it == item){
-            playlist_items.erase(it);
-            qDebug() << "ww";
-            q_playlist->removeMedia(counter);
-            return;
-        }
-        ++counter;
-        ++it;
-    }
 }
 
 MediaData* Playlist::getPreviousItem(MediaData* item) const{
@@ -57,12 +43,8 @@ MediaData* Playlist::getNextItem(MediaData* item) const{
     for (auto it = playlist_items.begin(); it != playlist_items.end();){
         if (*it == item){
             qDebug() << (*it)->getPath();
-            if (++it != playlist_items.end()){
-
-                //++it;
-
+            if (++it != playlist_items.end())
                 return *it;
-            }
             else return nullptr;
         }
         ++it;

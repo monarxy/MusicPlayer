@@ -72,6 +72,7 @@ void Widget::on_btn_play_clicked()
 }
 
 
+
 void Widget::on_tabWidget_currentChanged(int index)
 {
     current_player = index;
@@ -127,6 +128,18 @@ void Widget::setLikeButton(const bool like_status){
 
 void Widget::setItemName(const QString& name_of_item){
     ui->label->setText(name_of_item);
+}
+
+void Widget::setCurrentItem(const int index){
+    current_item = index;
+}
+
+void Widget::showAddButtons(){
+    ui->btn_->show();
+}
+
+void Widget::hideAddButtons(){
+    ui->btn_->hide();
 }
 
 void Widget::on_pushButton_clicked()

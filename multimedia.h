@@ -12,9 +12,10 @@
 #include "IDurationChangeable.h"
 #include "IVolumeChangeable.h"
 #include "ILikeable.h"
+#include "IFavouritePlaylist.h"
 
 class MediaPlayer: public QObject, public IPlayer, public ISerializable, public IPlaylistManagement, public IMultimediaGetManagement,
-public ILikeable, public IVolumeChangeable, public IDurationChangeable{
+public ILikeable, public IVolumeChangeable, public IDurationChangeable, public IFavouritePlaylist{
     Q_OBJECT
 public:
 
@@ -29,6 +30,8 @@ public:
     const MediaData* getCurrentItem() const override final;
 
     const Playlist* getCurrentPlaylist() const override final;
+    const Playlist* getFavouritePlaylist() const override final;
+
     const QVector<QString> getListOfPlaylists() const override final;
 
     void play() override final;
@@ -52,6 +55,7 @@ public:
     void setTracksToPlaylistByName(const QString&, const QStringList&) override = 0;
     void setTracksToCurrentPlaylist(const QStringList&) override = 0;
     void setCurrentPlaylistByName(const QString&) override final;
+    void setFavouritePlaylistAsMain() override final;
 
     void load() override final;
     void save() override final;
@@ -61,6 +65,7 @@ protected:
     QMediaPlayer *m_player;
     std::map<QString, Playlist*> list_of_playlists;
     Playlist *playlist;
+    Playlist* favourite_playlist;
     MediaData* current_item;
     MediaLoader* serializer;
 };

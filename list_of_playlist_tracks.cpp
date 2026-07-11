@@ -17,7 +17,16 @@ ListOfPlaylistTracks::ListOfPlaylistTracks() :
     current_playlist_model->clear();
 }
 
-void ListOfPlaylistTracks::setItems(const QStringList& list_of_tracks, const QString& album_name){
+void ListOfPlaylistTracks::setItems(const QStringList& list_of_tracks, const QString& album_name, const int _is_favourite_album){
+    is_favourite_album = _is_favourite_album;
+    if (is_favourite_album == 1){
+        ui->pushButton_3->hide();
+        ui->pushButton->hide();
+    }
+    else{
+        ui->pushButton_3->show();
+        ui->pushButton->show();
+    }
     ui->label->setText(album_name);
     current_playlist = album_name;
     current_playlist_model->clear();
@@ -26,6 +35,16 @@ void ListOfPlaylistTracks::setItems(const QStringList& list_of_tracks, const QSt
         items.append(new QStandardItem(item));
         current_playlist_model->appendRow(items);
     }
+}
+
+void ListOfPlaylistTracks::showAddAndDeleteButtons(){
+    ui->pushButton_3->show();
+    ui->pushButton->show();
+}
+
+void ListOfPlaylistTracks::hideAddAndDeleteButtons(){
+    ui->pushButton_3->hide();
+    ui->pushButton->hide();
 }
 
 ListOfPlaylistTracks::~ListOfPlaylistTracks()
@@ -60,7 +79,7 @@ void ListOfPlaylistTracks::on_pushButton_2_clicked()
 
 void ListOfPlaylistTracks::on_songsView_clicked(const QModelIndex &index)
 {
-    emit ItemsListClicked(index.row(), ui->label->text());
+    emit ItemsListClicked(index.row(), ui->label->text(), is_favourite_album);
     emit MuteRadioPlayer();
 }
 

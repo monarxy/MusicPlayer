@@ -10,6 +10,7 @@ MediaPlayer::MediaPlayer(QObject* parent, MediaLoader* _serializer)
 {
     m_player = new QMediaPlayer();
     m_player->setVolume(50);
+    favourite_playlist = new FavouritePlaylist();
 }
 
 void MediaPlayer::play(){
@@ -66,9 +67,14 @@ void MediaPlayer::changeDuration(const int index){
 
 void MediaPlayer::setLike(){
     if (list_of_playlists.size() != 0 || current_item != nullptr){
-        if (current_item->getLikeInfo())
+        if (current_item->getLikeInfo()){
             current_item->deletelike();
-        else current_item->putLike();
+            favourite_playlist->deleteItem(current_item);
+        }
+        else{
+            current_item->putLike();
+            favourite_playlist->setListOfItems(current_item);
+        }
     }
 }
 
@@ -89,9 +95,13 @@ void MediaPlayer::deleteCurrent(){
             }
             else
                 current_item = playlist->getNextItem(current_item);
+            if (current_item_copy->getLikeInfo())
+                favourite_playlist->deleteItem(current_item_copy);
             playlist->deleteItem(current_item_copy);
         }
         else{
+            if (current_item->getLikeInfo())
+                favourite_playlist->deleteItem(current_item);
             playlist->deleteItem(current_item);
             current_item = nullptr;
         }
@@ -111,6 +121,10 @@ const Playlist* MediaPlayer::getCurrentPlaylist() const{
     return playlist;
 }
 
+const Playlist* MediaPlayer::getFavouritePlaylist() const{
+    return favourite_playlist;
+}
+
 const QVector<QString> MediaPlayer::getListOfPlaylists() const{
     QVector<QString> vector_of_playlists;
     for (const auto& playlist : list_of_playlists)
@@ -121,7 +135,7 @@ const QVector<QString> MediaPlayer::getListOfPlaylists() const{
 
 void MediaPlayer::addPlaylist(const QString& name){
     if (list_of_playlists.find(name) == list_of_playlists.end())
-        list_of_playlists[name] = new Playlist(name);
+        list_of_playlists[name] = new DefaultPlaylist(name);
     if (list_of_playlists.size() == 1){
         playlist = list_of_playlists[name];
         if ((playlist->getListOfItems()).size() != 0)
@@ -134,7 +148,12 @@ void MediaPlayer::addPlaylist(const QString& name){
 void MediaPlayer::deletePlaylist(const QString& name){
     if (playlist->getName() == name){
         m_player->stop();
-        if (list_of_playlists.size() != 1){
+        for (MediaData* item : playlist->getListOfItems())
+            for (MediaData* favourite_item : favourite_playlist->getListOfItems())
+                if (item == favourite_item)
+                    favourite_playlist->deleteItem(item);
+
+        if (list_of_playlists.size() != 1){    
             if (list_of_playlists.find(name) == list_of_playlists.begin())
                 playlist = (++list_of_playlists.find(name))->second;
             else
@@ -152,8 +171,16 @@ void MediaPlayer::deletePlaylist(const QString& name){
         list_of_playlists.erase(name);
     }
     else{
-        if (list_of_playlists.find(name) != list_of_playlists.end())
+        auto found_playlist = list_of_playlists.find(name);
+        Playlist* tmp_playlist = found_playlist->second;
+        if (found_playlist != list_of_playlists.end()){
+            for (MediaData* item : tmp_playlist->getListOfItems())
+                for (MediaData* favourite_item : favourite_playlist->getListOfItems())
+                    if (item == favourite_item)
+                        favourite_playlist->deleteItem(item);
             list_of_playlists.erase(name);
+            delete tmp_playlist;
+        }
         if (list_of_playlists.size() == 0){
             playlist = nullptr;
             delete current_item;
@@ -185,6 +212,11 @@ void MediaPlayer::setCurrentPlaylistByName(const QString& album_name){
     }
 }
 
+void MediaPlayer::setFavouritePlaylistAsMain(){
+    playlist = favourite_playlist;
+    m_player->setPlaylist(playlist->getQPlaylist());
+}
+
 void MediaPlayer::load(){
     QVector<Playlist*> loaded_playlists = serializer->loadSavedItems();
     if (loaded_playlists.size() != 0){
@@ -195,6 +227,11 @@ void MediaPlayer::load(){
             playlist = it->second;
         m_player->setPlaylist(playlist->getQPlaylist());
     }
+    for (const auto& [key, value] : list_of_playlists)
+        for (MediaData* item : value->getListOfItems())
+            if (item->getLikeInfo())
+                favourite_playlist->setListOfItems(item);
+
 }
 
 void MediaPlayer::save(){

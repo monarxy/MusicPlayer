@@ -6,7 +6,7 @@ class VideoLoader : public MediaLoader{
 public:
     VideoLoader();
     QVector<Playlist*> loadSavedItems() const override;
-    void saveItems(const std::map<QString, Playlist*>&) const override;
+    void saveItems(const std::map<QString, Playlist*>&) override;
 };
 
 

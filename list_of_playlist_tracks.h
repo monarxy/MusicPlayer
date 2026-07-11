@@ -21,7 +21,9 @@ class ListOfPlaylistTracks : public QWidget
 public:
     ListOfPlaylistTracks();
     ~ListOfPlaylistTracks();
-    void setItems(const QStringList&, const QString&);
+    void setItems(const QStringList&, const QString&, const int);
+    void hideAddAndDeleteButtons();
+    void showAddAndDeleteButtons();
 
 private slots:
     void on_pushButton_clicked();
@@ -35,7 +37,7 @@ private slots:
 signals:
     void FormClicked(const QString&);
     void ItemsAddedToPlaylist(const QString&, const QStringList&);
-    void ItemsListClicked(const int, const QString&);
+    void ItemsListClicked(const int, const QString&, const int);
     void MuteRadioPlayer();
     void DeletePlaylistClicked(const QString&);
     void UpdateListOfPlaylists();
@@ -44,6 +46,7 @@ private:
     Ui::ListOfPlaylistTracks *ui;
     QStandardItemModel *current_playlist_model;
     QString current_playlist;
+    int is_favourite_album;
 };
 
 #endif // LIST_OF_PLAYLIST_TRACKS_H

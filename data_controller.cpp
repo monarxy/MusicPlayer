@@ -90,7 +90,17 @@ void DataController::deleteItemReceive(){
 
 QStringList DataController::getListOfPlaylistItems(const QString &playlist_name) const{
     QStringList list_of_names;
-    for (const MediaData* item : player->getPlaylist(playlist_name)->getListOfItems())
+    player->getPlaylist(playlist_name);
+    for (const MediaData* item : player->getPlaylist(playlist_name)->getListOfItems()){
+        list_of_names.append(QDir(item->getPath()).dirName());
+        qDebug() << item->getPath();
+    }
+    return list_of_names;
+}
+
+QStringList DataController::getListOfFavouritePlaylistItems() const{
+    QStringList list_of_names;
+    for (const MediaData* item : player->getFavouritePlaylist()->getListOfItems())
         list_of_names.append(QDir(item->getPath()).dirName());
     return list_of_names;
 }
@@ -149,12 +159,15 @@ void DataController::setLikeReceive(){
 }
 
 void DataController::loadSavedItemsReceive(const QString& album_name){
-
     emit LoadItemsToMainWidget(getListOfPlaylistItems(album_name), album_name);
 }
 
 void DataController::setListOfPlaylistsItemsReceive(const QString& album_name) {
-    emit SetListOfPlaylistsItems(getListOfPlaylistItems(album_name), album_name);
+    emit SetListOfPlaylistsItems(getListOfPlaylistItems(album_name), album_name, 0);
+}
+
+void DataController::setListOfFavouritePlaylistItemsReceive() {
+    emit SetListOfPlaylistsItems(getListOfFavouritePlaylistItems(), "Favourite", 1);
 }
 
 void DataController::likeReceive() {
@@ -168,14 +181,24 @@ void DataController::getPlaylistNamesReceive() {
     emit LoadPlaylistsFromMemory(list_of_names);
 }
 
-void DataController::setPlaylistAndCurrentItemReceive(const int index, const QString& album_name) {
+void DataController::setPlaylistAndCurrentItemReceive(const int index, const QString& album_name, const int is_favourite_playlist) {
     player->stop();
-    player->setCurrentPlaylistByName(album_name);
+
+    if (is_favourite_playlist == 0){
+        player->setCurrentPlaylistByName(album_name);
+        emit LoadItemsToMainWidget(getListOfPlaylistItems(album_name), album_name);
+        emit EnableAddAndDeleteButtons();
+    }
+    else if (is_favourite_playlist == 1){
+        player->setFavouritePlaylistAsMain();
+        emit LoadItemsToMainWidget(getListOfFavouritePlaylistItems(), album_name);
+        emit DisableAddAndDeleteButtons();
+    }
     player->setCurrent(index);
     emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
-    emit SetNameOfCurrentItemToMainWidget(QDir(player->getCurrentItem()->getPath()).dirName());
     player->play();
-    emit LoadItemsToMainWidget(getListOfPlaylistItems(album_name), album_name);
+    emit SetNameOfCurrentItemToMainWidget(QDir(player->getCurrentItem()->getPath()).dirName());
+    emit SetIndexOfCurrentItemToMainWidget(index);
 }
 
 

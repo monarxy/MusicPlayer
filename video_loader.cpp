@@ -10,7 +10,7 @@ QVector<Playlist*> VideoLoader::loadSavedItems() const{
     QJsonArray playlists = doc["list_of_playlists"].toArray();
     for (const QJsonValue& item : playlists){
         QJsonObject playlist_item = item.toObject();
-        Playlist* playlist = new Playlist(playlist_item["playlist_name"].toString());
+        Playlist* playlist = new DefaultPlaylist(playlist_item["playlist_name"].toString());
         QJsonArray tracks = playlist_item["items"].toArray();
 
         for (const QJsonValue& t_item : tracks){
@@ -23,7 +23,7 @@ QVector<Playlist*> VideoLoader::loadSavedItems() const{
     return vector_of_loaded_playlists;
 }
 
-void VideoLoader::saveItems(const std::map<QString, Playlist*>& list_of_playlists) const{
+void VideoLoader::saveItems(const std::map<QString, Playlist*>& list_of_playlists){
     QJsonObject player;
     QJsonArray array_of_playlists;
     for (const auto& [key, value] : list_of_playlists ){
