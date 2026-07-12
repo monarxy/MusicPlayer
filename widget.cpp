@@ -136,10 +136,16 @@ void Widget::setCurrentItem(const int index){
 
 void Widget::showAddButtons(){
     ui->btn_->show();
+    ui->likeButton->show();
+    ui->label_2->show();
+    ui->label_3->show();
 }
 
 void Widget::hideAddButtons(){
     ui->btn_->hide();
+    ui->likeButton->hide();
+    ui->label_2->hide();
+    ui->label_3->hide();
 }
 
 void Widget::on_pushButton_clicked()

@@ -9,8 +9,11 @@
 #include "IPlayer.h"
 #include "IPlayerSettable.h"
 #include "IVolumeChangeable.h"
+#include "ILikeable.h"
+#include "radio_favourite_playlist.h"
+#include "radio_default_playlist.h"
 
-class RadioPlayer: public QObject, public IPlayer, public ISerializable, public IVolumeChangeable, public IRadiostationsManagement {
+class RadioPlayer: public QObject, public IPlayer, public ISerializable, public IVolumeChangeable, public IRadiostationsManagement, public ILikeable {
     Q_OBJECT
 public:
 
@@ -26,8 +29,9 @@ public:
     void setCurrent(const int) override final;
     const QStringList getListOfRadiostations() const override final;
     void addRadiostation(const QString&) override final;
-    void deleteRadiostation() override final;
     void deleteCurrent() override final;
+
+    void setLike() override final;
 
     void load() override final;
     void save() override final;
@@ -37,10 +41,10 @@ public:
 
 protected:
     RadioLoader* serializer;
-    QVector<RadioData*> vector_of_radiostations;
+    RadioPlaylist* playlist;
+    RadioPlaylist* favourite_playlist;
     HSTREAM str;
-    RadioData* current;
-    QVector<RadioData*>::iterator current_it;
+    MediaData* current_item;
 };
 
 #endif // RADIO_H

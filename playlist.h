@@ -6,25 +6,29 @@
 #include <QDataStream>
 #include <QVector>
 #include <QMediaPlayer>
-#include <QMediaPlaylist>
-#include "songs_data.h"
+#include "IPlaylistNameManagement.h"
+#include "IQPlaylistManagement.h"
+#include "IDeleteItemsInPlaylistManagement.h"
+#include "IMovementPlaylistManagement.h"
+#include "IPlaylistItemsManagement.h"
 
-class Playlist{
+class Playlist : IPlaylistNameManagement, IQPlaylistManagement, IDeleteItemsInPlaylistManagement, IMovementPlaylistManagement,
+IPlaylistItemsManagement {
 public:
     Playlist();
     Playlist(const QString&);
     ~Playlist();
 
-    QVector<MediaData*> getListOfItems() const;
-    QMediaPlaylist* getQPlaylist() const;
-    QString getName() const;
-    MediaData* getNextItem(MediaData*) const;
-    MediaData* getPreviousItem(MediaData*) const;
+    QVector<MediaData*> getListOfItems() const override;
+    QMediaPlaylist* getQPlaylist() const override;
+    QString getName() const override;
+    MediaData* getNextItem(MediaData*) const override;
+    MediaData* getPreviousItem(MediaData*) const override;
 
-    void setName(const QString&);
-    void setListOfItems(MediaData*);
+    void setName(const QString&) override;
+    void setListOfItems(MediaData*) override;
 
-    virtual void deleteItem(MediaData*) = 0;
+    void deleteItem(MediaData*) override = 0;
 
 protected:
     QString playlist_name;

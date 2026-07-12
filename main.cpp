@@ -34,7 +34,6 @@ int main(int argc, char *argv[])
 
     for (ISerializable* object : loading_objects)
         object->load();
-
     qDebug() << music_player->getListOfPlaylists();
     qDebug() << video_player->getListOfPlaylists();
 

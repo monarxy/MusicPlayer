@@ -1,35 +1,11 @@
 #include "songs_data.h"
 #include <iostream>
 
-SongData::SongData(const QString& _path){
-    isLiked = false;
-    path = _path;
-}
+SongData::SongData(const QString& _path) : MediaData(_path){}
 
-SongData::~SongData(){
-}
+SongData::SongData(const QString& _path, bool _isLiked) : MediaData(_path, _isLiked){}
 
-SongData::SongData(const QString& _path, bool _isLiked){
-    isLiked = _isLiked;
-    path = _path;
-}
-
-void SongData::putLike(){
-    isLiked = true;
-}
-
-void SongData::deletelike(){
-    isLiked = false;
-}
-
-bool SongData::getLikeInfo() const{
-    return isLiked;
-}
-
-QString SongData::getPath() const{
-    return path;
-}
-
+SongData::~SongData(){}
 
 
 

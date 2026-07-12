@@ -50,6 +50,7 @@ void AppController::setConnections(){
     QObject::connect(static_cast<RadioForm*>(navigation_controller->getForm("radio_form")), &RadioForm::RadioPlaylistViewClicked, radio_controller, &RadioController::setCurrentItemByIndex);
     QObject::connect(static_cast<RadioForm*>(navigation_controller->getForm("radio_form")), &RadioForm::NewRadiostationAddedClicked, radio_controller, &RadioController::addRadiostationReceive);
     QObject::connect(static_cast<RadioForm*>(navigation_controller->getForm("radio_form")), &RadioForm::DeleteRadiostationClicked, radio_controller, &RadioController::removeRadiostationReceive);
+    QObject::connect(static_cast<RadioForm*>(navigation_controller->getForm("radio_form")), &RadioForm::FavouritePlaylistClicked, radio_controller, &RadioController::setListOfPlaylistsItemsReceive);
 
     QObject::connect(data_controller, &DataController::SetListOfPlaylistsItems, static_cast<ListOfPlaylistTracks*>(navigation_controller->getForm("list_of_playlist_tracks_form")), &ListOfPlaylistTracks::setItems);
     QObject::connect(static_cast<ListOfPlaylistTracks*>(navigation_controller->getForm("list_of_playlist_tracks_form")), &ListOfPlaylistTracks::ItemsAddedToPlaylist, data_controller, &DataController::addItemsToPlaylist);

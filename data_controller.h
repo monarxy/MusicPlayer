@@ -9,10 +9,12 @@
 #include "ILikecontroller.h"
 #include "IVideoManagementController.h"
 #include "IGetPlayerController.h"
+#include "IFavouritePlaylistController.h"
 
 
 class DataController : public QObject, public IPlayerController, public IGetPlayerController, public IFewPlayersController, public IPlaylistController,
-public IVolumeController, public IDurationController, public ILikeController, public IVideoManagementController {
+public IVolumeController, public IDurationController, public ILikeController, public IVideoManagementController, public IFavouritePlaylistController
+{
     Q_OBJECT
     MediaPlayer *player;
     std::map<QString, MediaPlayer*> players;

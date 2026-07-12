@@ -16,8 +16,8 @@ class RadioLoader{
     QSettings* settings;
 public:
     RadioLoader();
-    QVector<RadioData*> loadSavedRadioItems() const;
-    void saveRadioItems(const QVector<RadioData*>&) const;
+    QVector<MediaData*> loadSavedRadioItems() const;
+    void saveRadioItems(const QVector<MediaData*>&);
 };
 
 #endif // RADIO_LOADER_H

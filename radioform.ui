@@ -83,7 +83,7 @@
     <rect>
      <x>550</x>
      <y>30</y>
-     <width>131</width>
+     <width>91</width>
      <height>24</height>
     </rect>
    </property>
@@ -107,14 +107,40 @@
   <widget class="QPushButton" name="pushButton_6">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>650</x>
      <y>30</y>
-     <width>121</width>
+     <width>81</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
     <string>Delete</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>620</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_8">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>30</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Favourite</string>
    </property>
   </widget>
  </widget>

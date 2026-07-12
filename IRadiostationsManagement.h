@@ -7,7 +7,6 @@ class IRadiostationsManagement{
 public:
     virtual const QStringList getListOfRadiostations() const = 0;
     virtual void addRadiostation(const QString&) = 0;
-    virtual void deleteRadiostation() = 0;
 };
 
 

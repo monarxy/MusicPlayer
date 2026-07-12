@@ -66,7 +66,7 @@ void MediaPlayer::changeDuration(const int index){
 }
 
 void MediaPlayer::setLike(){
-    if (list_of_playlists.size() != 0 || current_item != nullptr){
+    if (list_of_playlists.size() != 0 || current_item != nullptr)
         if (current_item->getLikeInfo()){
             current_item->deletelike();
             favourite_playlist->deleteItem(current_item);
@@ -75,7 +75,6 @@ void MediaPlayer::setLike(){
             current_item->putLike();
             favourite_playlist->setListOfItems(current_item);
         }
-    }
 }
 
 void MediaPlayer::setCurrent(const int index){

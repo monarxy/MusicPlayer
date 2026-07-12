@@ -1,4 +1,5 @@
 #include "video_player.h"
+#include <QDebug>
 
 VideoPlayer::VideoPlayer(QObject *parent, MediaLoader* _serializer) : MediaPlayer(parent, _serializer){
 }

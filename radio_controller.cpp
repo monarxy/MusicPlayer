@@ -29,8 +29,20 @@ void RadioController::addRadiostationReceive(const QString& name_of_radiostation
     radio_player->addRadiostation(name_of_radiostation);
 }
 void RadioController::removeRadiostationReceive() {
-    radio_player->deleteRadiostation();
+    radio_player->deleteCurrent();
 }
+
+void RadioController::setListOfFavouritePlaylistItemsReceive() {
+    emit SetListOfPlaylistsItems(getListOfFavouritePlaylistItems());
+}
+
+QStringList RadioController::getListOfFavouritePlaylistItems() const{
+    QStringList list_of_names;
+    for (const MediaData* item : radio_player->getFavouritePlaylist()->getListOfItems())
+        list_of_names.append(QDir(item->getPath()).dirName());
+    return list_of_names;
+}
+
 
 void RadioController::deleteItemReceive(){
 

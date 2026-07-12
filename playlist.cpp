@@ -27,7 +27,6 @@ void Playlist::setListOfItems(MediaData* item){
 
 MediaData* Playlist::getPreviousItem(MediaData* item) const{
     for (auto it = playlist_items.begin(); it != playlist_items.end();){
-        qDebug() << (*it)->getPath();
         if (*it == item)
             if (it != playlist_items.begin()){
                 --it;
@@ -42,7 +41,6 @@ MediaData* Playlist::getPreviousItem(MediaData* item) const{
 MediaData* Playlist::getNextItem(MediaData* item) const{
     for (auto it = playlist_items.begin(); it != playlist_items.end();){
         if (*it == item){
-            qDebug() << (*it)->getPath();
             if (++it != playlist_items.end())
                 return *it;
             else return nullptr;

@@ -7,11 +7,12 @@
 
 class MediaData{
 public:
-    virtual ~MediaData(){}
-    virtual bool getLikeInfo() const {}
-    virtual void putLike(){}
-    virtual void deletelike(){}
-    virtual QString getPath() const {}
+    MediaData(const QString&);
+    MediaData(const QString&, bool);
+    bool getLikeInfo() const;
+    void putLike();
+    void deletelike();
+    QString getPath() const;
 protected:
     bool isLiked;
     QString path;

@@ -1,14 +1,13 @@
 #ifndef RADIO_DATA_H
 #define RADIO_DATA_H
 #include <QString>
+#include "media_data.h"
 
-class RadioData{
-    QString adress_of_radiostation;
+class RadioData : public MediaData {
 public:
     RadioData(const QString&);
+    RadioData(const QString&, bool);
     ~RadioData();
-
-    const QString& getName() const;
 };
 
 #endif // RADIO_DATA_H

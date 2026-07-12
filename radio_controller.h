@@ -6,8 +6,10 @@
 #include "IPlayerController.h"
 #include "IVolumeController.h"
 #include "IRadiostationController.h"
+#include "IFavouritePlaylistController.h"
 
-class RadioController : public QObject, public IPlayerController, public IGetRadioPlayerController, public IVolumeController, public IRadiostationController {
+class RadioController : public QObject, public IPlayerController, public IGetRadioPlayerController, public IVolumeController, public IRadiostationController,
+public IFavouritePlaylistController{
     Q_OBJECT
     RadioPlayer *radio_player;
 public:
@@ -29,10 +31,12 @@ public:
 
     void addRadiostationReceive(const QString&) override;
     void removeRadiostationReceive() override;
+    void setListOfFavouritePlaylistItemsReceive() override;
+    QStringList getListOfFavouritePlaylistItems() const override;
 
     void deleteItemReceive() override;
 signals:
-    void LoadItemsToRadioWidgetReceive(QStringList);
+    void LoadItemsToRadioWidgetReceive(const QStringList&);
 };
 
 #endif // RADIO_CONTROLLER_H

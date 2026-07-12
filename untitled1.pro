@@ -14,7 +14,9 @@ SOURCES += \
     default_playlist.cpp \
     favourite_playlist.cpp \
     list_of_playlist_tracks.cpp \
+    list_of_radioplaylist_items.cpp \
     main.cpp \
+    media_data.cpp \
     media_loader.cpp \
     multimedia.cpp \
     music_player.cpp \
@@ -24,7 +26,10 @@ SOURCES += \
     radio.cpp \
     radio_controller.cpp \
     radio_data.cpp \
+    radio_default_playlist.cpp \
+    radio_favourite_playlist.cpp \
     radio_loader.cpp \
+    radio_playlist.cpp \
     radioform.cpp \
     songs_data.cpp \
     tracks_loader.cpp \
@@ -34,20 +39,26 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    IDeleteItemsInPlaylistManagement.h \
     IDurationChangeable.h \
     IDurationController.h \
     IFavouritePlaylist.h \
+    IFavouritePlaylistController.h \
     IFewPlayersController.h \
     IGetPlayerController.h \
     IGetRadioPlayerController.h \
     ILikeController.h \
     ILikeable.h \
+    IMovementPlaylistManagement.h \
     IMultimediaGetManagement.h \
     IPlayer.h \
     IPlayerController.h \
     IPlayerSettable.h \
     IPlaylistController.h \
+    IPlaylistItemsManagement.h \
     IPlaylistManagement.h \
+    IPlaylistNameManagement.h \
+    IQPlaylistManagement.h \
     IRadiostationController.h \
     IRadiostationsManagement.h \
     ISerializable.h \
@@ -61,6 +72,7 @@ HEADERS += \
     editor.h \
     favourite_playlist.h \
     list_of_playlist_tracks.h \
+    list_of_radioplaylist_items.h \
     media_data.h \
     media_loader.h \
     multimedia.h \
@@ -71,7 +83,10 @@ HEADERS += \
     radio.h \
     radio_controller.h \
     radio_data.h \
+    radio_default_playlist.h \
+    radio_favourite_playlist.h \
     radio_loader.h \
+    radio_playlist.h \
     radioform.h \
     songs_data.h \
     sound_effect.h \
@@ -83,6 +98,7 @@ HEADERS += \
 
 FORMS += \
     list_of_playlist_tracks.ui \
+    list_of_radioplaylist_items.ui \
     playlistform.ui \
     radioform.ui \
     widget.ui

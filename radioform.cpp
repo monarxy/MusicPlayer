@@ -6,6 +6,7 @@ RadioForm::RadioForm(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::RadioForm)
 {
+    current_row = 0;
     ui->setupUi(this);
     m_playListModel = new QStandardItemModel(this);
     ui->playlistView->setModel(m_playListModel);
@@ -85,5 +86,12 @@ void RadioForm::on_pushButton_6_clicked()
     if (m_playListModel->rowCount()-1 < current_row)
         --current_row;
     emit DeleteRadiostationClicked();
+}
+
+
+void RadioForm::on_pushButton_8_clicked()
+{
+    emit FavouritePlaylistClicked();
+    emit FormClicked("list_of_radioplaylist_items_form");
 }
 
