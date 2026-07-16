@@ -32,11 +32,11 @@
        <x>20</x>
        <y>0</y>
        <width>601</width>
-       <height>561</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -48,123 +48,11 @@
       <attribute name="title">
        <string>Audio</string>
       </attribute>
-      <widget class="QLabel" name="label">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>500</y>
-         <width>191</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Track Name</string>
-       </property>
-      </widget>
-      <widget class="QToolButton" name="likeButton">
-       <property name="geometry">
-        <rect>
-         <x>550</x>
-         <y>490</y>
-         <width>31</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../../Downloads/free-icon-thumb-up-like-13578170.png</normaloff>../../Downloads/free-icon-thumb-up-like-13578170.png</iconset>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_2">
-       <property name="geometry">
-        <rect>
-         <x>510</x>
-         <y>500</y>
-         <width>31</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_3">
-       <property name="geometry">
-        <rect>
-         <x>470</x>
-         <y>500</y>
-         <width>31</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Liked:</string>
-       </property>
-      </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
        <string>Video</string>
       </attribute>
-      <widget class="QPushButton" name="btn_play_15">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>500</y>
-         <width>80</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_9">
-       <property name="geometry">
-        <rect>
-         <x>470</x>
-         <y>500</y>
-         <width>49</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Liked:</string>
-       </property>
-      </widget>
-      <widget class="QToolButton" name="likeButton_3">
-       <property name="geometry">
-        <rect>
-         <x>560</x>
-         <y>490</y>
-         <width>31</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../../Downloads/free-icon-thumb-up-like-13578170.png</normaloff>../../Downloads/free-icon-thumb-up-like-13578170.png</iconset>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_8">
-       <property name="geometry">
-        <rect>
-         <x>510</x>
-         <y>500</y>
-         <width>31</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-      </widget>
       <widget class="QGroupBox" name="groupBox">
        <property name="geometry">
         <rect>
@@ -281,20 +169,63 @@
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>540</y>
+       <width>191</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Track Name</string>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="likeButton">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>530</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/icons/free-icon-thumb-up-like-13578170.png</normaloff>:/icons/icons/free-icon-thumb-up-like-13578170.png</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>540</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>540</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Liked:</string>
+     </property>
+    </widget>
    </widget>
-  </widget>
-  <widget class="QPushButton" name="btn_play_6">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>620</y>
-     <width>80</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>...</string>
-   </property>
   </widget>
   <widget class="QPushButton" name="btn_play_4">
    <property name="geometry">
@@ -309,8 +240,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../../Downloads/free-icon-previous-18407650.png</normaloff>../../Downloads/free-icon-previous-18407650.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/free-icon-previous-18407650.png</normaloff>:/icons/icons/free-icon-previous-18407650.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -332,8 +263,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../../Downloads/free-icon-play-1250997.png</normaloff>../../Downloads/free-icon-play-1250997.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/free-icon-play-1250997.png</normaloff>:/icons/icons/free-icon-play-1250997.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_play_3">
@@ -349,8 +280,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../../Downloads/free-icon-stop-18407648.png</normaloff>../../Downloads/free-icon-stop-18407648.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/free-icon-stop-18407648.png</normaloff>:/icons/icons/free-icon-stop-18407648.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -372,8 +303,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../../Downloads/free-icon-music-player-5733742.png</normaloff>../../Downloads/free-icon-music-player-5733742.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/free-icon-music-player-5733742.png</normaloff>:/icons/icons/free-icon-music-player-5733742.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -395,8 +326,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../../Downloads/free-icon-black-square-1601.png</normaloff>../../Downloads/free-icon-black-square-1601.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/free-icon-black-square-1601.png</normaloff>:/icons/icons/free-icon-black-square-1601.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
@@ -415,7 +346,26 @@
     <iconset theme="accessories-character-map"/>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_play_6">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>620</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/free-icon-expand-17712072.png</normaloff>:/icons/icons/free-icon-expand-17712072.png</iconset>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

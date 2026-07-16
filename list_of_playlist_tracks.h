@@ -24,6 +24,7 @@ public:
     void setItems(const QStringList&, const QString&, const int);
     void hideAddAndDeleteButtons();
     void showAddAndDeleteButtons();
+    void setPlayer(const int);
 
 private slots:
     void on_pushButton_clicked();
@@ -47,6 +48,7 @@ private:
     QStandardItemModel *current_playlist_model;
     QString current_playlist;
     int is_favourite_album;
+    int current_player;
 };
 
 #endif // LIST_OF_PLAYLIST_TRACKS_H

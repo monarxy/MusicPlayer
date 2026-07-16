@@ -5,7 +5,7 @@
 class IFavouritePlaylistController{
 public:
     virtual void setListOfFavouritePlaylistItemsReceive() = 0;
-    virtual QStringList getListOfFavouritePlaylistItems() const = 0;
+    virtual const QStringList getListOfFavouritePlaylistItems() const = 0;
 };
 
 #endif // IFAVOURITEPLAYLISTCONTROLLER_H

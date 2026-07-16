@@ -98,7 +98,7 @@ QStringList DataController::getListOfPlaylistItems(const QString &playlist_name)
     return list_of_names;
 }
 
-QStringList DataController::getListOfFavouritePlaylistItems() const{
+const QStringList DataController::getListOfFavouritePlaylistItems() const{
     QStringList list_of_names;
     for (const MediaData* item : player->getFavouritePlaylist()->getListOfItems())
         list_of_names.append(QDir(item->getPath()).dirName());
@@ -156,10 +156,6 @@ void DataController::changeDurationReceive(const int index){
 
 void DataController::setLikeReceive(){
     player->setLike();
-}
-
-void DataController::loadSavedItemsReceive(const QString& album_name){
-    emit LoadItemsToMainWidget(getListOfPlaylistItems(album_name), album_name);
 }
 
 void DataController::setListOfPlaylistsItemsReceive(const QString& album_name) {

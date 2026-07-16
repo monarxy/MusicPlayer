@@ -34,9 +34,10 @@ Widget::Widget() : ui(new Ui::Widget){
     ui->verticalSlider->setValue(50);
 
     video_widget = new QVideoWidget();
-    video_widget->setGeometry(5, 5, ui->groupBox->width(), ui->groupBox->height());
-    video_widget->setParent(ui->groupBox);
-    video_widget->setVisible(true);
+
+    QVBoxLayout *groupLayout = new QVBoxLayout(ui->groupBox);
+    groupLayout->setContentsMargins(0, 0, 0, 0);
+    groupLayout->addWidget(video_widget);
     video_widget->show();
 }
 
@@ -47,7 +48,11 @@ Widget::~Widget()
 
 void Widget::on_btn__clicked()
 {
-    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp3 *.mp4 *.avi *.mkv *.wav)"));
+    QStringList files;
+    if (current_player == 0)
+        files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp3 *.mp4 *.avi *.mkv *.wav)"));
+    else
+        files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp4 *.avi *.mkv *.mov)"));
     foreach (QString filePath, files) {
         QList<QStandardItem *> items;
         items.append(new QStandardItem(QDir(filePath).dirName()));
@@ -80,7 +85,12 @@ void Widget::on_tabWidget_currentChanged(int index)
     emit PlayerChanged(index);
     ui->verticalSlider->setValue(50);
     ui->horizontalSlider->setValue(0);
-    if (index == 1) emit SetVideoOutput(video_widget);
+    if (index == 1){
+        emit SetVideoOutput(video_widget);
+        ui->btn_play_6->show();
+    }
+    else
+        ui->btn_play_6->hide();
 }
 
 
@@ -114,12 +124,13 @@ void Widget::on_likeButton_clicked(){
 }
 
 void Widget::updateSlider(const qint64 position) {
-    qDebug() << position;
     ui->horizontalSlider->setValue(position / 1000);
+    emit SliderPositionReceive(position/1000);
 }
 
 void Widget::setSliderRange(const qint64 duration) {
     ui->horizontalSlider->setRange(0, duration / 1000);
+    emit SliderRangeReceive(duration/1000);
 }
 
 void Widget::setLikeButton(const bool like_status){
@@ -357,7 +368,6 @@ void Widget::on_horizontalSlider_rangeChanged(int min, int max)
 void Widget::on_btn_play_7_clicked()
 {
     emit StopClicked();
-    emit FormClicked("radio_form");
 }
 
 
@@ -373,5 +383,166 @@ void Widget::on_pushButton_3_clicked()
     m_playListModel->removeRow(current_item);
     if (current_item != 0)
         --current_item;
+}
+
+
+void Widget::on_btn_play_6_clicked()
+{
+    enterFullScreen();
+}
+
+void Widget::enterFullScreen() {
+    if (!video_widget) return;
+    savedParent = ui->groupBox;
+    savedLayout = ui->groupBox->layout();
+
+    fullScreenWindow = new QWidget(nullptr, Qt::Window | Qt::FramelessWindowHint);
+    fullScreenWindow->setStyleSheet("background: black;");
+
+    video_widget->setParent(fullScreenWindow);
+
+    QVBoxLayout* mainLayout = new QVBoxLayout(fullScreenWindow);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->setSpacing(0);
+    mainLayout->addWidget(video_widget);
+
+    QWidget* controlsPanel = new QWidget();
+    controlsPanel->setFixedHeight(120);
+    controlsPanel->setStyleSheet("background: rgba(0, 0, 0, 200);");
+
+    QVBoxLayout* panelLayout = new QVBoxLayout(controlsPanel);
+    panelLayout->setContentsMargins(20, 5, 20, 10);
+    panelLayout->setSpacing(5);
+
+    QHBoxLayout* topRow = new QHBoxLayout();
+    topRow->setSpacing(10);
+
+
+    QLabel* timeLabel = new QLabel("00:00 / 00:00");
+    timeLabel->setStyleSheet("color: white; font-size: 13px; min-width: 110px;");
+
+    topRow->addWidget(ui->horizontalSlider);
+    topRow->addWidget(timeLabel);
+    panelLayout->addLayout(topRow);
+    savedTopRow = topRow;
+
+    QHBoxLayout* bottomRow = new QHBoxLayout();
+    bottomRow->setSpacing(8);
+
+    QPushButton* prevBtn = new QPushButton("⏮");
+    QPushButton* playBtn = new QPushButton("▶");
+    QPushButton* stopBtn = new QPushButton("⏹");
+    QPushButton* nextBtn = new QPushButton("⏭");
+    QPushButton* exitBtn = new QPushButton("✕ Exit");
+
+    QString btnStyle = R"(
+        QPushButton {
+            color: white;
+            background: rgba(255, 255, 255, 20);
+            border: 1px solid rgba(255,255,255,30);
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            min-width: 40px;
+            min-height: 30px;
+        }
+        QPushButton:hover {
+            background: rgba(255, 255, 255, 60);
+        }
+    )";
+
+    QString exitBtnStyle = R"(
+        QPushButton {
+            color: white;
+            background: rgba(255, 50, 50, 150);
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        QPushButton:hover {
+            background: rgba(255, 0, 0, 200);
+        }
+    )";
+
+    prevBtn->setStyleSheet(btnStyle);
+    playBtn->setStyleSheet(btnStyle);
+    stopBtn->setStyleSheet(btnStyle);
+    nextBtn->setStyleSheet(btnStyle);
+    exitBtn->setStyleSheet(exitBtnStyle);
+
+    QLabel* volLabel = new QLabel("🔊");
+    volLabel->setStyleSheet("color: white; font-size: 16px;");
+
+    QSlider* volumeSlider = new QSlider(Qt::Vertical);
+    volumeSlider->setRange(0, 100);
+    volumeSlider->setValue(ui->verticalSlider->value());
+    volumeSlider->setFixedHeight(40);
+    volumeSlider->setStyleSheet(R"(
+        QSlider::groove:vertical {
+            width: 4px;
+            background: rgba(255,255,255,50);
+            border-radius: 2px;
+        }
+        QSlider::handle:vertical {
+            background: #4CAF50;
+            width: 14px;
+            height: 14px;
+            margin: 0 -5px;
+            border-radius: 7px;
+        }
+        QSlider::sub-page:vertical {
+            background: #4CAF50;
+            border-radius: 2px;
+        }
+    )");
+
+    bottomRow->addWidget(prevBtn);
+    bottomRow->addWidget(playBtn);
+    bottomRow->addWidget(stopBtn);
+    bottomRow->addWidget(nextBtn);
+    bottomRow->addStretch();
+    bottomRow->addWidget(volLabel);
+    bottomRow->addWidget(volumeSlider);
+    bottomRow->addWidget(exitBtn);
+
+    panelLayout->addLayout(bottomRow);
+    mainLayout->addWidget(controlsPanel);
+
+
+    connect(playBtn, &QPushButton::clicked, this, &Widget::on_btn_play_clicked);
+    connect(stopBtn, &QPushButton::clicked, this, &Widget::on_btn_play_7_clicked);
+    connect(prevBtn, &QPushButton::clicked, this, &Widget::on_btn_play_4_clicked);
+    connect(nextBtn, &QPushButton::clicked, this, &Widget::on_btn_play_5_clicked);
+    connect(exitBtn, &QPushButton::clicked, this, &Widget::exitFullScreen);
+
+    connect(volumeSlider, &QSlider::valueChanged, this, Widget::on_verticalSlider_valueChanged);
+
+    volumeSlider->setValue(ui->verticalSlider->value());
+
+    fullScreenWindow->showFullScreen();
+}
+
+void Widget::exitFullScreen() {
+        if (!fullScreenWindow) return;
+        video_widget->setParent(savedParent);
+        video_widget->setWindowFlags(Qt::Widget);
+
+        if (savedLayout) {
+            savedLayout->addWidget(video_widget);
+        }
+        video_widget->show();
+
+        ui->horizontalSlider->setParent(ui->stackedWidget);
+        ui->horizontalSlider->setGeometry(30, 570, 541, 16);
+        ui->horizontalSlider->show();
+
+        fullScreenWindow->close();
+        delete fullScreenWindow;
+        fullScreenWindow = nullptr;
+
+        savedParent = nullptr;
+        savedLayout = nullptr;
 }
 

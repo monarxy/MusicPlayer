@@ -239,6 +239,7 @@ void MediaPlayer::save(){
 
 MediaPlayer::~MediaPlayer()
 {
+
     save();
     for (const auto& pair : list_of_playlists)
         delete pair.second;

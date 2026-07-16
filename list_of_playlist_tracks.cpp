@@ -42,6 +42,10 @@ void ListOfPlaylistTracks::showAddAndDeleteButtons(){
     ui->pushButton->show();
 }
 
+void ListOfPlaylistTracks::setPlayer(const int index){
+    current_player = index;
+}
+
 void ListOfPlaylistTracks::hideAddAndDeleteButtons(){
     ui->pushButton_3->hide();
     ui->pushButton->hide();
@@ -54,11 +58,11 @@ ListOfPlaylistTracks::~ListOfPlaylistTracks()
 
 void ListOfPlaylistTracks::on_pushButton_clicked()
 {
-    QStringList files = QFileDialog::getOpenFileNames(this,
-                                                      tr("Open files"),
-                                                      QString(),
-                                                      tr("Audio Files (*.mp3)"));
-
+    QStringList files;
+    if (current_player == 0)
+        files = QFileDialog::getOpenFileNames(this, tr("Open files"),QString(), tr("Audio Files (*.mp3 *.mp4 *.avi *.mkv *.wav)"));
+    else
+        files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp4 *.avi *.mkv *.mov)"));
     for (const QString& filePath : files) {
         QList<QStandardItem *> items;
         items.append(new QStandardItem(QDir(filePath).dirName()));

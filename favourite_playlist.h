@@ -6,6 +6,7 @@ class FavouritePlaylist : public Playlist
 {
 public:
     FavouritePlaylist();
+    ~FavouritePlaylist();
     void deleteItem(MediaData*) override final;
 };
 

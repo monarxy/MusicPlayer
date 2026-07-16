@@ -36,7 +36,7 @@ public:
     void setVideoOutput(QVideoWidget*) override;
 
     QStringList getListOfPlaylistItems(const QString&) const override;//IPlaylistController
-    QStringList getListOfFavouritePlaylistItems() const override;
+    const QStringList getListOfFavouritePlaylistItems() const override;
     void getPlaylistNamesReceive() override;//IPlaylistController
     const QVector<MediaPlayer*> getListOfPlayers() const override;
 
@@ -52,7 +52,6 @@ public:
     void nextReceive() override;
     void previousReceive() override;
     void likeReceive() override;//likeable
-    void loadSavedItemsReceive(const QString&) override;//IController
 
     void changeVolumeReceive(const int) override;//volume changeable
     void changeDurationReceive(const int) override;//duration changeable

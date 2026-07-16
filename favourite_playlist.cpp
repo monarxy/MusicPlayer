@@ -2,6 +2,8 @@
 
 FavouritePlaylist::FavouritePlaylist() : Playlist() {}
 
+FavouritePlaylist::~FavouritePlaylist(){}
+
 void FavouritePlaylist::deleteItem(MediaData* item){
     item->deletelike();
     int counter = 0;

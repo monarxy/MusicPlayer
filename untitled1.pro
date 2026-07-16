@@ -44,6 +44,7 @@ HEADERS += \
     IDurationController.h \
     IFavouritePlaylist.h \
     IFavouritePlaylistController.h \
+    IFavouriteRadioPlaylist.h \
     IFewPlayersController.h \
     IGetPlayerController.h \
     IGetRadioPlayerController.h \
@@ -59,6 +60,7 @@ HEADERS += \
     IPlaylistManagement.h \
     IPlaylistNameManagement.h \
     IQPlaylistManagement.h \
+    IRadioPlaylistController.h \
     IRadiostationController.h \
     IRadiostationsManagement.h \
     ISerializable.h \
@@ -150,4 +152,5 @@ unix|win32: LIBS += -L$$PWD/../ffmpeg/lib/ -lswscale
 INCLUDEPATH += $$PWD/../ffmpeg/include
 DEPENDPATH += $$PWD/../ffmpeg/include
 
-RESOURCES +=
+RESOURCES += \
+    resources.qrc

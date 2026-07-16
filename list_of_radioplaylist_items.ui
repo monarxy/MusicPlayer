@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTableView" name="songsView">
+  <widget class="QTableView" name="playlistView">
    <property name="geometry">
     <rect>
      <x>20</x>

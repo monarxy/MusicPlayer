@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>icons/play.png</file>
+        <file>icons/free-icon-black-square-1601.png</file>
+        <file>icons/free-icon-music-player-5733742.png</file>
+        <file>icons/free-icon-play-1250997.png</file>
+        <file>icons/free-icon-previous-18407650.png</file>
+        <file>icons/free-icon-stop-18407648.png</file>
+        <file>icons/free-icon-thumb-up-like-13578170.png</file>
+        <file>icons/free-icon-expand-17712072.png</file>
     </qresource>
 </RCC>

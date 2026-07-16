@@ -59,8 +59,9 @@ void RadioPlayer::setCurrent(const int index){
 
 const QStringList RadioPlayer::getListOfRadiostations() const {
     QStringList _list_of_radiostations;
-    for (MediaData* radiostation : playlist->getListOfItems())
-        _list_of_radiostations.append(radiostation->getPath());
+    if (!playlist->getListOfItems().isEmpty())
+        for (MediaData* radiostation : playlist->getListOfItems())
+            _list_of_radiostations.append(radiostation->getPath());
     return _list_of_radiostations;
 }
 
@@ -108,14 +109,16 @@ void RadioPlayer::setLike(){
 }
 
 void RadioPlayer::changeVolume(const int index){
-
+    int clamped_index = std::clamp(index, 0, 100);
+    float bass_volume = clamped_index / 100.0f;
+    BASS_ChannelSetAttribute(str, BASS_ATTRIB_VOL, bass_volume);
 }
 
 void RadioPlayer::load(){
     QVector<MediaData*> loaded_items = serializer->loadSavedRadioItems();
+    default_playlist = new RadioDefaultPlaylist();
+    playlist = default_playlist;
     if (loaded_items.size() != 0){
-        qDebug() << "sss";
-        playlist = new RadioDefaultPlaylist();
         for (MediaData* item : serializer->loadSavedRadioItems())
             playlist->setListOfItems(item);
         current_item = playlist->getListOfItems()[0];
@@ -127,19 +130,31 @@ void RadioPlayer::load(){
 }
 
 void RadioPlayer::save(){
-    serializer->saveRadioItems(playlist->getListOfItems());
+    serializer->saveRadioItems(default_playlist->getListOfItems());
+}
+
+const MediaData* RadioPlayer::getCurrentItem() const{
+    return current_item;
 }
 
 void RadioPlayer::setFavouritePlaylistAsMain(){
     playlist = favourite_playlist;
 }
-const Playlist* RadioPlayer::getFavouritePlaylist() const {
+const RadioPlaylist* RadioPlayer::getFavouritePlaylist() const {
     return favourite_playlist;
+}
+
+void RadioPlayer::setDefaultPlaylistAsMain(){
+    playlist = default_playlist;
+}
+
+const RadioPlaylist* RadioPlayer::getDefaultPlaylist() const{
+    return default_playlist;
 }
 
 RadioPlayer::~RadioPlayer()
 {
     save();
-    for (auto radiostation : playlist->getListOfItems())
+    for (auto radiostation : default_playlist->getListOfItems())
         delete radiostation;
 }

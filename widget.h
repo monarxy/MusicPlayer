@@ -9,6 +9,8 @@
 #include <gl/glu.h>
 #include <gl/gl.h>
 #include <QIcon>
+#include <QTimer>
+#include <QVBoxLayout>
 
 
 QT_BEGIN_NAMESPACE
@@ -31,6 +33,8 @@ public:
     void setCurrentItem(const int);
     void showAddButtons();
     void hideAddButtons();
+    void enterFullScreen();
+    void exitFullScreen();
 
 signals:
     void FormClicked(const QString&);
@@ -50,6 +54,8 @@ signals:
     void UpdateListOfPlaylists();
 
     void SetVideoOutput(QVideoWidget*);
+    void SliderPositionReceive(const qint64);
+    void SliderRangeReceive(const qint64);
     void DeleteItemClicked();
 
 private slots:
@@ -99,10 +105,16 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+    void on_btn_play_6_clicked();
+
 private:
     Ui::Widget *ui;
     QStandardItemModel  *m_playListModel;
     QVideoWidget* video_widget;
+    QWidget *fullScreenWindow = nullptr;
+    QWidget *savedParent = nullptr;
+    QLayout *savedLayout = nullptr;
+    QHBoxLayout* savedTopRow = nullptr;
 
     int current_player;
     int current_item;

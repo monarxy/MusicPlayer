@@ -15,15 +15,8 @@ ListOfRadioPlaylistItems::~ListOfRadioPlaylistItems()
     delete ui;
 }
 
-void ListOfRadioPlaylistItems::on_songsView_clicked(const QModelIndex &index)
-{
-    emit ItemsListClicked(index.row());
-    //emit MuteMediaPlayer();
-}
-
 void ListOfRadioPlaylistItems::setPlaylist(const QStringList& list_of_tracks){
-    current_item = 0;
-    ui->album_name_label->setText("Favourite");
+    ui->label->setText("Favourite");
     m_playListModel->clear();
     foreach (QString item, list_of_tracks){
         QList<QStandardItem *> items;
@@ -36,5 +29,11 @@ void ListOfRadioPlaylistItems::setPlaylist(const QStringList& list_of_tracks){
 void ListOfRadioPlaylistItems::on_pushButton_2_clicked()
 {
     emit FormClicked("radio_form");
+}
+
+
+void ListOfRadioPlaylistItems::on_playlistView_clicked(const QModelIndex &index)
+{
+    emit ItemsListClicked(index.row(), 1);
 }
 

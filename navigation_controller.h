@@ -8,7 +8,7 @@
 #include "widget.h"
 #include "radioform.h"
 #include "list_of_playlist_tracks.h"
-#include "list_of_radioplaylist_tracks.h"
+#include "list_of_radioplaylist_items.h"
 
 class NavigationController : public QObject{
 

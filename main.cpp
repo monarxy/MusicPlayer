@@ -34,10 +34,6 @@ int main(int argc, char *argv[])
 
     for (ISerializable* object : loading_objects)
         object->load();
-    qDebug() << music_player->getListOfPlaylists();
-    qDebug() << video_player->getListOfPlaylists();
-
-
 
     std::map<QString, MediaPlayer*> players;
     players["music_player"] = music_player;
@@ -57,7 +53,6 @@ int main(int argc, char *argv[])
 
     app_controller->setConnections();
     radio_controller->getRadiostationsReceive();
-    //!
     navigation_controller->openForm("main_form");
     int result = a.exec();
 

@@ -15,11 +15,16 @@ class ListOfRadioPlaylistItems : public QWidget
 public:
     explicit ListOfRadioPlaylistItems(QWidget *parent = nullptr);
     ~ListOfRadioPlaylistItems();
+
+    void setPlaylist(const QStringList&);
 signals:
     void FormClicked(const QString&);
-    void ItemsListClicked(const int);
+    void ItemsListClicked(const int, const int);
 private slots:
-    void on_songsView_clicked(const QModelIndex &index);
+
+    void on_pushButton_2_clicked();
+
+    void on_playlistView_clicked(const QModelIndex &index);
 
 private:
     Ui::ListOfRadioPlaylistItems *ui;
