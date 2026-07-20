@@ -5,15 +5,11 @@
 PlaylistForm::PlaylistForm() :
     ui(new Ui::PlaylistForm)
 {
+    this->setFixedSize(861, 674);
     ui->setupUi(this);
     playlists_model = new QStandardItemModel(this);
     ui->playlistsView->setModel(playlists_model);
-    playlists_model->setHorizontalHeaderLabels(QStringList()  << tr("Album name"));
-    ui->playlistsView->verticalHeader()->setVisible(false);                  // Скрываем нумерацию строк
-    ui->playlistsView->setSelectionBehavior(QAbstractItemView::SelectRows);  // Включаем выделение строк
-    ui->playlistsView->setSelectionMode(QAbstractItemView::SingleSelection); // Разрешаем выделять только одну строку
-    ui->playlistsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->playlistsView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->playlistsView->horizontalHeader()->setStretchLastSection(true);
 }
 
 PlaylistForm::~PlaylistForm()

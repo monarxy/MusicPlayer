@@ -11,9 +11,11 @@
 #include "IDeleteItemsInPlaylistManagement.h"
 #include "IMovementPlaylistManagement.h"
 #include "IPlaylistItemsManagement.h"
+#include "media_data.h"
 
-class Playlist : IPlaylistNameManagement, IQPlaylistManagement, IDeleteItemsInPlaylistManagement, IMovementPlaylistManagement,
-IPlaylistItemsManagement {
+
+class Playlist :  public IPlaylistNameManagement, public IQPlaylistManagement, public IDeleteItemsInPlaylistManagement<MediaData>, public IMovementPlaylistManagement<MediaData>,
+public IPlaylistItemsManagement<MediaData> {
 public:
     Playlist();
     Playlist(const QString&);

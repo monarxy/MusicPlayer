@@ -1,9 +1,9 @@
 #ifndef RADIO_DATA_H
 #define RADIO_DATA_H
 #include <QString>
-#include "media_data.h"
+#include "data.h"
 
-class RadioData : public MediaData {
+class RadioData : public Data {
 public:
     RadioData(const QString&);
     RadioData(const QString&, bool);

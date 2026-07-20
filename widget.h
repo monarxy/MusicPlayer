@@ -11,7 +11,9 @@
 #include <QIcon>
 #include <QTimer>
 #include <QVBoxLayout>
-
+#include <QMediaContent>
+#include <QSlider>
+#include <QCloseEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -28,13 +30,18 @@ public:
     void setPlaylist(const QStringList&, const QString&);
     void updateSlider(const qint64);
     void setSliderRange(const qint64);
+    void setSliderRangeAfterSwitchingPlayers(const qint64);
     void setLikeButton(const bool);
     void setItemName(const QString&);
     void setCurrentItem(const int);
+    void setPicture(const QPixmap&);
     void showAddButtons();
     void hideAddButtons();
     void enterFullScreen();
     void exitFullScreen();
+    void increaseCurrentItem();
+    bool eventFilter(QObject* obj, QEvent* event);
+
 
 signals:
     void FormClicked(const QString&);
@@ -49,13 +56,13 @@ signals:
 
     void LikeButtonClicked();
 
+    void SliderUpdated(const qint64, const int);
+
     void UpdateTracksInAlbum(const QStringList& list_of_tracks);
     void PlayerChanged(const int);
     void UpdateListOfPlaylists();
 
     void SetVideoOutput(QVideoWidget*);
-    void SliderPositionReceive(const qint64);
-    void SliderRangeReceive(const qint64);
     void DeleteItemClicked();
 
 private slots:
@@ -107,7 +114,13 @@ private slots:
 
     void on_btn_play_6_clicked();
 
+    void toggleControlsVisibility(bool);
+
+    void startHideTimer();
+
 private:
+    void closeEvent(QCloseEvent *event) override;
+
     Ui::Widget *ui;
     QStandardItemModel  *m_playListModel;
     QVideoWidget* video_widget;
@@ -115,6 +128,10 @@ private:
     QWidget *savedParent = nullptr;
     QLayout *savedLayout = nullptr;
     QHBoxLayout* savedTopRow = nullptr;
+    QSlider* fullscreen_volume_slider = nullptr;
+    QWidget* controlsPanel = nullptr;        // для доступа к панели управления
+    QTimer* hideControlsTimer = nullptr;     // таймер для скрытия
+    bool controlsVisible = true;
 
     int current_player;
     int current_item;

@@ -8,9 +8,8 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include "media_data.h"
-#include "songs_data.h"
-#include "video_data.h"
 #include "default_playlist.h"
+#include "cover_extractor.h"
 
 #define ORGANIZATION_NAME "Xfork"
 #define ORGANIZATION_DOMAIN "22"
@@ -21,8 +20,9 @@ protected:
     QSettings* settings;
 public:
     MediaLoader();
-    virtual QVector<Playlist*> loadSavedItems() const {}
-    virtual void saveItems(const std::map<QString, Playlist*>&){}
+    ~MediaLoader();
+    QVector<Playlist*> loadSavedItems(const QString&) const;
+    void saveItems(const std::map<QString, Playlist*>&, const QString&);
 
 };
 #endif // MEDIA_LOADER_H

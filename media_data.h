@@ -1,22 +1,14 @@
 #ifndef MEDIA_DATA_H
 #define MEDIA_DATA_H
-#include <QString>
-#include <QSettings>
-#include <QDataStream>
-#include <QVector>
+#include "data.h"
 
-class MediaData{
+class MediaData : public Data
+{
+    QPixmap image;
 public:
     MediaData(const QString&);
-    MediaData(const QString&, bool);
-    bool getLikeInfo() const;
-    void putLike();
-    void deletelike();
-    QString getPath() const;
-protected:
-    bool isLiked;
-    QString path;
+    MediaData(const QString&, bool, const QPixmap& );
+    QPixmap getPicture() const;
 };
-
 
 #endif // MEDIA_DATA_H

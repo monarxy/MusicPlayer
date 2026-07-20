@@ -2,7 +2,7 @@
 
 RadioFavouritePlaylist::RadioFavouritePlaylist() : RadioPlaylist() {}
 
-void RadioFavouritePlaylist::deleteItem(MediaData* item){
+void RadioFavouritePlaylist::deleteItem(RadioData* item){
     item->deletelike();
     int counter = 0;
     for (auto it = playlist_items.begin(); it != playlist_items.end();){

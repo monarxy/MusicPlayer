@@ -2,21 +2,29 @@
 
 MusicPlayer::MusicPlayer(QObject *parent, MediaLoader* _serializer) : MediaPlayer(parent, _serializer){}
 
-void MusicPlayer::setTracksToPlaylistByName(const QString& album_name, const QStringList& list_of_tracks){
-    auto it = list_of_playlists.find(album_name);
-    Playlist* playlist = (it != list_of_playlists.end()) ? it->second : nullptr;
-    for (const QString& item : list_of_tracks)
-        playlist->setListOfItems(new SongData(item, false));
-
-}
-
-void MusicPlayer::setTracksToCurrentPlaylist(const QStringList& list_of_tracks){
-    for (const QString& item : list_of_tracks)
-        playlist->setListOfItems(new SongData(item, false));
-
-}
-
-
 MusicPlayer::~MusicPlayer()
-{}
+{
+    save();
+}
+
+void MusicPlayer::load(){
+    QVector<Playlist*> loaded_playlists = serializer->loadSavedItems("player");
+    if (loaded_playlists.size() != 0){
+        for (Playlist* playlist : loaded_playlists)
+            list_of_playlists[playlist->getName()] = playlist;
+        auto it = std::next(list_of_playlists.begin(), 0);
+        if (it != list_of_playlists.end())
+            playlist = it->second;
+        m_player->setPlaylist(playlist->getQPlaylist());
+    }
+    for (const auto& [key, value] : list_of_playlists)
+        for (MediaData* item : value->getListOfItems())
+            if (item->getLikeInfo())
+                favourite_playlist->setListOfItems(item);
+
+}
+
+void MusicPlayer::save(){
+    serializer->saveItems(list_of_playlists, "player");
+}
 

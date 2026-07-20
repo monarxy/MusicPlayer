@@ -4,25 +4,25 @@ RadioLoader::RadioLoader(){
     settings = new QSettings(ORGANIZATION_NAME, APPLICATION_NAME);
 }
 
-QVector<MediaData*> RadioLoader::loadSavedRadioItems() const{
-    QVector<MediaData*> vector_of_loaded_radiostations;
+QVector<RadioData*> RadioLoader::loadSavedRadioItems() const{
+    QVector<RadioData*> vector_of_loaded_radiostations;
     QByteArray json_data = settings->value("radio").toByteArray();
     QJsonDocument doc = QJsonDocument::fromJson(json_data);
 
     QJsonArray radiostations = doc["list_of_radiostations"].toArray();
     for (const QJsonValue& item : radiostations){
         QJsonObject radiostation_item = item.toObject();
-        MediaData* radiostation = new RadioData(radiostation_item["radiostation_name"].toString(), radiostation_item["like_info"].toBool());
+        RadioData* radiostation = new RadioData(radiostation_item["radiostation_name"].toString(), radiostation_item["like_info"].toBool());
 
         vector_of_loaded_radiostations.append(radiostation);
     }
     return vector_of_loaded_radiostations;
 }
 
-void RadioLoader::saveRadioItems(const QVector<MediaData*>& vector_of_radiostations){
+void RadioLoader::saveRadioItems(const QVector<RadioData*>& vector_of_radiostations){
     QJsonObject radio;
     QJsonArray array_of_radiostations;
-    for (const MediaData* radiostation : vector_of_radiostations){
+    for (const RadioData* radiostation : vector_of_radiostations){
         QJsonObject radiostation_item;
         radiostation_item["radiostation_name"] = radiostation->getPath();
         radiostation_item["like_info"] = radiostation->getLikeInfo();

@@ -1,11 +1,11 @@
 #ifndef IPLAYLISTITEMSMANAGEMENT_H
 #define IPLAYLISTITEMSMANAGEMENT_H
-#include "media_data.h"
+#include <QVector>
 
-
+template<typename T>
 class IPlaylistItemsManagement{
-    virtual void setListOfItems(MediaData*) = 0;
-    virtual QVector<MediaData*> getListOfItems() const = 0;
+    virtual void setListOfItems(T*) = 0;
+    virtual QVector<T*> getListOfItems() const = 0;
 };
 
 #endif // IPLAYLISTITEMSMANAGEMENT_H

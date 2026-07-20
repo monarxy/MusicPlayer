@@ -1,10 +1,10 @@
 #ifndef IDELETEITEMSINPLAYLISTMANAGEMENT_H
 #define IDELETEITEMSINPLAYLISTMANAGEMENT_H
-#include "songs_data.h"
 
+template <typename T>
 class IDeleteItemsInPlaylistManagement{
 public:
-    virtual void deleteItem(MediaData*) = 0;
+    virtual void deleteItem(T*) = 0;
 };
 
 #endif // IDELETEITEMSINPLAYLISTMANAGEMENT_H

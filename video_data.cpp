@@ -1,8 +1,8 @@
 #include "video_data.h"
 
-VideoData::VideoData(const QString& _path) : MediaData(_path){}
+VideoData::VideoData(const QString& _path) : Data(_path){}
 
-VideoData::VideoData(const QString& _path, bool _isLiked)  : MediaData(_path, _isLiked){}
+VideoData::VideoData(const QString& _path, bool _isLiked)  : Data(_path, _isLiked){}
 
 void VideoData::putLike(){
     isLiked = true;

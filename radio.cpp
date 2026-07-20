@@ -28,7 +28,7 @@ void RadioPlayer::next(){
     if (playlist->getListOfItems().size() != 0)
         if (current_item != nullptr){
             BASS_ChannelStop(str);
-            MediaData* next_current_item = playlist->getNextItem(current_item);
+            RadioData* next_current_item = playlist->getNextItem(current_item);
             if (next_current_item != nullptr){
                 current_item = next_current_item;
                 str = BASS_StreamCreateURL(current_item->getPath().toUtf8().constData(), 0, 0, NULL, 0);
@@ -41,7 +41,7 @@ void RadioPlayer::previous(){
     if (playlist->getListOfItems().size() != 0)
         if (current_item != nullptr){
             BASS_ChannelStop(str);
-            MediaData* prev_current_item = playlist->getPreviousItem(current_item);
+            RadioData* prev_current_item = playlist->getPreviousItem(current_item);
             if (prev_current_item != nullptr){
                 current_item = prev_current_item;
                 str = BASS_StreamCreateURL(current_item->getPath().toUtf8().constData(), 0, 0, NULL, 0);
@@ -60,13 +60,13 @@ void RadioPlayer::setCurrent(const int index){
 const QStringList RadioPlayer::getListOfRadiostations() const {
     QStringList _list_of_radiostations;
     if (!playlist->getListOfItems().isEmpty())
-        for (MediaData* radiostation : playlist->getListOfItems())
+        for (RadioData* radiostation : playlist->getListOfItems())
             _list_of_radiostations.append(radiostation->getPath());
     return _list_of_radiostations;
 }
 
 void RadioPlayer::addRadiostation(const QString& name_of_radiostation){
-    MediaData* new_radiostation = new RadioData(name_of_radiostation);
+    RadioData* new_radiostation = new RadioData(name_of_radiostation);
     playlist->setListOfItems(new_radiostation);
     if (playlist->getListOfItems().size() == 1){
         current_item = playlist->getListOfItems()[0];
@@ -115,14 +115,14 @@ void RadioPlayer::changeVolume(const int index){
 }
 
 void RadioPlayer::load(){
-    QVector<MediaData*> loaded_items = serializer->loadSavedRadioItems();
+    QVector<RadioData*> loaded_items = serializer->loadSavedRadioItems();
     default_playlist = new RadioDefaultPlaylist();
     playlist = default_playlist;
     if (loaded_items.size() != 0){
-        for (MediaData* item : serializer->loadSavedRadioItems())
+        for (RadioData* item : serializer->loadSavedRadioItems())
             playlist->setListOfItems(item);
         current_item = playlist->getListOfItems()[0];
-        for (MediaData* item : playlist->getListOfItems())
+        for (RadioData* item : playlist->getListOfItems())
             if (item->getLikeInfo())
                 favourite_playlist->setListOfItems(item);
         str = BASS_StreamCreateURL(current_item->getPath().toUtf8().constData(), 0, 0, NULL, 0);
@@ -133,7 +133,7 @@ void RadioPlayer::save(){
     serializer->saveRadioItems(default_playlist->getListOfItems());
 }
 
-const MediaData* RadioPlayer::getCurrentItem() const{
+const RadioData* RadioPlayer::getCurrentItem() const{
     return current_item;
 }
 

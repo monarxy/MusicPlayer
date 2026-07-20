@@ -11,8 +11,8 @@ public:
     MusicPlayer(QObject* parent = nullptr, MediaLoader* serializer = nullptr);
     ~MusicPlayer() override;
 
-    void setTracksToPlaylistByName(const QString&, const QStringList&) override;
-    void setTracksToCurrentPlaylist(const QStringList&) override;
+    void load() override final;
+    void save() override final;
 };
 
 

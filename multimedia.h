@@ -13,9 +13,10 @@
 #include "IVolumeChangeable.h"
 #include "ILikeable.h"
 #include "IFavouritePlaylist.h"
+#include "cover_extractor.h"
 
 class MediaPlayer: public QObject, public IPlayer, public ISerializable, public IPlaylistManagement, public IMultimediaGetManagement,
-public ILikeable, public IVolumeChangeable, public IDurationChangeable, public IFavouritePlaylist{
+public ILikeable, public IVolumeChangeable, public IDurationChangeable, public IFavouritePlaylist<Playlist>{
     Q_OBJECT
 public:
 
@@ -52,13 +53,13 @@ public:
     void addPlaylist(const QString&) override final;
     void deletePlaylist(const QString&) override final;
 
-    void setTracksToPlaylistByName(const QString&, const QStringList&) override = 0;
-    void setTracksToCurrentPlaylist(const QStringList&) override = 0;
+    void setTracksToPlaylistByName(const QString&, const QStringList&) override;
+    void setTracksToCurrentPlaylist(const QStringList&) override;
     void setCurrentPlaylistByName(const QString&) override final;
     void setFavouritePlaylistAsMain() override final;
 
-    void load() override final;
-    void save() override final;
+    void load() override = 0;
+    void save() override = 0;
 
 
 protected:

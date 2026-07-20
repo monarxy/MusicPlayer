@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     appcontroller.cpp \
+    cover_extractor.cpp \
+    data.cpp \
     data_controller.cpp \
     default_playlist.cpp \
     favourite_playlist.cpp \
@@ -31,20 +33,18 @@ SOURCES += \
     radio_loader.cpp \
     radio_playlist.cpp \
     radioform.cpp \
-    songs_data.cpp \
-    tracks_loader.cpp \
     video_data.cpp \
-    video_loader.cpp \
     video_player.cpp \
     widget.cpp
 
 HEADERS += \
+    IContinuousPlayer.h \
+    IDefaultPlaylist.h \
     IDeleteItemsInPlaylistManagement.h \
     IDurationChangeable.h \
     IDurationController.h \
     IFavouritePlaylist.h \
     IFavouritePlaylistController.h \
-    IFavouriteRadioPlaylist.h \
     IFewPlayersController.h \
     IGetPlayerController.h \
     IGetRadioPlayerController.h \
@@ -69,6 +69,8 @@ HEADERS += \
     IVolumeController.h \
     appcontroller.h \
     chorus_effect.h \
+    cover_extractor.h \
+    data.h \
     data_controller.h \
     default_playlist.h \
     editor.h \
@@ -90,11 +92,8 @@ HEADERS += \
     radio_loader.h \
     radio_playlist.h \
     radioform.h \
-    songs_data.h \
     sound_effect.h \
-    tracks_loader.h \
     video_data.h \
-    video_loader.h \
     video_player.h \
     widget.h
 
@@ -154,3 +153,8 @@ DEPENDPATH += $$PWD/../ffmpeg/include
 
 RESOURCES += \
     resources.qrc
+
+unix|win32: LIBS += -L$$PWD/../../../../taglib/build/lib/ -llibtag.dll
+
+INCLUDEPATH += $$PWD/../../../../taglib/build/include
+DEPENDPATH += $$PWD/../../../../taglib/build/include

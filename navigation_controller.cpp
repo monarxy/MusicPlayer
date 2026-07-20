@@ -44,6 +44,7 @@ NavigationController::~NavigationController()
     for (const auto& pair : active_widgets){
         delete pair.second;
     }
+    qDebug() << "ddd";
 }
 
 

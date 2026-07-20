@@ -4,15 +4,14 @@
 ListOfPlaylistTracks::ListOfPlaylistTracks() :
     ui(new Ui::ListOfPlaylistTracks)
 {
+    current_player = 0;
+    this->setFixedSize(861, 674);
     ui->setupUi(this);
     current_playlist_model = new QStandardItemModel(this);
     ui->songsView->setModel(current_playlist_model);
-    current_playlist_model->setHorizontalHeaderLabels(QStringList()  << tr("Track"));
+    current_playlist_model->setHorizontalHeaderLabels(QStringList()  << tr("Item"));
     ui->songsView->verticalHeader()->setVisible(false);
-    ui->songsView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->songsView->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->songsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->songsView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->songsView->horizontalHeader()->setStretchLastSection(true);
 
     current_playlist_model->clear();
 }

@@ -5,9 +5,11 @@ ListOfRadioPlaylistItems::ListOfRadioPlaylistItems(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ListOfRadioPlaylistItems)
 {
+    this->setFixedSize(861, 674);
     ui->setupUi(this);
     m_playListModel = new QStandardItemModel(this);
     ui->playlistView->setModel(m_playListModel);
+    ui->playlistView->horizontalHeader()->setStretchLastSection(true);
 }
 
 ListOfRadioPlaylistItems::~ListOfRadioPlaylistItems()
@@ -36,4 +38,3 @@ void ListOfRadioPlaylistItems::on_playlistView_clicked(const QModelIndex &index)
 {
     emit ItemsListClicked(index.row(), 1);
 }
-

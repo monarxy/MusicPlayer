@@ -6,7 +6,7 @@ class RadioDefaultPlaylist : public RadioPlaylist
 {
 public:
     RadioDefaultPlaylist();
-    void deleteItem(MediaData*) override;
+    void deleteItem(RadioData*) override;
 };
 
 #endif // RADIO_DEFAULT_PLAYLIST_H

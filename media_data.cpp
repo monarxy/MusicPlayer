@@ -1,21 +1,9 @@
 #include "media_data.h"
 
-MediaData::MediaData(const QString& _path) { path = _path; isLiked = false;}
+MediaData::MediaData(const QString& _path) : Data(_path), image() {}
 
-MediaData::MediaData(const QString& _path, bool _isLiked){path = _path; isLiked = _isLiked;}
+MediaData::MediaData(const QString& _path, bool _isLiked, const QPixmap& _image) : Data(_path, _isLiked), image(_image){}
 
-void MediaData::putLike(){
-    isLiked = true;
-}
-
-void MediaData::deletelike(){
-    isLiked = false;
-}
-
-bool MediaData::getLikeInfo() const{
-    return isLiked;
-}
-
-QString MediaData::getPath() const{
-    return path;
+QPixmap MediaData::getPicture() const{
+    return image;
 }

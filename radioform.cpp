@@ -6,10 +6,12 @@ RadioForm::RadioForm(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::RadioForm)
 {
+    this->setFixedSize(861, 674);
     current_item = 0;
     ui->setupUi(this);
     m_playListModel = new QStandardItemModel(this);
     ui->playlistView->setModel(m_playListModel);
+    ui->playlistView->horizontalHeader()->setStretchLastSection(true);
     ui->pushButton_9->hide();
     ui->verticalSlider->setValue(50);
 }

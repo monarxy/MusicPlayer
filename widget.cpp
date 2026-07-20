@@ -16,20 +16,23 @@ Widget::Widget() : ui(new Ui::Widget){
     current_player = 0;
     current_item = 0;
     ui->setupUi(this);
+
+
+    ui->tabWidget->setCurrentIndex(0);
+    ui->label_4->setScaledContents(true);
+    ui->label_4->setPixmap(QPixmap(":/icons/icons/free-icon-music-note-1816908.png"));
+
+
+    this->setFixedSize(861, 674);
     m_playListModel = new QStandardItemModel(this);
 
     ui->playlistView->setModel(m_playListModel);
-
-    m_playListModel->setHorizontalHeaderLabels(QStringList()  << tr("Audio Track") << tr("File Path"));
-
     ui->playlistView->hideColumn(1);
     ui->playlistView->verticalHeader()->setVisible(false);
     ui->playlistView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->playlistView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->playlistView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->playlistView->horizontalHeader()->setStretchLastSection(true);
-
-    ui->tabWidget->setCurrentIndex(0);
 
     ui->verticalSlider->setValue(50);
 
@@ -80,6 +83,7 @@ void Widget::on_btn_play_clicked()
 
 void Widget::on_tabWidget_currentChanged(int index)
 {
+    qDebug() << "sss";
     current_player = index;
     current_item = 0;
     emit PlayerChanged(index);
@@ -125,12 +129,14 @@ void Widget::on_likeButton_clicked(){
 
 void Widget::updateSlider(const qint64 position) {
     ui->horizontalSlider->setValue(position / 1000);
-    emit SliderPositionReceive(position/1000);
+    if (current_item != m_playListModel->rowCount()-1)
+        emit SliderUpdated(position, 0);
+    else
+        emit SliderUpdated(position, 1);
 }
 
 void Widget::setSliderRange(const qint64 duration) {
     ui->horizontalSlider->setRange(0, duration / 1000);
-    emit SliderRangeReceive(duration/1000);
 }
 
 void Widget::setLikeButton(const bool like_status){
@@ -145,6 +151,13 @@ void Widget::setCurrentItem(const int index){
     current_item = index;
 }
 
+void Widget::setPicture(const QPixmap& picture){
+    if (!picture.isNull())
+        ui->label_4->setPixmap(picture);
+    else
+        ui->label_4->setPixmap(QPixmap(":/icons/icons/free-icon-music-note-1816908.png"));
+}
+
 void Widget::showAddButtons(){
     ui->btn_->show();
     ui->likeButton->show();
@@ -157,6 +170,12 @@ void Widget::hideAddButtons(){
     ui->likeButton->hide();
     ui->label_2->hide();
     ui->label_3->hide();
+}
+
+void Widget::setSliderRangeAfterSwitchingPlayers(const qint64 duration){
+    ui->horizontalSlider->setRange(0, duration/1000);
+    ui->horizontalSlider->setValue(0);
+    qDebug() << "00";
 }
 
 void Widget::on_pushButton_clicked()
@@ -181,9 +200,9 @@ void Widget::setPlaylist(const QStringList& list_of_tracks, const QString& album
 }
 
 bool trimAudio(const std::string& inputFile,
-                                   const std::string& outputFile,
-                                   int startSeconds,
-                                   int endSeconds) {
+               const std::string& outputFile,
+               int startSeconds,
+               int endSeconds) {
 
     avformat_network_init();
 
@@ -406,7 +425,7 @@ void Widget::enterFullScreen() {
     mainLayout->setSpacing(0);
     mainLayout->addWidget(video_widget);
 
-    QWidget* controlsPanel = new QWidget();
+    controlsPanel = new QWidget();
     controlsPanel->setFixedHeight(120);
     controlsPanel->setStyleSheet("background: rgba(0, 0, 0, 200);");
 
@@ -416,7 +435,6 @@ void Widget::enterFullScreen() {
 
     QHBoxLayout* topRow = new QHBoxLayout();
     topRow->setSpacing(10);
-
 
     QLabel* timeLabel = new QLabel("00:00 / 00:00");
     timeLabel->setStyleSheet("color: white; font-size: 13px; min-width: 110px;");
@@ -429,11 +447,18 @@ void Widget::enterFullScreen() {
     QHBoxLayout* bottomRow = new QHBoxLayout();
     bottomRow->setSpacing(8);
 
-    QPushButton* prevBtn = new QPushButton("⏮");
-    QPushButton* playBtn = new QPushButton("▶");
-    QPushButton* stopBtn = new QPushButton("⏹");
-    QPushButton* nextBtn = new QPushButton("⏭");
-    QPushButton* exitBtn = new QPushButton("✕ Exit");
+    QPushButton* prevBtn = new QPushButton("");
+    prevBtn->setIcon(QIcon(":/icons/icons/free-icon-previous-18407650.png"));
+    QPushButton* playBtn = new QPushButton("");
+    playBtn->setIcon(QIcon(":/icons/icons/free-icon-play-1250997.png"));
+    QPushButton* pauseBtn = new QPushButton("");
+    pauseBtn->setIcon(QIcon(":/icons/icons/free-icon-stop-18407648.png"));
+    QPushButton* stopBtn = new QPushButton("");
+    stopBtn->setIcon(QIcon(":/icons/icons/free-icon-black-square-1601.png"));
+    QPushButton* nextBtn = new QPushButton("");
+    nextBtn->setIcon(QIcon(":/icons/icons/free-icon-music-player-5733742.png"));
+    QPushButton* exitBtn = new QPushButton("");
+    exitBtn->setIcon(QIcon(":/icons/icons/free-icon-reduce-722302.png"));
 
     QString btnStyle = R"(
         QPushButton {
@@ -452,25 +477,12 @@ void Widget::enterFullScreen() {
         }
     )";
 
-    QString exitBtnStyle = R"(
-        QPushButton {
-            color: white;
-            background: rgba(255, 50, 50, 150);
-            border: none;
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 4px;
-        }
-        QPushButton:hover {
-            background: rgba(255, 0, 0, 200);
-        }
-    )";
-
     prevBtn->setStyleSheet(btnStyle);
     playBtn->setStyleSheet(btnStyle);
+    pauseBtn->setStyleSheet(btnStyle);
     stopBtn->setStyleSheet(btnStyle);
     nextBtn->setStyleSheet(btnStyle);
-    exitBtn->setStyleSheet(exitBtnStyle);
+    exitBtn->setStyleSheet(btnStyle);
 
     QLabel* volLabel = new QLabel("🔊");
     volLabel->setStyleSheet("color: white; font-size: 16px;");
@@ -500,6 +512,7 @@ void Widget::enterFullScreen() {
 
     bottomRow->addWidget(prevBtn);
     bottomRow->addWidget(playBtn);
+    bottomRow->addWidget(pauseBtn);
     bottomRow->addWidget(stopBtn);
     bottomRow->addWidget(nextBtn);
     bottomRow->addStretch();
@@ -510,8 +523,8 @@ void Widget::enterFullScreen() {
     panelLayout->addLayout(bottomRow);
     mainLayout->addWidget(controlsPanel);
 
-
     connect(playBtn, &QPushButton::clicked, this, &Widget::on_btn_play_clicked);
+    connect(pauseBtn, &QPushButton::clicked, this, &Widget::on_btn_play_3_clicked);
     connect(stopBtn, &QPushButton::clicked, this, &Widget::on_btn_play_7_clicked);
     connect(prevBtn, &QPushButton::clicked, this, &Widget::on_btn_play_4_clicked);
     connect(nextBtn, &QPushButton::clicked, this, &Widget::on_btn_play_5_clicked);
@@ -521,28 +534,105 @@ void Widget::enterFullScreen() {
 
     volumeSlider->setValue(ui->verticalSlider->value());
 
+    hideControlsTimer = new QTimer(this);
+    hideControlsTimer->setSingleShot(true);
+    connect(hideControlsTimer, &QTimer::timeout, this, [this]() {
+        toggleControlsVisibility(false);
+    });
+
+    fullScreenWindow->setMouseTracking(true);
+    fullScreenWindow->installEventFilter(this);
+
+    controlsVisible = true;
+    toggleControlsVisibility(true);
+    hideControlsTimer->start(5000);
+
     fullScreenWindow->showFullScreen();
+    fullScreenWindow->setMouseTracking(true);
+    video_widget->setMouseTracking(true);
+    controlsPanel->setMouseTracking(true);
+
+    fullScreenWindow->installEventFilter(this);
+    video_widget->installEventFilter(this);
+    controlsPanel->installEventFilter(this);
+}
+
+void Widget::toggleControlsVisibility(bool show) {
+    if (!controlsPanel) return;
+
+    controlsVisible = show;
+    controlsPanel->setVisible(show);
+
+    if (fullScreenWindow) {
+        fullScreenWindow->setCursor(show ? Qt::ArrowCursor : Qt::BlankCursor);
+    }
+}
+
+void Widget::startHideTimer() {
+    if (hideControlsTimer) {
+        hideControlsTimer->stop();
+        hideControlsTimer->start(5000);
+    }
+}
+
+bool Widget::eventFilter(QObject* obj, QEvent* event) {
+    if (obj == fullScreenWindow) {
+        if (event->type() == QEvent::MouseMove) {
+            if (!controlsVisible) {
+                toggleControlsVisibility(true);
+            }
+            startHideTimer();
+            return false;
+        }
+        else if (event->type() == QEvent::Leave) {
+            toggleControlsVisibility(false);
+            if (hideControlsTimer) {
+                hideControlsTimer->stop();
+            }
+            return false;
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }
 
 void Widget::exitFullScreen() {
-        if (!fullScreenWindow) return;
-        video_widget->setParent(savedParent);
-        video_widget->setWindowFlags(Qt::Widget);
+    if (!fullScreenWindow) return;
 
-        if (savedLayout) {
-            savedLayout->addWidget(video_widget);
-        }
-        video_widget->show();
+    if (hideControlsTimer) {
+        hideControlsTimer->stop();
+    }
 
-        ui->horizontalSlider->setParent(ui->stackedWidget);
-        ui->horizontalSlider->setGeometry(30, 570, 541, 16);
-        ui->horizontalSlider->show();
+    video_widget->setParent(savedParent);
+    video_widget->setWindowFlags(Qt::Widget);
 
-        fullScreenWindow->close();
-        delete fullScreenWindow;
-        fullScreenWindow = nullptr;
+    if (savedLayout) {
+        savedLayout->addWidget(video_widget);
+    }
+    video_widget->show();
 
-        savedParent = nullptr;
-        savedLayout = nullptr;
+    ui->horizontalSlider->setParent(ui->stackedWidget);
+    ui->horizontalSlider->setGeometry(30, 570, 541, 16);
+    ui->horizontalSlider->show();
+
+    if (fullscreen_volume_slider) {
+        ui->verticalSlider->setValue(fullscreen_volume_slider->value());
+    }
+
+    fullScreenWindow->close();
+    delete fullScreenWindow;
+    fullScreenWindow = nullptr;
+
+    savedParent = nullptr;
+    savedLayout = nullptr;
+    controlsPanel = nullptr;
+    controlsVisible = true;
 }
 
+void Widget::increaseCurrentItem(){
+    ++current_item;
+}
+
+void Widget::closeEvent(QCloseEvent *event){
+    disconnect(this, &Widget::SliderUpdated, nullptr, nullptr);
+    QWidget::closeEvent(event);
+}

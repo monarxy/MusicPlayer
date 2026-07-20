@@ -2,15 +2,15 @@
 
 RadioPlaylist::RadioPlaylist() {}
 
-void RadioPlaylist::setListOfItems(MediaData* item){
+void RadioPlaylist::setListOfItems(RadioData* item){
     playlist_items.push_back(item);
 }
 
-QVector<MediaData*> RadioPlaylist::getListOfItems() const{
+QVector<RadioData*> RadioPlaylist::getListOfItems() const{
     return playlist_items;
 }
 
-MediaData* RadioPlaylist::getPreviousItem(MediaData* item) const{
+RadioData* RadioPlaylist::getPreviousItem(RadioData* item) const{
     for (auto it = playlist_items.begin(); it != playlist_items.end();){
         if (*it == item)
             if (it != playlist_items.begin()){
@@ -23,7 +23,7 @@ MediaData* RadioPlaylist::getPreviousItem(MediaData* item) const{
     return nullptr;
 }
 
-MediaData* RadioPlaylist::getNextItem(MediaData* item) const{
+RadioData* RadioPlaylist::getNextItem(RadioData* item) const{
     for (auto it = playlist_items.begin(); it != playlist_items.end();){
         if (*it == item){
             if (++it != playlist_items.end())

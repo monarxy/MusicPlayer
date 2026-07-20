@@ -10,8 +10,8 @@ public:
     VideoPlayer(QObject* parent = nullptr, MediaLoader* serializer = nullptr);
     ~VideoPlayer() override;
 
-    void setTracksToPlaylistByName(const QString&, const QStringList&) override;
-    void setTracksToCurrentPlaylist(const QStringList&) override;
+    void load() override final;
+    void save() override final;
     void setVideoOutput(QVideoWidget*);
 };
 

@@ -10,12 +10,13 @@
 #include "IPlayerSettable.h"
 #include "IVolumeChangeable.h"
 #include "ILikeable.h"
-#include "IFavouriteRadioPlaylist.h"
+#include "IFavouritePlaylist.h"
+#include "IDefaultPlaylist.h"
 #include "radio_favourite_playlist.h"
 #include "radio_default_playlist.h"
 
 class RadioPlayer: public QObject, public IPlayer, public ISerializable, public IVolumeChangeable, public IRadiostationsManagement,
-public ILikeable, public IFavouriteRadioPlaylist{
+public ILikeable, public IFavouritePlaylist<RadioPlaylist>, public IDefaultPlaylist<RadioPlaylist>{
     Q_OBJECT
 public:
 
@@ -38,7 +39,7 @@ public:
     void load() override final;
     void save() override final;
 
-    const MediaData* getCurrentItem() const override;
+    const RadioData* getCurrentItem() const override;
 
     void setFavouritePlaylistAsMain();
     const RadioPlaylist* getFavouritePlaylist() const;
@@ -54,7 +55,7 @@ protected:
     RadioPlaylist* favourite_playlist;
     RadioPlaylist* default_playlist;
     HSTREAM str;
-    MediaData* current_item;
+    RadioData* current_item;
 };
 
 #endif // RADIO_H

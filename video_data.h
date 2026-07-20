@@ -1,8 +1,8 @@
 #ifndef VIDEO_DATA_H
 #define VIDEO_DATA_H
-#include "media_data.h"
+#include "data.h"
 
-class VideoData: public MediaData{
+class VideoData: public Data{
 public:
     VideoData(const QString&);
     VideoData(const QString&, bool);
