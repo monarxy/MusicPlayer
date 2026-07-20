@@ -1,9 +1,7 @@
 #include "multimedia.h"
-#include <QDebug>
 
-MediaPlayer::MediaPlayer(QObject* parent, MediaLoader* _serializer)
-    : QObject(parent)
-    , m_player(nullptr)
+MediaPlayer::MediaPlayer(MediaLoader* _serializer)
+    : m_player(nullptr)
     , playlist(nullptr)
     , current_item(nullptr)
     , serializer(_serializer)
@@ -11,28 +9,29 @@ MediaPlayer::MediaPlayer(QObject* parent, MediaLoader* _serializer)
     m_player = new QMediaPlayer();
     m_player->setVolume(50);
     favourite_playlist = new FavouritePlaylist();
+    playlist = new DefaultPlaylist();
 }
 
 void MediaPlayer::play(){
-    if (list_of_playlists.size() != 0)
+    //if (list_of_playlists.size() != 0)
         if (current_item != nullptr)
             m_player->play();
 }
 
 void MediaPlayer::pause(){
-    if (list_of_playlists.size() != 0)
+    //if (list_of_playlists.size() != 0)
         if (current_item != nullptr)
             m_player->pause();
 }
 
 void MediaPlayer::stop(){
-    if (list_of_playlists.size() != 0)
+    //if (list_of_playlists.size() != 0)
         if (current_item != nullptr)
             m_player->stop();
 }
 
 void MediaPlayer::next(){
-    if (list_of_playlists.size() != 0)
+    //if (list_of_playlists.size() != 0)
         if (current_item != nullptr){
             m_player->pause();
             MediaData* next_current_item = playlist->getNextItem(current_item);
@@ -45,7 +44,7 @@ void MediaPlayer::next(){
 }
 
 void MediaPlayer::previous(){
-    if (list_of_playlists.size() != 0)
+    //if (list_of_playlists.size() != 0)
         if (current_item != nullptr){
             m_player->pause();
             MediaData* prev_current_item = playlist->getPreviousItem(current_item);
@@ -66,7 +65,7 @@ void MediaPlayer::changeDuration(const int index){
 }
 
 void MediaPlayer::setLike(){
-    if (list_of_playlists.size() != 0 || current_item != nullptr)
+    if ( current_item != nullptr) //list_of_playlists.size() != 0 ||
         if (current_item->getLikeInfo()){
             current_item->deletelike();
             favourite_playlist->deleteItem(current_item);
@@ -84,7 +83,7 @@ void MediaPlayer::setCurrent(const int index){
 
 void MediaPlayer::deleteCurrent(){
     m_player->stop();
-    if (playlist->getListOfItems().size() != 0)
+    //if (playlist->getListOfItems().size() != 0)
         if (playlist->getListOfItems().size() != 1){
             auto current_item_copy = current_item;
             if (playlist->getListOfItems()[0] != current_item){
@@ -233,7 +232,5 @@ void MediaPlayer::setFavouritePlaylistAsMain(){
 
 MediaPlayer::~MediaPlayer()
 {
-    for (const auto& pair : list_of_playlists)
-        delete pair.second;
     delete m_player;
 }

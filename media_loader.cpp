@@ -1,16 +1,12 @@
 #include "media_loader.h"
 
-MediaLoader::MediaLoader(){
-    settings = new QSettings(ORGANIZATION_NAME, APPLICATION_NAME);
-}
+MediaLoader::MediaLoader() : settings(ORGANIZATION_NAME, APPLICATION_NAME){}
 
-MediaLoader::~MediaLoader(){
-    delete settings;
-}
+MediaLoader::~MediaLoader(){}
 
 QVector<Playlist*> MediaLoader::loadSavedItems(const QString& player_type) const{
     QVector<Playlist*> vector_of_loaded_playlists;
-    QByteArray json_data = settings->value(player_type).toByteArray(); //player video_player
+    QByteArray json_data = settings.value(player_type).toByteArray(); //player video_player
     QJsonDocument doc = QJsonDocument::fromJson(json_data);
     CoverExtractor cover_extractor;
 
@@ -36,7 +32,6 @@ void MediaLoader::saveItems(const std::map<QString, Playlist*>& list_of_playlist
     for (const auto& [key, value] : list_of_playlists ){
         QJsonObject playlist;
         playlist["playlist_name"] = value->getName();
-
         QJsonArray tracks_array;
         for (const MediaData* item : value->getListOfItems()){
             QJsonObject json_item;
@@ -49,5 +44,5 @@ void MediaLoader::saveItems(const std::map<QString, Playlist*>& list_of_playlist
     }
     player["list_of_playlists"] = array_of_playlists;
     QJsonDocument doc(player);
-    settings->setValue(player_type, doc.toJson(QJsonDocument::Compact));
+    settings.setValue(player_type, doc.toJson(QJsonDocument::Compact));///////////////вот здесь падает
 }

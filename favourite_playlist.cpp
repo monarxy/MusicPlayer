@@ -2,7 +2,10 @@
 
 FavouritePlaylist::FavouritePlaylist() : Playlist() {}
 
-FavouritePlaylist::~FavouritePlaylist(){}
+FavouritePlaylist::~FavouritePlaylist(){
+    for (MediaData* item : playlist_items)
+        deleteItem(item);
+}
 
 void FavouritePlaylist::deleteItem(MediaData* item){
     item->deletelike();

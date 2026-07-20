@@ -1,6 +1,5 @@
 #include <QDir>
 #include "data_controller.h"
-#include <QDebug>
 
 
 DataController::DataController(QObject *parent, MusicPlayer* _music_player, VideoPlayer* _video_player) :QObject(parent),
@@ -34,7 +33,8 @@ void DataController::setCurrentPlayerByIndex(const int index){
             emit SetDurationToMainWidget(player->getPlayer()->duration());
             emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
             emit LoadItemsToMainWidget(getListOfPlaylistItems(list_of_playlists[0]), list_of_playlists[0]);
-
+            if (player_type == 0)
+                emit SetPictureToMainWidget(player->getCurrentItem()->getPicture());
         }
         else{
             QStringList empty_list;
@@ -48,8 +48,7 @@ void DataController::setCurrentPlayerByIndex(const int index){
         emit LikeStatusSignal(false);
         emit LoadItemsToMainWidget(empty_list, "");
     }
-    if (player_type == 0)
-        emit SetPictureToMainWidget(player->getCurrentItem()->getPicture());
+
     emit EnableAddAndDeleteButtons();
 }
 
@@ -235,6 +234,4 @@ void DataController::setPlaylistAndCurrentItemReceive(const int index, const QSt
 }
 
 
-DataController::~DataController(){
-
-}
+DataController::~DataController(){}

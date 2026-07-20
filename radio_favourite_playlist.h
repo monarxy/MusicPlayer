@@ -7,6 +7,7 @@ class RadioFavouritePlaylist : public RadioPlaylist
 {
 public:
     RadioFavouritePlaylist();
+    ~RadioFavouritePlaylist();
     void deleteItem(RadioData*) override;
 };
 

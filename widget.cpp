@@ -21,7 +21,7 @@ Widget::Widget() : ui(new Ui::Widget){
     ui->tabWidget->setCurrentIndex(0);
     ui->label_4->setScaledContents(true);
     ui->label_4->setPixmap(QPixmap(":/icons/icons/free-icon-music-note-1816908.png"));
-
+    ui->btn_play_6->hide();
 
     this->setFixedSize(861, 674);
     m_playListModel = new QStandardItemModel(this);
@@ -36,7 +36,7 @@ Widget::Widget() : ui(new Ui::Widget){
 
     ui->verticalSlider->setValue(50);
 
-    video_widget = new QVideoWidget();
+    video_widget = new QVideoWidget(ui->groupBox);
 
     QVBoxLayout *groupLayout = new QVBoxLayout(ui->groupBox);
     groupLayout->setContentsMargins(0, 0, 0, 0);
@@ -46,6 +46,8 @@ Widget::Widget() : ui(new Ui::Widget){
 
 Widget::~Widget()
 {
+    if (fullScreenWindow != nullptr)
+        delete fullScreenWindow;
     delete ui;
 }
 
@@ -53,7 +55,7 @@ void Widget::on_btn__clicked()
 {
     QStringList files;
     if (current_player == 0)
-        files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp3 *.mp4 *.avi *.mkv *.wav)"));
+        files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp3 *.mp4 *.avi *.mkv *.wav *.ogg *.flac)"));
     else
         files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp4 *.avi *.mkv *.mov)"));
     foreach (QString filePath, files) {
@@ -83,7 +85,6 @@ void Widget::on_btn_play_clicked()
 
 void Widget::on_tabWidget_currentChanged(int index)
 {
-    qDebug() << "sss";
     current_player = index;
     current_item = 0;
     emit PlayerChanged(index);
@@ -133,6 +134,8 @@ void Widget::updateSlider(const qint64 position) {
         emit SliderUpdated(position, 0);
     else
         emit SliderUpdated(position, 1);
+    TimeFormatter time_formatter;
+    ui->label_5->setText(time_formatter.formatTime(position));
 }
 
 void Widget::setSliderRange(const qint64 duration) {
@@ -175,7 +178,6 @@ void Widget::hideAddButtons(){
 void Widget::setSliderRangeAfterSwitchingPlayers(const qint64 duration){
     ui->horizontalSlider->setRange(0, duration/1000);
     ui->horizontalSlider->setValue(0);
-    qDebug() << "00";
 }
 
 void Widget::on_pushButton_clicked()

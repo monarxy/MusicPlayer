@@ -10,6 +10,7 @@ class RadioPlaylist : public IDeleteItemsInPlaylistManagement<RadioData>, public
 {
 public:
     RadioPlaylist();
+    ~RadioPlaylist();
     QVector<RadioData*> getListOfItems() const override;
     void setListOfItems(RadioData*) override;
     RadioData* getNextItem(RadioData*) const override;

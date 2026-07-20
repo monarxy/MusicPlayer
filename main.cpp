@@ -7,7 +7,6 @@
 #include "radio_controller.h"
 #include "appcontroller.h"
 #include <QApplication>
-#include <iostream>
 
 
 int main(int argc, char *argv[])
@@ -21,9 +20,9 @@ int main(int argc, char *argv[])
     MediaLoader* loader = new MediaLoader();
     RadioLoader* radio_loader = new RadioLoader();
 
-    MusicPlayer* music_player = new MusicPlayer(&a, loader);
-    VideoPlayer* video_player = new VideoPlayer(&a, loader);
-    RadioPlayer* radio_player = new RadioPlayer(&a, radio_loader);
+    MusicPlayer* music_player = new MusicPlayer(loader);
+    VideoPlayer* video_player = new VideoPlayer(loader);
+    RadioPlayer* radio_player = new RadioPlayer(radio_loader);
 
     QVector<ISerializable*> loading_objects;
     loading_objects.append(music_player);
@@ -37,16 +36,19 @@ int main(int argc, char *argv[])
     DataController* data_controller = new DataController(&a, music_player, video_player);
 
     NavigationController* navigation_controller = new NavigationController(&a);
-    AppController* app_controller = new AppController(&a, data_controller, radio_controller, navigation_controller);
+    AppController app_controller = AppController(data_controller, radio_controller, navigation_controller);
 
-    app_controller->setConnections();
+    app_controller.setConnections();
     radio_controller->getRadiostationsReceive();
     data_controller->setCurrentPlayerByIndex(0);
     navigation_controller->openForm("main_form");
-    int result = a.exec();
 
-    //delete loader;
-    //delete app_controller;
+    int result = a.exec();
+    delete music_player;
+    delete video_player;
+    delete radio_player;
+    delete radio_loader;
+    delete loader;
 
     return result;
 }

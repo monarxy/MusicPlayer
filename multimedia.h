@@ -1,8 +1,5 @@
 #ifndef MULTIMEDIA_H
 #define MULTIMEDIA_H
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonDocument>
 
 #include "media_loader.h"
 #include "ISerializable.h"
@@ -15,12 +12,11 @@
 #include "IFavouritePlaylist.h"
 #include "cover_extractor.h"
 
-class MediaPlayer: public QObject, public IPlayer, public ISerializable, public IPlaylistManagement, public IMultimediaGetManagement,
+class MediaPlayer: public IPlayer<MediaData>, public ISerializable, public IPlaylistManagement, public IMultimediaGetManagement,
 public ILikeable, public IVolumeChangeable, public IDurationChangeable, public IFavouritePlaylist<Playlist>{
-    Q_OBJECT
 public:
 
-    MediaPlayer(QObject* parent = nullptr, MediaLoader* loader = nullptr);
+    MediaPlayer(MediaLoader* loader);
     ~MediaPlayer();
 
 
@@ -66,7 +62,7 @@ protected:
     QMediaPlayer *m_player;
     std::map<QString, Playlist*> list_of_playlists;
     Playlist *playlist;
-    Playlist* favourite_playlist;
+    FavouritePlaylist* favourite_playlist;
     MediaData* current_item;
     MediaLoader* serializer;
 };

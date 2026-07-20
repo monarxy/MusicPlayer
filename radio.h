@@ -2,7 +2,6 @@
 #define RADIO_H
 
 #include "bass.h"
-#include <QList>
 #include "radio_loader.h"
 #include "IRadiostationsManagement.h"
 #include "ISerializable.h"
@@ -15,12 +14,11 @@
 #include "radio_favourite_playlist.h"
 #include "radio_default_playlist.h"
 
-class RadioPlayer: public QObject, public IPlayer, public ISerializable, public IVolumeChangeable, public IRadiostationsManagement,
+class RadioPlayer: public IPlayer<RadioData>, public ISerializable, public IVolumeChangeable, public IRadiostationsManagement,
 public ILikeable, public IFavouritePlaylist<RadioPlaylist>, public IDefaultPlaylist<RadioPlaylist>{
-    Q_OBJECT
 public:
 
-    RadioPlayer(QObject* parent = nullptr, RadioLoader* loader = nullptr);
+    RadioPlayer(RadioLoader* loader);
     ~RadioPlayer();
 
     void play() override final;
@@ -52,8 +50,8 @@ public:
 protected:
     RadioLoader* serializer;
     RadioPlaylist* playlist;
-    RadioPlaylist* favourite_playlist;
-    RadioPlaylist* default_playlist;
+    RadioFavouritePlaylist* favourite_playlist;
+    RadioDefaultPlaylist* default_playlist;
     HSTREAM str;
     RadioData* current_item;
 };

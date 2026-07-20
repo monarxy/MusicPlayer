@@ -1,6 +1,6 @@
 #include "video_player.h"
 
-VideoPlayer::VideoPlayer(QObject *parent, MediaLoader* _serializer) : MediaPlayer(parent, _serializer){
+VideoPlayer::VideoPlayer(MediaLoader* _serializer) : MediaPlayer(_serializer){
 }
 
 
@@ -32,5 +32,8 @@ void VideoPlayer::setVideoOutput(QVideoWidget* video_widget){
 VideoPlayer::~VideoPlayer()
 {
     save();
-    delete serializer;
+    delete favourite_playlist;
+    for (const auto& pair : list_of_playlists)
+        delete pair.second;
+
 }

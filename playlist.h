@@ -1,9 +1,6 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include <vector>
-#include <QSettings>
-#include <QDataStream>
 #include <QVector>
 #include <QMediaPlayer>
 #include "IPlaylistNameManagement.h"

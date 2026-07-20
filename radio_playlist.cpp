@@ -2,6 +2,11 @@
 
 RadioPlaylist::RadioPlaylist() {}
 
+RadioPlaylist::~RadioPlaylist() {
+    for (const auto& item : playlist_items)
+        delete item;
+}
+
 void RadioPlaylist::setListOfItems(RadioData* item){
     playlist_items.push_back(item);
 }

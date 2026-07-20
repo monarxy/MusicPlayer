@@ -1,10 +1,13 @@
 #include "music_player.h"
 
-MusicPlayer::MusicPlayer(QObject *parent, MediaLoader* _serializer) : MediaPlayer(parent, _serializer){}
+MusicPlayer::MusicPlayer(MediaLoader* _serializer) : MediaPlayer(_serializer){}
 
 MusicPlayer::~MusicPlayer()
 {
     save();
+    delete favourite_playlist;
+    for (const auto& pair : list_of_playlists)
+        delete pair.second;
 }
 
 void MusicPlayer::load(){

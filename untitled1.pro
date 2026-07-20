@@ -33,6 +33,7 @@ SOURCES += \
     radio_loader.cpp \
     radio_playlist.cpp \
     radioform.cpp \
+    time_formatter.cpp \
     video_data.cpp \
     video_player.cpp \
     widget.cpp
@@ -68,12 +69,10 @@ HEADERS += \
     IVolumeChangeable.h \
     IVolumeController.h \
     appcontroller.h \
-    chorus_effect.h \
     cover_extractor.h \
     data.h \
     data_controller.h \
     default_playlist.h \
-    editor.h \
     favourite_playlist.h \
     list_of_playlist_tracks.h \
     list_of_radioplaylist_items.h \
@@ -93,6 +92,7 @@ HEADERS += \
     radio_playlist.h \
     radioform.h \
     sound_effect.h \
+    time_formatter.h \
     video_data.h \
     video_player.h \
     widget.h

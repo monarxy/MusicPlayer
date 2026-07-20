@@ -5,15 +5,13 @@
 #include <QtMultimediaWidgets/QVideoWidget>
 #include <QtGui>
 #include <QStandardItemModel>
-#include <QOpenGLWidget>
-#include <gl/glu.h>
-#include <gl/gl.h>
 #include <QIcon>
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QMediaContent>
 #include <QSlider>
 #include <QCloseEvent>
+#include "time_formatter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -121,16 +119,16 @@ private slots:
 private:
     void closeEvent(QCloseEvent *event) override;
 
-    Ui::Widget *ui;
-    QStandardItemModel  *m_playListModel;
+    Ui::Widget* ui;
+    QStandardItemModel* m_playListModel;
     QVideoWidget* video_widget;
     QWidget *fullScreenWindow = nullptr;
     QWidget *savedParent = nullptr;
     QLayout *savedLayout = nullptr;
     QHBoxLayout* savedTopRow = nullptr;
     QSlider* fullscreen_volume_slider = nullptr;
-    QWidget* controlsPanel = nullptr;        // для доступа к панели управления
-    QTimer* hideControlsTimer = nullptr;     // таймер для скрытия
+    QWidget* controlsPanel = nullptr;
+    QTimer* hideControlsTimer = nullptr;
     bool controlsVisible = true;
 
     int current_player;

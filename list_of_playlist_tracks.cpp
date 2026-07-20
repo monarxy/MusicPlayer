@@ -59,7 +59,7 @@ void ListOfPlaylistTracks::on_pushButton_clicked()
 {
     QStringList files;
     if (current_player == 0)
-        files = QFileDialog::getOpenFileNames(this, tr("Open files"),QString(), tr("Audio Files (*.mp3 *.mp4 *.avi *.mkv *.wav)"));
+        files = QFileDialog::getOpenFileNames(this, tr("Open files"),QString(), tr("Audio Files (*.mp3 *.mp4 *.avi *.mkv *.wav *.ogg *.flac)"));
     else
         files = QFileDialog::getOpenFileNames(this, tr("Open files"), QString(), tr("Audio Files (*.mp4 *.avi *.mkv *.mov)"));
     for (const QString& filePath : files) {

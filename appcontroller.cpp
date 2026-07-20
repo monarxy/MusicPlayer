@@ -1,9 +1,8 @@
 #include "appcontroller.h"
 
-AppController::AppController(QObject *parent, DataController* _data_controller, RadioController* _radio_controller, NavigationController* _navigation_controller) : QObject(parent),
+AppController::AppController(DataController* _data_controller, RadioController* _radio_controller, NavigationController* _navigation_controller) :
     data_controller(_data_controller), radio_controller(_radio_controller) , navigation_controller(_navigation_controller){}
 
-AppController::~AppController(){}
 
 void AppController::setConnections(){
     QObject::connect(data_controller, &DataController::LoadItemsToMainWidget, static_cast<Widget*>(navigation_controller->getForm("main_form")), &Widget::setPlaylist);

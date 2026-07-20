@@ -2,6 +2,11 @@
 
 RadioFavouritePlaylist::RadioFavouritePlaylist() : RadioPlaylist() {}
 
+RadioFavouritePlaylist::~RadioFavouritePlaylist() {
+    for (RadioData* item : playlist_items)
+        deleteItem(item);
+}
+
 void RadioFavouritePlaylist::deleteItem(RadioData* item){
     item->deletelike();
     int counter = 0;

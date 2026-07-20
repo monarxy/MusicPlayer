@@ -17,7 +17,7 @@
 
 class MediaLoader{
 protected:
-    QSettings* settings;
+    QSettings settings;
 public:
     MediaLoader();
     ~MediaLoader();

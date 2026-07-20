@@ -1,12 +1,13 @@
 #include "radio_loader.h"
 
-RadioLoader::RadioLoader(){
-    settings = new QSettings(ORGANIZATION_NAME, APPLICATION_NAME);
+RadioLoader::RadioLoader() : settings(ORGANIZATION_NAME, APPLICATION_NAME) {}
+
+RadioLoader::~RadioLoader(){
 }
 
 QVector<RadioData*> RadioLoader::loadSavedRadioItems() const{
     QVector<RadioData*> vector_of_loaded_radiostations;
-    QByteArray json_data = settings->value("radio").toByteArray();
+    QByteArray json_data = settings.value("radio").toByteArray();
     QJsonDocument doc = QJsonDocument::fromJson(json_data);
 
     QJsonArray radiostations = doc["list_of_radiostations"].toArray();
@@ -30,5 +31,5 @@ void RadioLoader::saveRadioItems(const QVector<RadioData*>& vector_of_radiostati
     }
     radio["list_of_radiostations"] = array_of_radiostations;
     QJsonDocument doc(radio);
-    settings->setValue("radio", doc.toJson(QJsonDocument::Compact));
+    settings.setValue("radio", doc.toJson(QJsonDocument::Compact));
 }

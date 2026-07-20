@@ -1,6 +1,6 @@
 #include "radio.h"
 
-RadioPlayer::RadioPlayer(QObject* parent, RadioLoader* _serializer) : QObject(parent), serializer(_serializer),
+RadioPlayer::RadioPlayer(RadioLoader* _serializer) : serializer(_serializer),
     current_item(nullptr), playlist(nullptr){
     BASS_Init(-1, 44100, BASS_DEVICE_3D, 0, NULL);
     favourite_playlist = new RadioFavouritePlaylist();
@@ -155,6 +155,6 @@ const RadioPlaylist* RadioPlayer::getDefaultPlaylist() const{
 RadioPlayer::~RadioPlayer()
 {
     save();
-    for (auto radiostation : default_playlist->getListOfItems())
-        delete radiostation;
+    delete favourite_playlist;
+    delete default_playlist;
 }

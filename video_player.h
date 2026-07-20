@@ -5,9 +5,8 @@
 
 class VideoPlayer : public MediaPlayer
 {
-    Q_OBJECT
 public:
-    VideoPlayer(QObject* parent = nullptr, MediaLoader* serializer = nullptr);
+    VideoPlayer(MediaLoader* serializer);
     ~VideoPlayer() override;
 
     void load() override final;

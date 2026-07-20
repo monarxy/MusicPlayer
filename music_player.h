@@ -5,10 +5,9 @@
 
 
 class MusicPlayer : public MediaPlayer {
-    Q_OBJECT
 public:
 
-    MusicPlayer(QObject* parent = nullptr, MediaLoader* serializer = nullptr);
+    MusicPlayer(MediaLoader* serializer);
     ~MusicPlayer() override;
 
     void load() override final;
