@@ -17,6 +17,7 @@ ListOfRadioPlaylistItems::~ListOfRadioPlaylistItems()
     delete ui;
 }
 
+#include <QDebug>
 void ListOfRadioPlaylistItems::setPlaylist(const QStringList& list_of_tracks){
     ui->label->setText("Favourite");
     m_playListModel->clear();

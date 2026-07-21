@@ -116,6 +116,8 @@ private slots:
 
     void startHideTimer();
 
+    void on_pushButton_4_clicked();
+
 private:
     void closeEvent(QCloseEvent *event) override;
 

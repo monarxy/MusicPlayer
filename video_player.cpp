@@ -14,6 +14,12 @@ void VideoPlayer::load(){
             playlist = it->second;
         m_player->setPlaylist(playlist->getQPlaylist());
     }
+    else{
+        list_of_playlists[""] = new DefaultPlaylist();
+        playlist = list_of_playlists[""];
+        m_player->setPlaylist(playlist->getQPlaylist());
+        return;
+    }
     for (const auto& [key, value] : list_of_playlists)
         for (MediaData* item : value->getListOfItems())
             if (item->getLikeInfo())

@@ -193,7 +193,7 @@
   <widget class="QToolButton" name="likeButton">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>480</x>
      <y>570</y>
      <width>31</width>
      <height>31</height>

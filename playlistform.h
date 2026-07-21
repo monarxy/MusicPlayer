@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QInputDialog>
 #include <QStandardItemModel>
+#include <QMessageBox>
 #include <vector>
 
 namespace Ui {
@@ -29,6 +30,8 @@ signals:
     void ListOfPlaylistsTracksClicked(const QString& album_name);
     void NewAlbumAddedClicked(QString album_name);
     void FavouritePlaylistClicked();
+    void HideDeleteButtonOnItemsForm();
+    void ShowDeleteButtonOnItemsForm();
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();

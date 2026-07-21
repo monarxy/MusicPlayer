@@ -45,6 +45,14 @@ void ListOfPlaylistTracks::setPlayer(const int index){
     current_player = index;
 }
 
+void ListOfPlaylistTracks::hideDeleteButton(){
+    ui->pushButton_3->hide();
+}
+
+void ListOfPlaylistTracks::showDeleteButton(){
+    ui->pushButton_3->show();
+}
+
 void ListOfPlaylistTracks::hideAddAndDeleteButtons(){
     ui->pushButton_3->hide();
     ui->pushButton->hide();
@@ -82,7 +90,11 @@ void ListOfPlaylistTracks::on_pushButton_2_clicked()
 
 void ListOfPlaylistTracks::on_songsView_clicked(const QModelIndex &index)
 {
-    emit ItemsListClicked(index.row(), ui->label->text(), is_favourite_album);
+    const QString album_name = ui->label->text();
+    if (album_name == "Default Album")
+        emit ItemsListClicked(index.row(), "", is_favourite_album);
+    else
+        emit ItemsListClicked(index.row(), album_name, is_favourite_album);
     emit MuteRadioPlayer();
 }
 

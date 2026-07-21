@@ -188,11 +188,8 @@ void Widget::on_pushButton_clicked()
 
 void Widget::setPlaylist(const QStringList& list_of_tracks, const QString& album_name){
     current_item = 0;
-    ui->album_name_label->setText(album_name);
-    if (!list_of_tracks.isEmpty())
-        ui->label->setText(list_of_tracks[0]);
-    else
-        ui->label->setText("Track name");
+    (album_name != "") ? ui->album_name_label->setText(album_name) : ui->album_name_label->setText("Default Album");
+    (!list_of_tracks.isEmpty()) ? ui->label->setText(list_of_tracks[0]) : ui->label->setText("Item name");
     m_playListModel->clear();
     foreach (QString item, list_of_tracks){
         QList<QStandardItem *> items;
@@ -200,6 +197,8 @@ void Widget::setPlaylist(const QStringList& list_of_tracks, const QString& album
         m_playListModel->appendRow(items);
     }
 }
+
+
 
 bool trimAudio(const std::string& inputFile,
                const std::string& outputFile,
@@ -638,3 +637,9 @@ void Widget::closeEvent(QCloseEvent *event){
     disconnect(this, &Widget::SliderUpdated, nullptr, nullptr);
     QWidget::closeEvent(event);
 }
+
+void Widget::on_pushButton_4_clicked()
+{
+    trimAudio("C:\\Users\\Rom\\Documents\\07-Metallica-Orion.mp3--online-audio-convert.com.flac", "C:\\Users\\Rom\\Documents\\ff.flac", 3, 20);
+}
+

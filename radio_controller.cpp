@@ -52,14 +52,14 @@ void RadioController::setListOfFavouritePlaylistItemsReceive() {
 const QStringList RadioController::getListOfFavouritePlaylistItems() const{
     QStringList list_of_names;
     for (const Data* item : radio_player->getFavouritePlaylist()->getListOfItems())
-        list_of_names.append(QDir(item->getPath()).dirName());
+        list_of_names.append(item->getPath());
     return list_of_names;
 }
 
 const QStringList RadioController::getListOfDefaultPlaylistItems() const{
     QStringList list_of_names;
     for (const Data* item : radio_player->getDefaultPlaylist()->getListOfItems())
-        list_of_names.append(QDir(item->getPath()).dirName());
+        list_of_names.append(item->getPath());
     return list_of_names;
 }
 

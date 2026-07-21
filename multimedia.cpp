@@ -9,7 +9,7 @@ MediaPlayer::MediaPlayer(MediaLoader* _serializer)
     m_player = new QMediaPlayer();
     m_player->setVolume(50);
     favourite_playlist = new FavouritePlaylist();
-    playlist = new DefaultPlaylist();
+    //playlist = new DefaultPlaylist();
 }
 
 void MediaPlayer::play(){
@@ -77,8 +77,9 @@ void MediaPlayer::setLike(){
 }
 
 void MediaPlayer::setCurrent(const int index){
-    current_item = (playlist->getListOfItems())[index];
-    playlist->getQPlaylist()->setCurrentIndex(index);
+    if (playlist->getListOfItems().size()!=0){
+        current_item = (playlist->getListOfItems())[index];
+        playlist->getQPlaylist()->setCurrentIndex(index);}
 }
 
 void MediaPlayer::deleteCurrent(){
@@ -157,7 +158,8 @@ void MediaPlayer::deletePlaylist(const QString& name){
             else
                 playlist = (--list_of_playlists.find(name))->second;
 
-            current_item = (playlist->getListOfItems())[0];
+            if (playlist->getListOfItems().size()!=0)
+                current_item = (playlist->getListOfItems())[0];
             m_player->setPlaylist(playlist->getQPlaylist());
         }
         else{

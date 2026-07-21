@@ -46,6 +46,9 @@ void AppController::setConnections(){
     QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getForm("playlist_form")), &PlaylistForm::NewAlbumAddedClicked, data_controller, &DataController::addNewPlaylist);
     QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getForm("playlist_form")), &PlaylistForm::ListOfPlaylistsTracksClicked, data_controller, &DataController::setListOfPlaylistsItemsReceive);
     QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getForm("playlist_form")), &PlaylistForm::FavouritePlaylistClicked, data_controller, &DataController::setListOfFavouritePlaylistItemsReceive);
+    QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getForm("playlist_form")), &PlaylistForm::ShowDeleteButtonOnItemsForm, static_cast<ListOfPlaylistTracks*>(navigation_controller->getForm("list_of_playlist_tracks_form")), &ListOfPlaylistTracks::showDeleteButton);
+    QObject::connect(static_cast<PlaylistForm*>(navigation_controller->getForm("playlist_form")), &PlaylistForm::HideDeleteButtonOnItemsForm, static_cast<ListOfPlaylistTracks*>(navigation_controller->getForm("list_of_playlist_tracks_form")), &ListOfPlaylistTracks::hideDeleteButton);
+
 
     QObject::connect(radio_controller, &RadioController::LoadItemsToRadioWidgetReceive, static_cast<RadioForm*>(navigation_controller->getForm("radio_form")), &RadioForm::setPlaylist);
     QObject::connect(radio_controller, &RadioController::SetListOfPlaylistsItems, static_cast<ListOfRadioPlaylistItems*>(navigation_controller->getForm("list_of_radioplaylist_items_form")), &ListOfRadioPlaylistItems::setPlaylist);

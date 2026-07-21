@@ -24,6 +24,8 @@ public:
     void hideAddAndDeleteButtons();
     void showAddAndDeleteButtons();
     void setPlayer(const int);
+    void hideDeleteButton();
+    void showDeleteButton();
 
 private slots:
     void on_pushButton_clicked();

@@ -25,19 +25,28 @@ void PlaylistForm::on_pushButton_clicked()
 void PlaylistForm::on_pushButton_2_clicked()
 {
     QString album_name = QInputDialog::getText(this, "New album", "Enter album's name");
-    ui->label->setText(album_name);
-    if (album_name!=""){
+    if (album_name!="Default Album"){
         QList<QStandardItem *> items;
         items.append(new QStandardItem(album_name));
         playlists_model->appendRow(items);
         emit NewAlbumAddedClicked(album_name);
     }
+    else
+        QMessageBox::warning(this, "Warning", "You can't create playlist with name of basic playlist. Change other name.");
 
 }
 
 void PlaylistForm::on_playlistsView_clicked(const QModelIndex &index)
 {
-    emit ListOfPlaylistsTracksClicked(ui->playlistsView->model()->data(index).toString());
+    auto name = ui->playlistsView->model()->data(index).toString();
+    if (name == "Default Album"){
+        emit ListOfPlaylistsTracksClicked("");
+        emit HideDeleteButtonOnItemsForm();
+    }
+    else{
+        emit ListOfPlaylistsTracksClicked(name);
+        emit ShowDeleteButtonOnItemsForm();
+    }
     emit FormClicked("list_of_playlist_tracks_form");
 }
 
@@ -45,7 +54,7 @@ void PlaylistForm::setListOfPlaylists(const QStringList& list_of_playlists){
     playlists_model->clear();
     for (const QString& playlist_name : list_of_playlists){
         QList<QStandardItem *> items;
-        items.append(new QStandardItem(playlist_name));
+        (playlist_name == "") ? items.append(new QStandardItem("Default Album")) : items.append(new QStandardItem(playlist_name));
         playlists_model->appendRow(items);
     }
 }

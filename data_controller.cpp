@@ -69,11 +69,27 @@ void DataController::addItemsToPlaylist(const QString& album_name, const QString
 }
 
 void DataController::deletePlaylistReceive(const QString& name){
+    int current_item_in_deleting_playlist = 0;
+    for (MediaData* item : player->getPlaylist(name)->getListOfItems())
+        if (item == player->getCurrentItem())
+            current_item_in_deleting_playlist = 1;
+
+    if (player->getCurrentPlaylist() == player->getFavouritePlaylist() && current_item_in_deleting_playlist == 1)
+        player->setCurrent(0);
+
     player->deletePlaylist(name);
     if (player->getCurrentPlaylist() != nullptr){
-        emit LoadItemsToMainWidget(getListOfPlaylistItems(player->getCurrentPlaylist()->getName()), player->getCurrentPlaylist()->getName());
-        emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
-        if (player_type == 0)
+        if (player->getCurrentPlaylist() == player->getFavouritePlaylist()){
+            emit LoadItemsToMainWidget(getListOfFavouritePlaylistItems(), "Favourite");
+            if (player->getCurrentPlaylist()->getListOfItems().size()!=0)
+                if (player->getCurrentItem()!=nullptr)
+                    emit SetNameOfCurrentItemToMainWidget(player->getCurrentItem()->getPath());
+        }
+        else
+            emit LoadItemsToMainWidget(getListOfPlaylistItems(player->getCurrentPlaylist()->getName()), player->getCurrentPlaylist()->getName());
+        if (player->getCurrentItem()!=nullptr)
+            emit LikeStatusSignal(player->getCurrentItem()->getLikeInfo());
+        if (player_type == 0 && player->getCurrentItem()!=nullptr)
             emit SetPictureToMainWidget(player->getCurrentItem()->getPicture());
     }
     else{
@@ -83,6 +99,8 @@ void DataController::deletePlaylistReceive(const QString& name){
         if (player_type == 0)
             emit SetPictureToMainWidget(QPixmap());
     }
+
+
 }
 
 void DataController::deleteItemReceive(){
@@ -193,7 +211,8 @@ void DataController::setLikeReceive(){
 }
 
 void DataController::setListOfPlaylistsItemsReceive(const QString& album_name) {
-    emit SetListOfPlaylistsItems(getListOfPlaylistItems(album_name), album_name, 0);
+    if (album_name == "") emit SetListOfPlaylistsItems(getListOfPlaylistItems(album_name), "Default Album", 0);
+    else emit SetListOfPlaylistsItems(getListOfPlaylistItems(album_name), album_name, 0);
 }
 
 void DataController::setListOfFavouritePlaylistItemsReceive() {
