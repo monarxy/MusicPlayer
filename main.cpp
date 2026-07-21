@@ -5,7 +5,10 @@
 #include "widget.h"
 #include "navigation_controller.h"
 #include "radio_controller.h"
-#include "appcontroller.h"
+#include "media_connections_controller.h"
+#include "radio_connections_controller.h"
+#include "cutter_connections_controller.h"
+
 #include <QApplication>
 
 
@@ -34,11 +37,18 @@ int main(int argc, char *argv[])
 
     RadioController* radio_controller = new RadioController(&a, radio_player);
     DataController* data_controller = new DataController(&a, music_player, video_player);
+    CutterController* cutter_controller = new CutterController(&a);
 
     NavigationController* navigation_controller = new NavigationController(&a);
-    AppController app_controller = AppController(data_controller, radio_controller, navigation_controller);
+    MediaConnectionsController app_controller = MediaConnectionsController(data_controller, navigation_controller);
+    RadioConnectionsController radio_connections_controller = RadioConnectionsController(radio_controller, navigation_controller);
+    CutterConnectionsController cutter_connections_controller = CutterConnectionsController(cutter_controller, navigation_controller);
 
     app_controller.setConnections();
+    radio_connections_controller.setConnections();
+    cutter_connections_controller.setConnections();
+
+
     radio_controller->getRadiostationsReceive();
     data_controller->setCurrentPlayerByIndex(0);
     navigation_controller->openForm("main_form");

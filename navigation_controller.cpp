@@ -21,6 +21,10 @@ NavigationController::NavigationController(QObject *parent) : QObject(parent){
     new_form = new ListOfRadioPlaylistItems();
     active_widgets["list_of_radioplaylist_items_form"] = new_form;
     QObject::connect(static_cast<ListOfRadioPlaylistItems*>(active_widgets["list_of_radioplaylist_items_form"]), &ListOfRadioPlaylistItems::FormClicked, this, &NavigationController::openForm);
+
+    new_form = new CutterForm();
+    active_widgets["cutter_form"] = new_form;
+    QObject::connect(static_cast<CutterForm*>(active_widgets["cutter_form"]), &CutterForm::FormClicked, this, &NavigationController::openForm);
 }
 
 void NavigationController::openForm(const QString& form_name){

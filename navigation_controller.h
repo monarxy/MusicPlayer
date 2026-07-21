@@ -9,6 +9,7 @@
 #include "radioform.h"
 #include "list_of_playlist_tracks.h"
 #include "list_of_radioplaylist_items.h"
+#include "cutter_form.h"
 
 class NavigationController : public QObject{
 

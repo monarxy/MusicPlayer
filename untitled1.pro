@@ -9,8 +9,11 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    appcontroller.cpp \
     cover_extractor.cpp \
+    cutter_connections_controller.cpp \
+    cutter_controller.cpp \
+    cutter_form.cpp \
+    cutter_item.cpp \
     data.cpp \
     data_controller.cpp \
     default_playlist.cpp \
@@ -18,6 +21,8 @@ SOURCES += \
     list_of_playlist_tracks.cpp \
     list_of_radioplaylist_items.cpp \
     main.cpp \
+    media_connections_controller.cpp \
+    media_cutter.cpp \
     media_data.cpp \
     media_loader.cpp \
     multimedia.cpp \
@@ -26,6 +31,7 @@ SOURCES += \
     playlist.cpp \
     playlistform.cpp \
     radio.cpp \
+    radio_connections_controller.cpp \
     radio_controller.cpp \
     radio_data.cpp \
     radio_default_playlist.cpp \
@@ -68,14 +74,19 @@ HEADERS += \
     IVideoManagementController.h \
     IVolumeChangeable.h \
     IVolumeController.h \
-    appcontroller.h \
     cover_extractor.h \
+    cutter_connections_controller.h \
+    cutter_controller.h \
+    cutter_form.h \
+    cutter_item.h \
     data.h \
     data_controller.h \
     default_playlist.h \
     favourite_playlist.h \
     list_of_playlist_tracks.h \
     list_of_radioplaylist_items.h \
+    media_connections_controller.h \
+    media_cutter.h \
     media_data.h \
     media_loader.h \
     multimedia.h \
@@ -84,6 +95,7 @@ HEADERS += \
     playlist.h \
     playlistform.h \
     radio.h \
+    radio_connections_controller.h \
     radio_controller.h \
     radio_data.h \
     radio_default_playlist.h \
@@ -98,6 +110,7 @@ HEADERS += \
     widget.h
 
 FORMS += \
+    cutter_form.ui \
     list_of_playlist_tracks.ui \
     list_of_radioplaylist_items.ui \
     playlistform.ui \
